@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>BEP Simulation Explorer</title>
+	<link rel="stylesheet" href="../css/bootstrap.css" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800' rel='stylesheet' type='text/css'>
+	<style type="text/css" media="screen">
+		body {
+			font-family: 'Open Sans', sans-serif;
+			background: #ffffff;
+			margin: 0 auto;
+			-webkit-touch-callout: none;
+		    -webkit-user-select: none;
+		    -khtml-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+			
+		}
+		h1 {
+			font-family: 'Open Sans', sans-serif;
+			font-weight: 300;
+			font-size: 4em;
+			color: #999;
+		}
+		.container {
+		 /* margin: 0 auto; */
+		  width: 990px !important;
+		}
+		.page-header {
+			text-align: center;
+		}
+		
+		input[type=range].vertical
+		{
+			writing-mode: bt-lr; /* IE */
+			-webkit-appearance: slider-vertical; /* WebKit */
+			width: 8px;
+			height: 100px;
+			padding: 0 12% 0 12%;
+		}
+	
+		.sliders {
+			display: table;
+		    width: 100%;
+		    table-layout: fixed;    /* For cells of equal size */
+		}
+		.slider {
+			display: table-cell;
+		    text-align: right;
+			width: 12.5%;
+		}
+		.slider.label {
+			text-align: left;
+			color: #39A5FA;
+			top: 0;
+			vertical-align: bottom;
+			
+		}
+		.slider.label .top {
+			float: left;
+			position: absolute;
+			top: 3px;
+			font-size: 30px;
+			font-weight: bold;
+		}
+	
+	#overview {
+	}
+		
+	#overview svg {
+		background: #f6f6f6;
+	}
+
+	</style>
+	
+</head>
+
+<body>
+	
+<div class="container">
+	<div class="page-header">
+	  <h1>B.E.P Simulation Explorer</h1>
+	</div>
+	
+	<div class="row">
+		
+		
+		<div class="col-xs-12">
+			<div class="sliders">
+				<div class="slider">
+					<input class="vertical" id="s" type="range" orient="vertical" min="0" max="2" value="1" list="tickmarks">
+				</div>
+				<div class="slider label">
+					<div class="top" id="s_label">0.01</div>
+					s
+				</div>
+				<div class="slider">
+					<input class="vertical" id="r" type="range" orient="vertical" min="0" max="2" value="1">
+				</div>
+				<div class="slider label">
+					<div class="top" id="r_label">0.001</div>
+					r
+				</div>
+				<div class="slider">
+					<input class="vertical" id="d" type="range" orient="vertical" min="0" max="9" value="4">
+				</div>
+				<div class="slider label">
+					<div class="top" id="d_label">5</div>
+					d
+				</div>
+				<div class="slider">
+					<input class="vertical" id="f" type="range" orient="vertical" min="0" max="28" value="13">
+				</div>
+				<div class="slider label">
+					<div class="top" id="f_label">0.75</div>
+					f
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="overview" width="100%" height="500px"></div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-12">
+			<br /><br />
+			<img src="img/overview.jpg" width="100%">
+		</div>
+	</div>
+
+
+</div>
+
+<br />
+<br />
+
+<script src="../js/d3.min.js"></script>
+<script src="../js/jquery-2.0.3.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+
+<script src="./js/simex.js"></script>
+
+</body>
+</html>
