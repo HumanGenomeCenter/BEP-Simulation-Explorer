@@ -48,7 +48,7 @@ if ($handle = opendir('tsv')) {
 				
 				if (!isset($result[$s][$r][$d])) $result[$s][$r][$d] = array();
 				if (!isset($result[$s][$r][$d][$f])) $result[$s][$r][$d][$f] = array();
-				$result[$s][$r][$d][$f][$v] = $x;
+				$result[$s][$r][$d][$f][$v] = (float)$x;
 				
 			}
 			
