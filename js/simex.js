@@ -51,6 +51,8 @@ $("input.vertical").on('input', function(e) {
 	values[id] = v;
 	setLabel(id, value);
 	update();
+	
+	console.log(srMatrix[5][5]);
 })
 
 
@@ -124,51 +126,56 @@ var init = function() {
 	update();
 }
 
-var highest = 0;
-var lowest = 1000000;
+
+var grp, srMatrix;
+
 var update = function() {
-	console.log("update", slider.s, slider.r);
-	console.log("update", values.s, values.r);
 	
 	srMatrix = data[values.s][values.r];
-	console.log(srMatrix);
 	// get data
 	
 	// find higest & lowest values 
 	updateLimits(srMatrix);
 
-	
-	
 	var rw = 32;
 	var rh = 30;
 	var p = 1;
-	var grp = svg.selectAll('g')
-		.data(srMatrix)
-	.enter()
+	// join
+	grp = svg.selectAll('g')
+		.data(srMatrix);
+	
+	
+	// enter
+	grp.enter()
 		.append('g')
 		.attr('transform', function(d, i) {
 		    return 'translate(0,' + (rh + p) * i + ')';
 		});
 	
-	grp.selectAll('rect')
+	var rect = grp.selectAll('rect')
 		.data(function(d) { return d; })
-	.enter()
+		.attr('fill', function(d) { 
+			console.log("rect");
+			var x = "μ";
+			return bep[x].colorMap(d[x]);
+		});
+						
+	rect.enter()
 		.append('rect')
 			.attr('x', function(d, i) { 
 				return (rw + p) * i; 
 			})
 			.attr('width', rw)
 			.attr('height', rh)
-			.attr('fill', function(d) { 
-				var x = "ε";
-				var k = d[x];
-				
-				if (d[x] > highest) highest = d[x]; 
-				if (d[x] < lowest) lowest = d[x]; 
-				
-				return bep[x].colorMap(k);
-				
-			});
+				.attr('fill', function(d) { 
+					console.log("rect");
+					var x = "μ";
+					return bep[x].colorMap(d[x]);
+				});
+			
+	
+
+
 }
 
 
@@ -179,14 +186,14 @@ var updateLimits = function(matrix) {
 			linear.push(f);
 		})
 	});
-	
 	for (var key in bep) {
 		if (bep.hasOwnProperty(key)) {
-			bep[key].highest = d3.max(linear, function(d) {return d[key]}); 
-			bep[key].lowest = d3.min(linear, function(d) {return d[key]}); 
+			var min = d3.min(linear, function(d) {return d[key]});
+			var max = d3.max(linear, function(d) {return d[key]});
+			bep[key].range = [min, max]; 
+			bep[key].colorMap.domain([min, max]);
 	  }
 	}
-	
 }
 
 
