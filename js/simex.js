@@ -10,6 +10,14 @@ values.r = 1;
 values.d = 4;
 values.f = 13;
 
+var bep = {};
+bep.ε = {};
+bep.μ = {};
+bep.ρ = {};
+bep.λ = {};
+bep.τ = {};
+bep.θ = {};
+
 var data = {};
 
 $(document).ready(function() {
@@ -93,13 +101,13 @@ map.f = {
 "θ (self similality)"			orange		#FFA500
 
 */
-colorMap = {};
-colorMap.ε = d3.scale.linear().domain([0, 0.325264496241724]).range(["#FFFFFF", "#FF0000"]).clamp(true);
-colorMap.μ = d3.scale.linear().domain([0, 9.85]).range(["#FFFFFF", "#0000FF"]).clamp(true);
-colorMap.ρ = d3.scale.linear().domain([0, 40]).range(["#FFFFFF", "#00CD00"]).clamp(true);
-colorMap.λ = d3.scale.linear().domain([0, 1]).range(["#FFFFFF", "#EEEE00"]).clamp(true);
-colorMap.τ = d3.scale.linear().domain([4.2, 6.0606256092867]).range(["#FFFFFF", "#A020F0"]).clamp(true);
-colorMap.θ = d3.scale.linear().domain([0.35, 1]).range(["#FFFFFF", "#FFA500"]).clamp(true);
+
+bep.ε.colorMap = d3.scale.linear().domain([0, 0.325264496241724]).range(["#FFFFFF", "#FF0000"]).clamp(true);
+bep.μ.colorMap = d3.scale.linear().domain([0, 9.85]).range(["#FFFFFF", "#0000FF"]).clamp(true);
+bep.ρ.colorMap = d3.scale.linear().domain([0, 40]).range(["#FFFFFF", "#00CD00"]).clamp(true);
+bep.λ.colorMap = d3.scale.linear().domain([0, 1]).range(["#FFFFFF", "#EEEE00"]).clamp(true);
+bep.τ.colorMap = d3.scale.linear().domain([4.2, 6.0606256092867]).range(["#FFFFFF", "#A020F0"]).clamp(true);
+bep.θ.colorMap = d3.scale.linear().domain([0.35, 1]).range(["#FFFFFF", "#FFA500"]).clamp(true);
 
 
 
@@ -127,14 +135,9 @@ var update = function() {
 	// get data
 	
 	// find higest & lowest values 
-	var linear = [];
-	srMatrix.map(function(d) { 
-		d.map(function(f) { 
-			linear.push(f);
-		})
-	});
-	console.log(d3.max(linear, function(d) {return d.ε}));
-	console.log(d3.min(linear, function(d) {return d.ε}));
+	updateLimits(srMatrix);
+
+	
 	
 	var rw = 32;
 	var rh = 30;
@@ -157,19 +160,33 @@ var update = function() {
 			.attr('width', rw)
 			.attr('height', rh)
 			.attr('fill', function(d) { 
-				var k = d.τ;
+				var x = "ε";
+				var k = d[x];
 				
-				if (k > highest) {
-					highest = k; 
-				}
+				if (d[x] > highest) highest = d[x]; 
+				if (d[x] < lowest) lowest = d[x]; 
 				
-				if (k < lowest) {
-					lowest = k; 
-				}
-				
-				return colorMap.τ(k);
+				return bep[x].colorMap(k);
 				
 			});
+}
+
+
+var updateLimits = function(matrix) {
+	var linear = [];
+	matrix.map(function(d) { 
+		d.map(function(f) { 
+			linear.push(f);
+		})
+	});
+	
+	for (var key in bep) {
+		if (bep.hasOwnProperty(key)) {
+			bep[key].highest = d3.max(linear, function(d) {return d[key]}); 
+			bep[key].lowest = d3.min(linear, function(d) {return d[key]}); 
+	  }
+	}
+	
 }
 
 
