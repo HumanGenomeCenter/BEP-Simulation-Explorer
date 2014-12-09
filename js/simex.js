@@ -18,6 +18,9 @@ bep.λ = {};
 bep.τ = {};
 bep.θ = {};
 
+var settings = {};
+settings.relative = true;
+
 var data = {};
 
 $(document).ready(function() {
@@ -43,8 +46,7 @@ var setLabel = function(id, val) {
 
 
 // buttons
-
-$(".button a").on('click', function(e) {
+$(".button#r a, .button#s a").on('click', function(e) {
 	e.preventDefault();
 	var id = $(this).parent().attr('id');
 	var value = $(this).html();
@@ -56,6 +58,17 @@ $(".button a").on('click', function(e) {
 	values[id] = v;
 	setLabel(id, value);
 	update();	
+});
+
+// scale
+$(".button#abs a").on('click', function(e) {
+	e.preventDefault();
+	var v = $(this).data().value;
+	if (v==="rel") settings.relative = true;
+	if (v==="abs") settings.relative = false;
+	$(this).siblings().removeClass("selected");
+	$(this).addClass("selected");
+	update();
 });
 
 
@@ -108,13 +121,13 @@ map.f = {
 
 */
 
-bep.ε.colorMap = d3.scale.linear().domain([0, 0.325264496241724]).range(["#FFFFFF", "#FF0000"]).clamp(true);
-bep.μ.colorMap = d3.scale.linear().domain([0, 9.85]).range(["#FFFFFF", "#0000FF"]).clamp(true);
-bep.τ.colorMap = d3.scale.linear().domain([4.2, 6.0606256092867]).range(["#FFFFFF", "#A020F0"]).clamp(true);
+bep.ε.colorMap = d3.scale.linear().range(["#FFFFFF", "#FF0000"]).clamp(true);
+bep.μ.colorMap = d3.scale.linear().range(["#FFFFFF", "#0000FF"]).clamp(true);
+bep.τ.colorMap = d3.scale.linear().range(["#FFFFFF", "#A020F0"]).clamp(true);
 
-bep.ρ.colorMap = d3.scale.linear().domain([0, 40]).range(["#FFFFFF", "#00CD00"]).clamp(true);
-bep.λ.colorMap = d3.scale.linear().domain([0, 1]).range(["#FFFFFF", "#EEEE00"]).clamp(true);
-bep.θ.colorMap = d3.scale.linear().domain([0.35, 1]).range(["#FFFFFF", "#FFA500"]).clamp(true);
+bep.ρ.colorMap = d3.scale.linear().range(["#FFFFFF", "#00CD00"]).clamp(true);
+bep.λ.colorMap = d3.scale.linear().range(["#FFFFFF", "#EEEE00"]).clamp(true);
+bep.θ.colorMap = d3.scale.linear().range(["#FFFFFF", "#FFA500"]).clamp(true);
 
 
 var g = {};
@@ -123,12 +136,13 @@ var svg;
 var init = function() {
 	console.log("init");
 	
-	var width = 960, height = 500;
+	var width = 960, height = 350;
 	var div = d3.select('#overview');
 	svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
 	
+	// positions
 	g.ε = svg.append('g')
 		.attr('class', 'ε')
 		.attr('transform', 'translate(20,0)');
@@ -153,7 +167,7 @@ var init = function() {
 		.attr('class', 'θ')
 		.attr('transform', 'translate(670,180)');
 	
-		
+	
 	update();
 }
 
@@ -165,35 +179,30 @@ var update = function() {
 	srMatrix = data[values.s][values.r];
 	// get data
 	
-	// find higest & lowest values 
-	updateLimits(srMatrix);
-
-
-	
+	// find higest & lowest values
+	if (settings.relative) {
+		updateLimits(srMatrix);
+	} else {
+		getLimits();		// cache
+	}
 	
 	updateDisplay('ε');
 	updateDisplay('μ');
 	updateDisplay('τ');
-	
 	updateDisplay('ρ');
 	updateDisplay('λ');
 	updateDisplay('θ');
 }
 
 
-var updateDisplay = function(dataType) {
+var updateDisplay = function(x) {
 	var rw = 8;
 	var rh = 12;
 	var p = 1;
 	// join
 	
-	grp = g[dataType].selectAll('g')
+	grp = g[x].selectAll('g')
 		.data(srMatrix);
-	
-	
-	// enter
-
-	var x = dataType;
 	
 	grp.enter()
 		.append('g')
@@ -235,8 +244,31 @@ var updateLimits = function(matrix) {
 			var max = d3.max(linear, function(d) {return d[key]});
 			bep[key].range = [min, max]; 
 			bep[key].colorMap.domain([min, max]);
-	  }
+			console.log(key, [min, max]);
+		}
 	}
+}
+
+// get Limits. interate over data, get [min, max] of all types
+var getLimits = function(matrix) {
+	var linear = [];
+	data.map(function(d) { 
+		d.map(function(f) { 
+			f.map(function(g) {
+				g.map(function(h) { 
+					linear.push(h);
+				}) 
+			})
+		})
+	});
+	for (var key in bep) {
+		if (bep.hasOwnProperty(key)) {
+			var min = d3.min(linear, function(d) {return d[key]});
+			var max = d3.max(linear, function(d) {return d[key]});
+			bep[key].range = [min, max]; 
+			bep[key].colorMap.domain([min, max]);
+		}
+	}	
 }
 
 
