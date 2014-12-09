@@ -42,6 +42,25 @@ var setLabel = function(id, val) {
 }
 
 
+// buttons
+
+$(".button").on('click', function(e) {
+	e.preventDefault();
+	var id = $(this).parent().attr('id');
+	var value = $(this).html();
+	var v = map[id].value(value);
+	
+	$("input.vertical#"+id).val(v);
+	slider[id] = value;
+	values[id] = v;
+	setLabel(id, value);
+	update();
+	
+	
+	console.log("id: " + id, "v: " + v, "value: " + value);
+	
+	
+});
 
 $("input.vertical").on('input', function(e) {
 	var id = $(this).attr('id');
@@ -51,8 +70,9 @@ $("input.vertical").on('input', function(e) {
 	values[id] = v;
 	setLabel(id, value);
 	update();
+	console.log("id: " + id, "v: " + v, "value: " + value);
 	
-	console.log(srMatrix[5][5]);
+//	console.log(srMatrix[5][5]);
 })
 
 
@@ -137,8 +157,8 @@ var update = function() {
 	// find higest & lowest values 
 	updateLimits(srMatrix);
 
-	var rw = 32;
-	var rh = 30;
+	var rw = 8;
+	var rh = 12;
 	var p = 1;
 	// join
 	grp = svg.selectAll('g')

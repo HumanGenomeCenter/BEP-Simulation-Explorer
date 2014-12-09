@@ -17,6 +17,10 @@
 		    user-select: none;
 			
 		}
+		a, a:hover, a:active, a:selected {
+			text-decoration: none;
+			color: #428bca;
+		}
 		h1 {
 			font-family: 'Open Sans', sans-serif;
 			font-weight: 300;
@@ -31,39 +35,6 @@
 			text-align: center;
 		}
 		
-		input[type=range].vertical
-		{
-			writing-mode: bt-lr; /* IE */
-			-webkit-appearance: slider-vertical; /* WebKit */
-			width: 8px;
-			height: 100px;
-			padding: 0 12% 0 12%;
-		}
-	
-		.sliders {
-			display: table;
-		    width: 100%;
-		    table-layout: fixed;    /* For cells of equal size */
-		}
-		.slider {
-			display: table-cell;
-		    text-align: right;
-			width: 12.5%;
-		}
-		.slider.label {
-			text-align: left;
-			color: #39A5FA;
-			top: 0;
-			vertical-align: bottom;
-			
-		}
-		.slider.label .top {
-			float: left;
-			position: absolute;
-			top: 3px;
-			font-size: 30px;
-			font-weight: bold;
-		}
 	
 	#overview {
 	}
@@ -72,6 +43,39 @@
 		background: #f6f6f6;
 	}
 
+	.button a, .button .label {
+		border-radius: 30px;
+		padding: 0 3px;
+		width: 50px;
+		height: 50px;
+		display: inline-block;
+		text-align: center;
+		vertical-align: middle;
+		text-decoration: none;
+	}
+	
+	.button .label {
+		line-height: 50px; 	/* some as parent height */
+		background: #f6f6f6;
+		color: #333;
+		font-size: 2em;
+	}
+	
+	.button a:hover {
+		background: #f6f6f6;
+		color: #428bca;
+
+	}
+	
+	.button a:active {
+		background: #f6f6f6;
+		color: #428bca;
+
+	}
+	.button .selected {
+		font-weight: 700;
+		background: #f6f6f6;
+	}
 	</style>
 	
 </head>
@@ -85,38 +89,20 @@
 	
 	<div class="row">
 		
-		
 		<div class="col-xs-12">
-			<div class="sliders">
-				<div class="slider">
-					<input class="vertical" id="s" type="range" orient="vertical" min="0" max="2" value="1" list="tickmarks">
-				</div>
-				<div class="slider label">
-					<div class="top" id="s_label">0.01</div>
-					s
-				</div>
-				<div class="slider">
-					<input class="vertical" id="r" type="range" orient="vertical" min="0" max="2" value="1">
-				</div>
-				<div class="slider label">
-					<div class="top" id="r_label">0.001</div>
-					r
-				</div>
-				<div class="slider">
-					<input class="vertical" id="d" type="range" orient="vertical" min="0" max="9" value="4">
-				</div>
-				<div class="slider label">
-					<div class="top" id="d_label">5</div>
-					d
-				</div>
-				<div class="slider">
-					<input class="vertical" id="f" type="range" orient="vertical" min="0" max="28" value="13">
-				</div>
-				<div class="slider label">
-					<div class="top" id="f_label">0.75</div>
-					f
-				</div>
-			</div>
+			<span id="s" class="button">
+				<div class="label">S</div>
+				<a href="#" class="selected">0.01</a>
+				<a href="#">0.1</a>
+				<a href="#">1</a>
+			</span>
+
+			<span id="r" class="button">
+				R
+				<a href="#" class="selected">0.0001</a>
+				<a href="#">0.001</a>
+				<a href="#">0.01</a>
+			</span>
 		</div>
 		
 	</div>
