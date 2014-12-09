@@ -37,6 +37,7 @@
 		
 	
 	#overview {
+		margin-top: 20px;
 	}
 		
 	#overview svg {
@@ -44,37 +45,37 @@
 	}
 
 	.button a, .button .label {
-		border-radius: 30px;
-		padding: 0 3px;
+		font-size: 14px;
+		border-radius: 25px;
 		width: 50px;
 		height: 50px;
+		line-height: 50px; 	/* some as parent height, https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align*/
+		padding: 0;
 		display: inline-block;
 		text-align: center;
 		vertical-align: middle;
 		text-decoration: none;
+		transition: background 0.5s linear;
+	    -moz-transition: background 0.5s linear; /* Firefox 4 */
+	    -webkit-transition: background 0.5s linear; /* Safari and Chrome */
 	}
 	
 	.button .label {
-		line-height: 50px; 	/* some as parent height */
-		background: #f6f6f6;
-		color: #333;
-		font-size: 2em;
+		color: #666;
+		font-weight: 100;
 	}
 	
-	.button a:hover {
+	.button a:hover, .button a:active {
 		background: #f6f6f6;
 		color: #428bca;
 
 	}
 	
-	.button a:active {
-		background: #f6f6f6;
-		color: #428bca;
-
-	}
 	.button .selected {
-		font-weight: 700;
 		background: #f6f6f6;
+		color: #428bca;
+		font-weight: 700;
+	
 	}
 	</style>
 	
@@ -92,15 +93,15 @@
 		<div class="col-xs-12">
 			<span id="s" class="button">
 				<div class="label">S</div>
-				<a href="#" class="selected">0.01</a>
-				<a href="#">0.1</a>
+				<a href="#">0.01</a>
+				<a href="#" class="selected">0.1</a>
 				<a href="#">1</a>
 			</span>
 
 			<span id="r" class="button">
-				R
-				<a href="#" class="selected">0.0001</a>
-				<a href="#">0.001</a>
+				<span class="label">R</span>
+				<a href="#">0.0001</a>
+				<a href="#" class="selected">0.001</a>
 				<a href="#">0.01</a>
 			</span>
 		</div>

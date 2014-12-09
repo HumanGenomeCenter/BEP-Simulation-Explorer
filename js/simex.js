@@ -44,36 +44,20 @@ var setLabel = function(id, val) {
 
 // buttons
 
-$(".button").on('click', function(e) {
+$(".button a").on('click', function(e) {
 	e.preventDefault();
 	var id = $(this).parent().attr('id');
 	var value = $(this).html();
 	var v = map[id].value(value);
 	
-	$("input.vertical#"+id).val(v);
+	$(this).siblings().removeClass("selected");
+	$(this).addClass("selected");
 	slider[id] = value;
 	values[id] = v;
 	setLabel(id, value);
-	update();
-	
-	
-	console.log("id: " + id, "v: " + v, "value: " + value);
-	
-	
+	update();	
 });
 
-$("input.vertical").on('input', function(e) {
-	var id = $(this).attr('id');
-	var v = $(this).val();
-	var value = map[id].i(v);
-	slider[id] = value;
-	values[id] = v;
-	setLabel(id, value);
-	update();
-	console.log("id: " + id, "v: " + v, "value: " + value);
-	
-//	console.log(srMatrix[5][5]);
-})
 
 
 var data; // a global
@@ -126,28 +110,55 @@ map.f = {
 
 bep.ε.colorMap = d3.scale.linear().domain([0, 0.325264496241724]).range(["#FFFFFF", "#FF0000"]).clamp(true);
 bep.μ.colorMap = d3.scale.linear().domain([0, 9.85]).range(["#FFFFFF", "#0000FF"]).clamp(true);
+bep.τ.colorMap = d3.scale.linear().domain([4.2, 6.0606256092867]).range(["#FFFFFF", "#A020F0"]).clamp(true);
+
 bep.ρ.colorMap = d3.scale.linear().domain([0, 40]).range(["#FFFFFF", "#00CD00"]).clamp(true);
 bep.λ.colorMap = d3.scale.linear().domain([0, 1]).range(["#FFFFFF", "#EEEE00"]).clamp(true);
-bep.τ.colorMap = d3.scale.linear().domain([4.2, 6.0606256092867]).range(["#FFFFFF", "#A020F0"]).clamp(true);
 bep.θ.colorMap = d3.scale.linear().domain([0.35, 1]).range(["#FFFFFF", "#FFA500"]).clamp(true);
 
 
+var g = {};
 
 var svg;
 var init = function() {
 	console.log("init");
 	
-	var width = 960, height = 480;
+	var width = 960, height = 500;
 	var div = d3.select('#overview');
 	svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
-			
+	
+	g.ε = svg.append('g')
+		.attr('class', 'ε')
+		.attr('transform', 'translate(20,0)');
+	
+	g.μ = svg.append('g')
+		.attr('class', 'μ')
+		.attr('transform', 'translate(350,0)');
+	
+	g.τ = svg.append('g')
+		.attr('class', 'τ')
+		.attr('transform', 'translate(670,0)');
+	
+	g.ρ = svg.append('g')
+		.attr('class', 'ρ')
+		.attr('transform', 'translate(20,180)');
+
+	g.λ = svg.append('g')
+		.attr('class', 'λ')
+		.attr('transform', 'translate(350,180)');
+
+	g.θ = svg.append('g')
+		.attr('class', 'θ')
+		.attr('transform', 'translate(670,180)');
+	
+		
 	update();
 }
 
 
-var grp, srMatrix;
+var srMatrix;
 
 var update = function() {
 	
@@ -157,15 +168,33 @@ var update = function() {
 	// find higest & lowest values 
 	updateLimits(srMatrix);
 
+
+	
+	
+	updateDisplay('ε');
+	updateDisplay('μ');
+	updateDisplay('τ');
+	
+	updateDisplay('ρ');
+	updateDisplay('λ');
+	updateDisplay('θ');
+}
+
+
+var updateDisplay = function(dataType) {
 	var rw = 8;
 	var rh = 12;
 	var p = 1;
 	// join
-	grp = svg.selectAll('g')
+	
+	grp = g[dataType].selectAll('g')
 		.data(srMatrix);
 	
 	
 	// enter
+
+	var x = dataType;
+	
 	grp.enter()
 		.append('g')
 		.attr('transform', function(d, i) {
@@ -175,8 +204,6 @@ var update = function() {
 	var rect = grp.selectAll('rect')
 		.data(function(d) { return d; })
 		.attr('fill', function(d) { 
-			console.log("rect");
-			var x = "μ";
 			return bep[x].colorMap(d[x]);
 		});
 						
@@ -188,14 +215,10 @@ var update = function() {
 			.attr('width', rw)
 			.attr('height', rh)
 				.attr('fill', function(d) { 
-					console.log("rect");
-					var x = "μ";
 					return bep[x].colorMap(d[x]);
 				});
-			
 	
-
-
+	
 }
 
 
