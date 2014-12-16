@@ -60,6 +60,10 @@ $(".button#r a, .button#s a").on('click', function(e) {
 	update();	
 });
 
+$(".button#d a, .button#f a").on('click', function(e) {
+	e.preventDefault();
+});
+
 // scale
 $(".button#abs a").on('click', function(e) {
 	e.preventDefault();
@@ -223,12 +227,28 @@ var updateDisplay = function(x) {
 			})
 			.attr('width', rw)
 			.attr('height', rh)
-				.attr('fill', function(d) { 
-					return bep[x].colorMap(d[x]);
-				});
+			.attr('fill', function(d) { 
+				return bep[x].colorMap(d[x]);
+			})
+			.on("mouseover", rectOver)
+			.on("mousedown", rectDown)
+//			.on("mouseout", rectOut)
+	//		.on("mousemove", rectMove);
+	
 	
 	
 }
+
+var rectOver= function(d,x,y) {
+	//console.log(d,x,y);
+}
+
+var rectDown= function(d,x,y) {
+	console.log(d,x,y);
+}
+
+
+
 
 
 var updateLimits = function(matrix) {
