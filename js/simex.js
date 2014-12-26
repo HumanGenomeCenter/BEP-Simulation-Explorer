@@ -149,6 +149,9 @@ var init = function() {
 	svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
+			
+	d3.select('body').on("mouseup", rectUp);		// general mouseup handler
+	
 	
 	// helper function to add indicators
 	var addIndicator = function(x) {
@@ -277,10 +280,14 @@ var updateDisplay = function(x) {
 			})
 //			.on("mouseover", rectOver)
 			.on("mousedown", rectDown)
-//			.on("mouseout", rectOut)
-//			.on("mousemove", rectMove);
+			.on("mouseout", rectOut)
+			.on("mousemove", rectMove);
 	
 }
+
+
+
+var mouseDown = false;
 
 var rectOver= function(d,x,y) {
 	// update D, F
@@ -288,33 +295,35 @@ var rectOver= function(d,x,y) {
 }
 
 var rectDown= function(d,x,y) {
+	mouseDown = true;
+	updateIndicators(x,y);
+}
+var rectUp= function() {
+	mouseDown = false;
+}
+
+var rectOut= function(d,x,y) {
+//	console.log("out", d,x,y);
+}
+
+var rectMove= function(d,x,y) {
+	if (mouseDown) {
+		updateIndicators(x,y);
+	}
+}
+
+
+
+
+var updateIndicators = function(x,y) {
 	values.f = x+1;
 	values.d = y+1;
 	$("#f > a").html(values.f);
 	$("#d > a").html(values.d);
-	updateIndicators();
-}
-var rectOut= function(d,x,y) {
-	console.log("out", d,x,y);
-}
-
-var rectMove= function(d,x,y) {
-	console.log("move", d,x,y);
-}
-
-
-
-
-var updateIndicators = function(x) {
-	// in each boxes, update indicators
-	var f = (settings.boxWidth+settings.boxSpacing)*(values.f-1);
-	var d = (settings.boxHeight+settings.boxSpacing)*(values.d-1);
-	console.log(f);
+	var f = (settings.boxWidth+settings.boxSpacing)*(x);
+	var d = (settings.boxHeight+settings.boxSpacing)*(y);
 	d3.selectAll(".f-indicator").attr('x', f);
 	d3.selectAll(".d-indicator").attr('y', d);
-
-//	values.f
-//	values.d.
 }
 
 
