@@ -170,10 +170,12 @@ var init = function() {
 	g.θ = svg.append('g')
 		.attr('class', 'θ')
 		.attr('transform', 'translate(670,180)');
-	
-	
+		
+	// indicators
 	update();
 }
+
+
 
 
 var srMatrix;
@@ -230,21 +232,30 @@ var updateDisplay = function(x) {
 			.attr('fill', function(d) { 
 				return bep[x].colorMap(d[x]);
 			})
-			.on("mouseover", rectOver)
+//			.on("mouseover", rectOver)
 			.on("mousedown", rectDown)
 //			.on("mouseout", rectOut)
-	//		.on("mousemove", rectMove);
-	
-	
+//			.on("mousemove", rectMove);
 	
 }
 
 var rectOver= function(d,x,y) {
-	//console.log(d,x,y);
+	// update D, F
+	console.log("over", x,y);
 }
 
 var rectDown= function(d,x,y) {
-	console.log(d,x,y);
+	values.f = x+1;
+	values.d = y+1;
+	$("#f > a").html(values.f);
+	$("#d > a").html(values.d);
+}
+var rectOut= function(d,x,y) {
+	console.log("out", d,x,y);
+}
+
+var rectMove= function(d,x,y) {
+	console.log("move", d,x,y);
 }
 
 
