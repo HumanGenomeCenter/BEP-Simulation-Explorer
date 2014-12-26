@@ -1,14 +1,9 @@
-var slider = {};
-slider.s = 0.1;
-slider.r = 0.001;
-slider.d = 5;
-slider.f = 0.5;
 
 var values = {};
-values.s = 1;
-values.r = 1;
-values.d = parseInt($("#d > a").html());
-values.f = parseInt($("#f > a").html());
+values.s = parseFloat($("#s > a").html());
+values.r = parseFloat($("#r > a").html());
+values.d = parseFloat($("#d > a").html());
+values.f = parseFloat($("#f > a").html());
 
 var bep = {};
 bep.ε = {};
@@ -40,9 +35,6 @@ $(document).ready(function() {
 
 });
 
-var setSlider = function(id, val) {
-	$("#"+id).val(val);
-}
 
 var setLabel = function(id, val) {
 	$("#"+id+"_label").html(val);
@@ -53,13 +45,11 @@ var setLabel = function(id, val) {
 $(".button#r a, .button#s a").on('click', function(e) {
 	e.preventDefault();
 	var id = $(this).parent().attr('id');
-	var value = $(this).html();
-	var v = map[id].value(value);
+	var value = parseFloat($(this).html());
 	
 	$(this).siblings().removeClass("selected");
 	$(this).addClass("selected");
-	slider[id] = value;
-	values[id] = v;
+	values[id] = value;
 	setLabel(id, value);
 	update();	
 });
@@ -150,17 +140,21 @@ var init = function() {
 			.attr('width', width)
 			.attr('height', height);
 			
-	d3.select('body').on("mouseup", rectUp);		// general mouseup handler
+	d3.select('body').on("mouseup", generalMouseUp);		// general mouseup handler
 	
 	
 	// helper function to add indicators
 	var addIndicator = function(x) {
-		var color = '#999999';
-		var thickness = 4;
+
 		var indicators = x.append('g').attr('class', 'indicators');
+		
+		var color = '#999999';
+		var thickness = 7;
+		var spacing = 3;
+		
 		indicators.append('rect')
 			.attr('class','d-indicator')
-			.attr('x', -thickness-settings.boxSpacing)
+			.attr('x', -thickness-spacing)
 			.attr('y', (settings.boxHeight+settings.boxSpacing)*values.d)		
 			.attr('width', thickness)
 			.attr('height', settings.boxHeight)
@@ -169,50 +163,76 @@ var init = function() {
 		indicators.append('rect')
 			.attr('class','f-indicator')
 			.attr('x', (settings.boxWidth+settings.boxSpacing)*values.f)
-			.attr('y', 130)
+			.attr('y', 131)
 			.attr('width', settings.boxWidth)
 			.attr('height', thickness)
 			.attr('fill', color);
+			
+			
+		// axis
+		var fAxis = d3.svg.axis()
+			.orient('left')
+			.scale(d3.scale.linear().domain([1,10]).range([117,0]))
+			.ticks(10)
+
+		xAxis = x.append('g')
+			.attr('class', 'f-axis axis')
+			.attr('transform', 'translate(-3,6)')
+			.call(fAxis);
+			
+		var dAxis = d3.svg.axis()
+			.orient('bottom')
+			.scale(d3.scale.linear().domain([0.1,1.5]).range([0,251]))
+			.ticks(10)
+
+		yAxis = x.append('g')
+			.attr('class', 'd-axis axis')
+			.attr('transform', 'translate(4.5,132)')
+			.call(dAxis);
+				
+			
+			
+		
 	}
 	
 	// positions
 	g.ε = svg.append('g')
 			.attr('class', 'ε')
-			.attr('transform', 'translate(20,0)');
+			.attr('transform', 'translate(25,0)');
 	g.ε.append('g').attr('class', 'boxes');
 	addIndicator(g.ε);
 	
 	g.μ = svg.append('g')
 		.attr('class', 'μ')
-		.attr('transform', 'translate(350,0)');
+		.attr('transform', 'translate(355,0)');
 	g.μ.append('g').attr('class', 'boxes');
 	addIndicator(g.μ);
 	
 	g.τ = svg.append('g')
 		.attr('class', 'τ')
-		.attr('transform', 'translate(670,0)');
+		.attr('transform', 'translate(675,0)');
 	g.τ.append('g').attr('class', 'boxes');
 	addIndicator(g.τ);
 	
 	g.ρ = svg.append('g')
 		.attr('class', 'ρ')
-		.attr('transform', 'translate(20,180)');
+		.attr('transform', 'translate(25,180)');
 	g.ρ.append('g').attr('class', 'boxes');
 	addIndicator(g.ρ);
 	
 	g.λ = svg.append('g')
 		.attr('class', 'λ')
-		.attr('transform', 'translate(350,180)');
+		.attr('transform', 'translate(355,180)');
 	g.λ.append('g').attr('class', 'boxes');
 	addIndicator(g.λ);
 	
 	g.θ = svg.append('g')
 		.attr('class', 'θ')
-		.attr('transform', 'translate(670,180)');
+		.attr('transform', 'translate(675,180)');
 	g.θ.append('g').attr('class', 'boxes');
 	addIndicator(g.θ);
 	
-	// indicators
+
 	
 	
 	
@@ -226,7 +246,10 @@ var srMatrix;
 
 var update = function() {
 	
-	srMatrix = data[values.s][values.r];
+//	srMatrix = data[values.s][values.r];
+	srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];
+	
+	
 	// get data
 	
 	// find higest & lowest values
@@ -280,6 +303,8 @@ var updateDisplay = function(x) {
 			})
 //			.on("mouseover", rectOver)
 			.on("mousedown", rectDown)
+			.on("mouseup", rectUp)
+			
 			.on("mouseout", rectOut)
 			.on("mousemove", rectMove);
 	
@@ -298,8 +323,13 @@ var rectDown= function(d,x,y) {
 	mouseDown = true;
 	updateIndicators(x,y);
 }
-var rectUp= function() {
+var generalMouseUp= function() {
 	mouseDown = false;
+}
+
+var rectUp= function() {
+	console.log(values);
+	updateTumorImages();
 }
 
 var rectOut= function(d,x,y) {
@@ -309,15 +339,32 @@ var rectOut= function(d,x,y) {
 var rectMove= function(d,x,y) {
 	if (mouseDown) {
 		updateIndicators(x,y);
+		updateTumorImages();
 	}
 }
 
 
+var updateTumorImages = function() {
+	
+	d3.selectAll("#results img")
+		.data([0,1,2,3,4])
+		.attr('src', function(d) {
+			var url = "results/s" + values.s;
+			url = url + "_r" + values.r;
+			url = url + "/d" + values.d
+			url = url + "_f"+ values.f
+			url = url + "_" + d + ".tumor.png";
+			console.log(url);
+			return url;
+		});
+	
+}
+
 
 
 var updateIndicators = function(x,y) {
-	values.f = x+1;
-	values.d = y+1;
+	values.f = map.f.i(x);
+	values.d = map.d.i(y);
 	$("#f > a").html(values.f);
 	$("#d > a").html(values.d);
 	var f = (settings.boxWidth+settings.boxSpacing)*(x);

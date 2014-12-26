@@ -77,6 +77,32 @@
 		font-weight: 700;
 	}
 	
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #666;
+	}
+	
+	.axis text {
+		font-size: 10px;
+		fill: #666;
+	}
+	
+	#results {
+		height: 200px;
+		background: #ccc;
+	}
+	
+	#results > div {
+		height: 200px;
+		background: #eee;
+		margin-left: 28px;
+		padding: 0px;
+	}
+	
+	#results img {
+		background: #fff;
+	}
 
 	</style>
 	
@@ -128,6 +154,24 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div id="overview" width="100%" height="500px"></div>
+		</div>
+	</div>
+	
+	<div class="row" id="results">
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d10_f0.45_0.tumor.png" width="100%">
+		</div>
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d10_f0.45_1.tumor.png" width="100%">
+		</div>
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d10_f0.45_2.tumor.png" width="100%">
+		</div>
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d10_f0.45_3.tumor.png" width="100%">
+		</div>
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d10_f0.45_4.tumor.png" width="100%">
 		</div>
 	</div>
 	
