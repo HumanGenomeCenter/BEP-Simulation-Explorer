@@ -88,20 +88,18 @@
 		fill: #666;
 	}
 	
-	#results {
+	.results {
 		height: 200px;
-		background: #ccc;
 	}
 	
-	#results > div {
+	.results > div {
 		height: 200px;
-		background: #eee;
 		margin-left: 28px;
 		padding: 0px;
 	}
 	
-	#results img {
-		background: #fff;
+	.results img {
+		width: 100%;
 	}
 
 	</style>
@@ -139,7 +137,7 @@
 			
 			<span id="f" class="button">
 				<span class="label">F</span>
-				<a href="#" class="selected">13</a>
+				<a href="#" class="selected">0.8</a>
 			</span>
 			
 			<span id="abs" class="button">
@@ -157,30 +155,46 @@
 		</div>
 	</div>
 	
-	<div class="row" id="results">
+	<div class="row results" id="tumor">
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d10_f0.45_0.tumor.png" width="100%">
+			<img src="results/s0.01_r0.0001/d5_f0.8_0.tumor.png">
 		</div>
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d10_f0.45_1.tumor.png" width="100%">
+			<img src="results/s0.01_r0.0001/d5_f0.8_1.tumor.png">
 		</div>
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d10_f0.45_2.tumor.png" width="100%">
+			<img src="results/s0.01_r0.0001/d5_f0.8_2.tumor.png">
 		</div>
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d10_f0.45_3.tumor.png" width="100%">
+			<img src="results/s0.01_r0.0001/d5_f0.8_3.tumor.png">
 		</div>
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d10_f0.45_4.tumor.png" width="100%">
+			<img src="results/s0.01_r0.0001/d5_f0.8_4.tumor.png">
 		</div>
 	</div>
 	
-	<div class="row">
-		<div class="col-xs-12">
-			<br /><br />
-			<img src="img/overview.jpg" width="100%">
+	<div class="row results" id="mutprof">
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d5_f0.8_0.mutprof.png">
+		</div>
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d5_f0.8_1.mutprof.png">
+		</div>
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d5_f0.8_2.mutprof.png">
+		</div>
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d5_f0.8_3.mutprof.png">
+		</div>
+		<div class="col-xs-2">
+			<img src="results/s0.01_r0.0001/d5_f0.8_4.mutprof.png">
 		</div>
 	</div>
+	
+
+
+
+
 
 
 </div>

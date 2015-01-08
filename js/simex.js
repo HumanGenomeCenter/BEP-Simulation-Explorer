@@ -97,14 +97,14 @@ map.r = {
 }
 
 map.d = {
-	map: d3.scale.linear().domain([1, 10]).range([0, 9]).clamp(true),
+	map: d3.scale.linear().domain([1, 10]).range([9, 0]).clamp(true),
 	value: function(x) { return this.map(x) },
 	i: function(x) { return Math.round(this.map.invert(x));},
 }
 
 map.f = {
 	map: d3.scale.linear().domain([10, 150]).range([0, 28]).clamp(true),
-	value: function(x) { return this.map(x) },
+	value: function(x) { return this.map(x*100) },
 	i: function(x) { return Math.round(this.map.invert(x))/100;},
 }
 
@@ -132,7 +132,6 @@ var g = {};
 
 var svg;
 var init = function() {
-	console.log("init");
 	
 	var width = 960, height = 350;
 	var div = d3.select('#overview');
@@ -155,14 +154,14 @@ var init = function() {
 		indicators.append('rect')
 			.attr('class','d-indicator')
 			.attr('x', -thickness-spacing)
-			.attr('y', (settings.boxHeight+settings.boxSpacing)*values.d)		
+			.attr('y', (settings.boxHeight+settings.boxSpacing)*(map.d.value(values.d)))
 			.attr('width', thickness)
 			.attr('height', settings.boxHeight)
 			.attr('fill', color);
 
 		indicators.append('rect')
 			.attr('class','f-indicator')
-			.attr('x', (settings.boxWidth+settings.boxSpacing)*values.f)
+			.attr('x', (settings.boxWidth+settings.boxSpacing)*(map.f.value(values.f)))
 			.attr('y', 131)
 			.attr('width', settings.boxWidth)
 			.attr('height', thickness)
@@ -246,9 +245,7 @@ var srMatrix;
 
 var update = function() {
 	
-//	srMatrix = data[values.s][values.r];
 	srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];
-	
 	
 	// get data
 	
@@ -282,7 +279,8 @@ var updateDisplay = function(x) {
 	grp.enter()
 		.append('g')
 		.attr('transform', function(d, i) {
-		    return 'translate(0,' + (rh + p) * i + ')';
+			console.log(i);
+		    return 'translate(0,' + (rh + p) * (9-i) + ')';
 		});
 	
 	var rect = grp.selectAll('rect')
@@ -298,16 +296,16 @@ var updateDisplay = function(x) {
 			})
 			.attr('width', rw)
 			.attr('height', rh)
-			.attr('fill', function(d) { 
+			.attr('fill', function(d) {
+				console.log( d[x]);
+				if (d[x]===0)return "#cccccc";
 				return bep[x].colorMap(d[x]);
 			})
 //			.on("mouseover", rectOver)
 			.on("mousedown", rectDown)
 			.on("mouseup", rectUp)
-			
 			.on("mouseout", rectOut)
 			.on("mousemove", rectMove);
-	
 }
 
 
@@ -321,6 +319,7 @@ var rectOver= function(d,x,y) {
 
 var rectDown= function(d,x,y) {
 	mouseDown = true;
+	console.log(x, map.f.map(x), "-", y, map.d.map(y));
 	updateIndicators(x,y);
 }
 var generalMouseUp= function() {
@@ -328,8 +327,8 @@ var generalMouseUp= function() {
 }
 
 var rectUp= function() {
-	console.log(values);
-	updateTumorImages();
+//	console.log(values);
+	updateImages();
 }
 
 var rectOut= function(d,x,y) {
@@ -339,25 +338,27 @@ var rectOut= function(d,x,y) {
 var rectMove= function(d,x,y) {
 	if (mouseDown) {
 		updateIndicators(x,y);
-		updateTumorImages();
+		updateImages();
 	}
 }
 
 
-var updateTumorImages = function() {
+var updateImages = function() {
 	
-	d3.selectAll("#results img")
+	var baseurl = "results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
+	
+	d3.selectAll("#tumor img")
 		.data([0,1,2,3,4])
 		.attr('src', function(d) {
-			var url = "results/s" + values.s;
-			url = url + "_r" + values.r;
-			url = url + "/d" + values.d
-			url = url + "_f"+ values.f
-			url = url + "_" + d + ".tumor.png";
-			console.log(url);
-			return url;
+			return baseurl + "_" + d + ".tumor.png";
 		});
-	
+		
+	d3.selectAll("#mutprof img")
+		.data([0,1,2,3,4])
+		.attr('src', function(d) {
+			return baseurl + "_" + d + ".mutprof.png";
+		});
+
 }
 
 
@@ -368,7 +369,7 @@ var updateIndicators = function(x,y) {
 	$("#f > a").html(values.f);
 	$("#d > a").html(values.d);
 	var f = (settings.boxWidth+settings.boxSpacing)*(x);
-	var d = (settings.boxHeight+settings.boxSpacing)*(y);
+	var d = (settings.boxHeight+settings.boxSpacing)*(9-y);
 	d3.selectAll(".f-indicator").attr('x', f);
 	d3.selectAll(".d-indicator").attr('y', d);
 }
