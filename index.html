@@ -5,36 +5,36 @@
 	<link rel="stylesheet" href="../css/bootstrap.css" charset="utf-8">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800' rel='stylesheet' type='text/css'>
 	<style type="text/css" media="screen">
-		body {
-			font-family: 'Open Sans', sans-serif;
-			background: #ffffff;
-			margin: 0 auto;
-			-webkit-touch-callout: none;
-		    -webkit-user-select: none;
-		    -khtml-user-select: none;
-		    -moz-user-select: none;
-		    -ms-user-select: none;
-		    user-select: none;
-			
-		}
-		a, a:hover, a:active, a:selected {
-			text-decoration: none;
-			color: #428bca;
-		}
-		h1 {
-			font-family: 'Open Sans', sans-serif;
-			font-weight: 300;
-			font-size: 4em;
-			color: #999;
-		}
-		.container {
-		 /* margin: 0 auto; */
-		  width: 990px !important;
-		}
-		.page-header {
-			text-align: center;
-		}
+	body {
+		font-family: 'Open Sans', sans-serif;
+		background: #ffffff;
+		margin: 0 auto;
+		-webkit-touch-callout: none;
+	    -webkit-user-select: none;
+	    -khtml-user-select: none;
+	    -moz-user-select: none;
+	    -ms-user-select: none;
+	    user-select: none;
 		
+	}
+	a, a:hover, a:active, a:selected {
+		text-decoration: none;
+		color: #428bca;
+	}
+	h1 {
+		font-family: 'Open Sans', sans-serif;
+		font-weight: 300;
+		font-size: 4em;
+		color: #999;
+	}
+	.container {
+	 /* margin: 0 auto; */
+	  width: 990px !important;
+	}
+	.page-header {
+		text-align: center;
+	}
+	
 
 	
 	#overview {
@@ -42,7 +42,10 @@
 	}
 		
 	#overview svg {
-		background: #fff;
+		background: #ddd;
+	}
+	g.boxes {
+		fill: green;
 	}
 
 	.button a, .button .label {
@@ -89,19 +92,36 @@
 	}
 	
 	.results {
-		height: 200px;
+		margin-top: 50px;
+	}
+	
+	.results a {
+		text-decoration: none;
 	}
 	
 	.results > div {
-		height: 200px;
 		margin-left: 28px;
 		padding: 0px;
 	}
 	
 	.results img {
-		width: 100%;
+		width: 45%;
+		display: inline;
 	}
 
+
+	.line {
+		height: 4px;
+		width: 100%;
+		background: #fff;
+		margin-top: 8px;
+		
+	}
+	
+	.details {
+		background: #f00;
+		display: none;
+	}
 	</style>
 	
 </head>
@@ -155,44 +175,141 @@
 		</div>
 	</div>
 	
-	<div class="row results" id="tumor">
+	<div class="row results">
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_0.tumor.png">
+			<a href="#" data-id="0">
+				<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_0.tumor.png">
+				<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_0.mutprof.png">
+			</a>
+			<div class="line"></div>
 		</div>
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_1.tumor.png">
+			<a href="#" data-id="1">
+				<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_1.tumor.png">
+				<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_1.mutprof.png">
+			</a>
+			<div class="line"></div>
 		</div>
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_2.tumor.png">
+			<a href="#" data-id="2">
+				<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_2.tumor.png">
+				<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_2.mutprof.png">
+			</a>
+			<div class="line"></div>
 		</div>
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_3.tumor.png">
+			<a href="#" data-id="3">
+				<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_3.tumor.png">
+				<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_3.mutprof.png">
+			</a>
+			<div class="line"></div>
 		</div>
 		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_4.tumor.png">
+			<a href="#" data-id="4">
+				<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_4.tumor.png">
+				<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_4.mutprof.png">
+			</a>
+			<div class="line"></div>
 		</div>
 	</div>
 	
-	<div class="row results" id="mutprof">
-		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_0.mutprof.png">
-		</div>
-		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_1.mutprof.png">
-		</div>
-		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_2.mutprof.png">
-		</div>
-		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_3.mutprof.png">
-		</div>
-		<div class="col-xs-2">
-			<img src="results/s0.01_r0.0001/d5_f0.8_4.mutprof.png">
-		</div>
-	</div>
+	<div class="row details">
 	
+	<div class="col-xs-12">
+		<div id="epsilon">
+			<span>&epsilon; (population entropy)</span>
+			<span class="value">0.136112</span>
+		</div>
+		
+		<div id="mu">
+			<span>&mu; (founder mutation count)</span>
+			<span class="value">0</span>
+		</div>
+		
+		<div id="mu">
+			<span>&mu; (founder mutation count)</span>
+			<span class="value">0</span>
+		</div>
+		
+		<div id="rho">
+			<span>&rho; (average mutation count)</span>
+			<span class="value">4.248</span>
+		</div>
+		
+		<div id="lambda">
+			<span>&lambda; (population fitness)</span>
+			<span class="value">1.79347</span>
+		</div>
+		
+		<div id="tau">
+			<span>&tau; (growth time)</span>
+			<span class="value">5e+06</span>
+		</div>
+		
+		<div id="theta">
+			<span>&theta; (self similality)</span>
+			<span class="value">1</span>
+		</div>
+		
+<!--
 
+		<figure>
+		<img src='d10_f0.15_0.mutprof.png'>
+		<figcaption>
+		<b>Mutation profile of each cell in a simulated tumor.</b>
+		500 cells were sampled from the simulated tumor and their mutation profiles were shown as a clustered heatmap.
+		Row and columns represent gene and cells, respectively. left blue bars indicate driver genes and top colored indicates each clone.
+		</figcaption>
+		</figure>
 
+		<figure>
+		<img src='d10_f0.15_0.tumor.png'>
+		<figcaption>
+		<b>The simulated tumor.</b>
+		 Each clone was colored  according to top colored bar of the mutation profile heatmap.
+		</figcaption>
+		</figure>
+
+		<figure>
+		<img src='d10_f0.15_0.pc.png'>
+		<figcaption>
+		<b>A principal component plot of cells.</b>
+		Principal component analysis was applied to the mutation profiles and 
+		each cell was plotted based on loadings of the top three principal components.
+		Note that colors of each clone was obtained from the three dimensional coordinates. 
+		</figcaption>
+		</figure>
+
+		<figure>
+		<img src='d10_f0.15_0.selfsim.png'>
+		<figcaption>
+		<b> Self similality of the cell-wise dendrogram. </b>
+		From the  the cell-wise dendrogram of the mutation profile heatmap, 
+		we obtained <i>c</i> clusters by cutting the dendrogram at the height <i>l</i>. the relationship between <i>c</i> and <i>l</i> was plotted in log scale.
+		vertical and horizontal axes denote <i>c</i> and <i>l</i>, respectively. Since their linear relationship indicates self similality,
+		we performed linear regression between <i>log</i>(<i>c</i>) and <i>log</i>(<i>l</i>), and assumed that the dendrogram has self-similarity if R<sup>2</sup> &gt 0.95
+		</figcaption>
+		</figure>
+
+		<figure>
+		<img src='d10_f0.15_0.cellsim.png'>
+		<figcaption>
+		<b> Genetic distance matrix among cells.</b>
+		Distance between each pair of cells was calculated from the mutation profiles and presented as a heatmap.  
+		</figcaption>
+		</figure>
+
+		<figure>
+		<img src='d10_f0.15_0.alfrq.png'>
+		<figcaption>
+		<b>A histogram of the mutant cell frequencies.</b>
+		For each gene, a fraction of mutated cells was calculated and the distribution was presented as the histogram.
+		</figcaption>
+		</figure>
+
+	-->
+	</div>
+	</div>
 
 
 

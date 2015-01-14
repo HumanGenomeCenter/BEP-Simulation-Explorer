@@ -5,6 +5,8 @@ values.r = parseFloat($("#r > a").html());
 values.d = parseFloat($("#d > a").html());
 values.f = parseFloat($("#f > a").html());
 
+var details = [];
+var selected = [false, false, false, false, false];
 var bep = {};
 bep.ε = {};
 bep.μ = {};
@@ -286,6 +288,10 @@ var updateDisplay = function(x) {
 	var rect = grp.selectAll('rect')
 		.data(function(d) { return d; })
 		.attr('fill', function(d) { 
+			if (d[x]===0) {
+				console.log("empty");
+				return "transparent";
+			}
 			return bep[x].colorMap(d[x]);
 		});
 						
@@ -297,8 +303,10 @@ var updateDisplay = function(x) {
 			.attr('width', rw)
 			.attr('height', rh)
 			.attr('fill', function(d) {
-				console.log( d[x]);
-				if (d[x]===0)return "#cccccc";
+				if (d[x]===0) {
+					console.log("empty");
+					return "transparent";
+				}
 				return bep[x].colorMap(d[x]);
 			})
 //			.on("mouseover", rectOver)
@@ -319,7 +327,6 @@ var rectOver= function(d,x,y) {
 
 var rectDown= function(d,x,y) {
 	mouseDown = true;
-	console.log(x, map.f.map(x), "-", y, map.d.map(y));
 	updateIndicators(x,y);
 }
 var generalMouseUp= function() {
@@ -342,22 +349,38 @@ var rectMove= function(d,x,y) {
 	}
 }
 
-
 var updateImages = function() {
 	
+	details = [];
 	var baseurl = "results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
+	console.log(baseurl);
 	
-	d3.selectAll("#tumor img")
+	d3.selectAll("img.tumor")
 		.data([0,1,2,3,4])
 		.attr('src', function(d) {
 			return baseurl + "_" + d + ".tumor.png";
 		});
 		
-	d3.selectAll("#mutprof img")
+	d3.selectAll("img.mutprof")
 		.data([0,1,2,3,4])
 		.attr('src', function(d) {
+			$.get(baseurl + "_" + d + ".html", function(data) {
+				
+				// QnD way of getting the data out of HTML
+				var a = data.split("</td><td>");
+				var v = {};
+				v.ε = parseFloat(a[1]);
+				v.μ = parseFloat(a[2]);
+				v.ρ = parseFloat(a[3]);
+				v.λ = parseFloat(a[4]);
+				v.τ = parseFloat(a[5]);
+				v.θ = parseFloat(a[6]);
+				details[d] = v;
+			});
+			
 			return baseurl + "_" + d + ".mutprof.png";
 		});
+
 
 }
 
@@ -417,6 +440,50 @@ var getLimits = function(matrix) {
 	}	
 }
 
+
+// Tumor, Mutprof Interaction
+$(document).ready(function() {
+	
+	$(".results a").mouseover(function(e) {
+		$(this).next().css('background-color', '#ccc');
+	});
+	
+	$(".results a").mouseout(function(e) {
+		if ($(this).data('selected')) {
+			$(this).next().css('background-color', '#999');
+		} else {
+			$(this).next().css('background-color', '#fff');
+		}
+	});
+	
+	$(".results a").click(function(e) {
+		e.preventDefault();
+		var id = $(this).data('id'); 
+		if ($(this).data('selected')) {
+			$(this).data('selected', false);
+			selected[id] = false;			// deselect
+			$(this).next().css('background-color', '#fff');
+		} else {
+			
+			console.log($(this).data('id'));
+			$(this).data('selected', true);
+			selected[id] = true;
+			$(this).next().css('background-color', '#999');
+			$(".details").show();
+			
+			$('html, body').animate({
+				scrollTop: $(".results").offset().top
+			}, 200);
+		}
+		
+		console.log(selected);
+		
+		// extract data from HTML
+	});
+	
+	
+	
+})
 
 
 
