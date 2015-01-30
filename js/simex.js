@@ -264,6 +264,8 @@ var update = function() {
 	updateDisplay('ρ');
 	updateDisplay('λ');
 	updateDisplay('θ');
+	
+	updateImages();
 }
 
 
@@ -281,7 +283,6 @@ var updateDisplay = function(x) {
 	grp.enter()
 		.append('g')
 		.attr('transform', function(d, i) {
-			console.log(i);
 		    return 'translate(0,' + (rh + p) * (9-i) + ')';
 		});
 	
@@ -304,7 +305,6 @@ var updateDisplay = function(x) {
 			.attr('height', rh)
 			.attr('fill', function(d) {
 				if (d[x]===0) {
-					console.log("empty");
 					return "transparent";
 				}
 				return bep[x].colorMap(d[x]);
@@ -351,9 +351,14 @@ var rectMove= function(d,x,y) {
 
 var updateImages = function() {
 	
+	// close, reset details
+	$(".details").hide(200);
+	selected = [false, false, false, false, false];
+	$(".line").css('background-color', '#fff');
+	
+	
 	details = [];
 	var baseurl = "results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
-	console.log(baseurl);
 	
 	d3.selectAll("img.tumor")
 		.data([0,1,2,3,4])
@@ -365,7 +370,6 @@ var updateImages = function() {
 		.data([0,1,2,3,4])
 		.attr('src', function(d) {
 			$.get(baseurl + "_" + d + ".html", function(data) {
-				
 				// QnD way of getting the data out of HTML
 				var a = data.split("</td><td>");
 				var v = {};
@@ -413,7 +417,6 @@ var updateLimits = function(matrix) {
 			var max = d3.max(linear, function(d) {return d[key]});
 			bep[key].range = [min, max]; 
 			bep[key].colorMap.domain([min, max]);
-			console.log(key, [min, max]);
 		}
 	}
 }
@@ -465,26 +468,131 @@ $(document).ready(function() {
 			$(this).next().css('background-color', '#fff');
 		} else {
 			
-			console.log($(this).data('id'));
 			$(this).data('selected', true);
 			selected[id] = true;
 			$(this).next().css('background-color', '#999');
-			$(".details").show();
+			$(".details").slideDown(200);
 			
 			$('html, body').animate({
 				scrollTop: $(".results").offset().top
 			}, 200);
 		}
 		
-		console.log(selected);
 		
-		// extract data from HTML
+		// reduce
+		var sum = selected.reduce(function(a, b) {
+		  return a + b;
+		});
+		
+		var col;
+		if (sum===0) {
+			$(".details").slideUp(200);
+			return;
+		} else if(sum===5) {
+			col = 2;
+		} else {
+			col = 12/sum;
+		}
+		
+		// reduce data form 'details'
+		
+		var selectedDetails = [];
+		selected.forEach(function(d,i) {
+			if (d) selectedDetails.push( details[i] );
+		});
+		
+		console.log(selectedDetails, col);
+	
+		addColumns(selectedDetails, col);
 	});
 	
 	
 	
 })
 
+
+var addColumns = function(s, w) {
+	
+	var txt = [
+		{'id':'epsilon', 'short':'ε', 'desc':'population entropy'},
+		{'id':'mu', 'short':'μ', 'desc':'founder mutation count'},
+		{'id':'rho', 'short':'ρ', 'desc':'average mutation count'},
+		{'id':'lambda', 'short':'λ', 'desc':'population fitness'},
+		{'id':'tau', 'short':'τ', 'desc':'growth time'},
+		{'id':'theta', 'short':'θ', 'desc':'self similality'},
+	];
+	
+	// values
+	var h = $("<div>");		"empty"
+	s.forEach(function(v) {
+		var column = $('<div class="col-xs-'+w+'"></div>');
+		txt.forEach(function(d) {
+			column.append('<div id="'+d.id+'"><span>'+d.short+'</span> <span class="value">'+v[d.short]+'</span></div>')
+		});
+		h.append(column);
+	});
+	$(".row.values").html( h.html() );	// get html content
+
+
+	var baseurl = "results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
+	
+	selectedData = []
+	selected.forEach(function(d, i){
+		if (d) selectedData.push(i);
+	});
+	
+		
+	// mutprof
+	var h = $("<div>");		"empty"
+	s.forEach(function(v,i) {
+		var url = baseurl + "_" + selectedData[i] + ".mutprof.png";
+		h.append( $('<div class="col-xs-'+w+'"><img src='+url+'></div>)') );
+	});
+	$(".row.mutprof").html( h.html() );
+	
+	// tumor
+	var h = $("<div>");		"empty"
+	s.forEach(function(v,i) {
+		var url = baseurl + "_" + selectedData[i] + ".tumor.png";
+		h.append( $('<div class="col-xs-'+w+'"><img src='+url+'></div>)') );
+	});
+	$(".row.tumor").html( h.html() );
+	
+	// pc
+	var h = $("<div>");		"empty"
+	s.forEach(function(v,i) {
+		var url = baseurl + "_" + selectedData[i] + ".pc.png";
+		h.append( $('<div class="col-xs-'+w+'"><img src='+url+'></div>)') );
+	});
+	$(".row.pc").html( h.html() );
+	
+	// selfsim
+	var h = $("<div>");		"empty"
+	s.forEach(function(v,i) {
+		var url = baseurl + "_" + selectedData[i] + ".selfsim.png";
+		h.append( $('<div class="col-xs-'+w+'"><img src='+url+'></div>)') );
+	});
+	$(".row.selfsim").html( h.html() );
+	
+	// cellsim
+	var h = $("<div>");		"empty"
+	s.forEach(function(v,i) {
+		var url = baseurl + "_" + selectedData[i] + ".cellsim.png";
+		h.append( $('<div class="col-xs-'+w+'"><img src='+url+'></div>)') );
+	});
+	$(".row.cellsim").html( h.html() );
+	
+	// alfrq
+	var h = $("<div>");		"empty"
+	s.forEach(function(v,i) {
+		var url = baseurl + "_" + selectedData[i] + ".alfrq.png";
+		h.append( $('<div class="col-xs-'+w+'"><img src='+url+'></div>)') );
+	});
+	$(".row.alfrq").html( h.html() );
+	
+	
+	//
+}
 
 
 
