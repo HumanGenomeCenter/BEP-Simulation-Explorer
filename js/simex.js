@@ -99,7 +99,7 @@ map.r = {
 }
 
 map.d = {
-	map: d3.scale.linear().domain([1, 10]).range([9, 0]).clamp(true),
+	map: d3.scale.linear().domain([1, 10]).range([0, 9]).clamp(true),
 	value: function(x) { return this.map(x) },
 	i: function(x) { return Math.round(this.map.invert(x));},
 }
@@ -148,26 +148,24 @@ var init = function() {
 	var addIndicator = function(x) {
 
 		var indicators = x.append('g').attr('class', 'indicators');
-		
-		var color = '#999999';
-		var thickness = 7;
+		var thickness = 6;
 		var spacing = 3;
 		
+		// vertical
 		indicators.append('rect')
 			.attr('class','d-indicator')
 			.attr('x', -thickness-spacing)
 			.attr('y', (settings.boxHeight+settings.boxSpacing)*(map.d.value(values.d)))
 			.attr('width', thickness)
-			.attr('height', settings.boxHeight)
-			.attr('fill', color);
+			.attr('height', settings.boxHeight);
 
+		// horizontal
 		indicators.append('rect')
 			.attr('class','f-indicator')
 			.attr('x', (settings.boxWidth+settings.boxSpacing)*(map.f.value(values.f)))
-			.attr('y', 131)
+			.attr('y', 132)
 			.attr('width', settings.boxWidth)
-			.attr('height', thickness)
-			.attr('fill', color);
+			.attr('height', thickness);
 			
 			
 		// axis
@@ -393,6 +391,7 @@ var updateImages = function() {
 var updateIndicators = function(x,y) {
 	values.f = map.f.i(x);
 	values.d = map.d.i(y);
+	console.log("x:", x, "f:", values.f, ",  y:", y, "d:", values.d);
 	$("#f > a").html(values.f);
 	$("#d > a").html(values.d);
 	var f = (settings.boxWidth+settings.boxSpacing)*(x);
