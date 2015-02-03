@@ -68,18 +68,35 @@
 	
 	/* Buttons */
 	
-	.btn-default, .btn-default:hover {
-		color: #666;
+	.btn-default, .btn-default:hover, .btn-default:active {
+		color: #428bca;
 		border: 1px #fff solid;
 		font-weight: 100;
 		border-radius: 10px;
 		border-left: 1px #eee solid;
-		
+		box-shadow: none;
+	}
+	
+	.btn-default:hover, .btn-default:active {
+		background: #f6f6f6;
+		color: #428bca;
+	}
+	
+	.btn-default.active {
+		background: #f6f6f6;
+		color: #428bca;
+		border: 1px #fff solid;
+		font-weight: 700;
+		box-shadow: none;
+	}
+	
+	.btn-default input span {
+		padding: 0 2px;
 	}
 	
 	
-	.btn-label, .btn-label:hover, .btn-label:active  {
-		color: #666;
+	.btn-label, .btn-label:hover, .btn-label:active, .btn-label.active  {
+		color: #428bca;;
 		background: none;
 		font-weight: 700;
 		border-radius: 10px;
@@ -89,21 +106,7 @@
 	 
 	
 	
-	.button .label {
-		color: #666;
-		font-weight: 100;
-	}
-	
-	.button a:hover, .button a:active {
-		background: #f6f6f6;
-		color: #428bca;
-	}
-	
-	.button .selected {
-		background: #ffffff;
-		color: #428bca;
-		font-weight: 700;
-	}
+
 	
 	.axis path,
 	.axis line {
@@ -216,71 +219,82 @@
 				
 				<div class="btn-toolbar text-center" role="toolbar" aria-label="...">
 					
-					<div id="s" class="btn-group" role="group" aria-label="S">
-  						<button type="button" class="btn btn-label">S</button>
-						<button type="button" class="btn btn-default">0.01</button>
-						<button type="button" class="btn btn-default">0.1</button>
-						<button type="button" class="btn btn-default">1</button>
+					<div id="s" class="btn-group" data-toggle="buttons">
+						<label class="btn btn-label">
+							S
+						</label>
+						<label class="btn btn-default">
+							<input type="radio" name="options">
+							<span>0.01</span>
+						</label>
+						<label class="btn btn-default active">
+							<input type="radio" name="options">
+							<span>0.1</span>
+						</label>
+						<label class="btn btn-default">
+							<input type="radio" name="options">
+							<span>1</span>
+						</label>
 					</div>
 					
-					<div id="r" class="btn-group" role="group" aria-label="R">
-  						<button type="button" class="btn btn-label">R</button>
-						<button type="button" class="btn btn-default">0.0001</button>
-						<button type="button" class="btn btn-default">0.001</button>
-						<button type="button" class="btn btn-default">0.01</button>
+					<div id="r" class="btn-group" data-toggle="buttons">
+						<label class="btn btn-label">
+							R
+						</label>
+						<label class="btn btn-default">
+							<input type="radio" name="options">
+							<span>0.0001</span>
+						</label>
+						<label class="btn btn-default active">
+							<input type="radio" name="options">
+							<span>0.001</span>
+						</label>
+						<label class="btn btn-default">
+							<input type="radio" name="options">
+							<span>0.01</span>
+						</label>
 					</div>
 					
-					<div id="d" class="btn-group" role="group" aria-label="D">
-  						<button type="button" class="btn btn-label">D</button>
-						<button type="button" class="btn btn-default">4</button>
+					<div id="d" class="btn-group" data-toggle="buttons">
+						<label class="btn btn-label">
+							D
+						</label>
+						<label class="btn btn-default active">
+							<input type="radio" name="options">
+							<span>4</span>
+						</label>
 					</div>
 					
-					<div id="f" class="btn-group" role="group" aria-label="F">
-  						<button type="button" class="btn btn-label">F</button>
-						<button type="button" class="btn btn-default">0.8</button>
+					<div id="f" class="btn-group" data-toggle="buttons">
+						<label class="btn btn-label">
+							F
+						</label>
+						<label class="btn btn-default active">
+							<input type="radio" name="options">
+							<span>0.8</span>
+						</label>
 					</div>
 					
-					<div id="abs" class="btn-group" role="group" aria-label="F">
-  						<button type="button" class="btn btn-default" data-value="abs">abs</button>
-						<button type="button" class="btn btn-default" data-value="rel">rel</button>
+					<div id="abs" class="btn-group" data-toggle="buttons">
+						<label class="btn btn-default active">
+							<input type="radio" name="options" data-value="abs">
+							<span>abs</span>
+						</label>
+						<label class="btn btn-default">
+							<input type="radio" name="options" data-value="rel">
+							<span>rel</span>
+						</label>
 					</div>
 					
+				
+					
+
 					
 					
 				</div>
 			</div>
 			
-			<div class="col-xs-12">
-					<span id="s" class="button">
-						<div class="label">S</div>
-						<a href="#">0.01</a>
-						<a href="#" class="selected">0.1</a>
-						<a href="#">1</a>
-					</span>
-
-					<span id="r" class="button">
-						<span class="label">R</span>
-						<a href="#">0.0001</a>
-						<a href="#" class="selected">0.001</a>
-						<a href="#">0.01</a>
-					</span>
 			
-					<span id="d" class="button">
-						<span class="label">D</span>
-						<a href="#" class="selected">4</a>
-					</span>
-			
-					<span id="f" class="button">
-						<span class="label">F</span>
-						<a href="#" class="selected">0.8</a>
-					</span>
-			
-					<span id="abs" class="button">
-						<span class="label">scale</span>
-						<a href="#" data-value="abs">abs</a>
-						<a href="#" class="selected" data-value="rel">rel</a>
-					</span>
-				</div>
 		
 			<div class="row">
 				<div class="col-xs-12">

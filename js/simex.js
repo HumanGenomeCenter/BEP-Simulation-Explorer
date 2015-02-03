@@ -1,9 +1,11 @@
 
+// get default values from html
 var values = {};
-values.s = parseFloat($("#s > a").html());
-values.r = parseFloat($("#r > a").html());
-values.d = parseFloat($("#d > a").html());
-values.f = parseFloat($("#f > a").html());
+
+values.s = parseFloat($("#s label.active span").html());
+values.r = parseFloat($("#r label.active span").html());
+values.d = parseFloat($("#d label.active span").html());
+values.f = parseFloat($("#f label.active span").html());
 
 var details = [];
 var selected = [false, false, false, false, false];
@@ -56,13 +58,11 @@ $(".button#r a, .button#s a").on('click', function(e) {
 	update();	
 });
 
-$(".button#d a, .button#f a").on('click', function(e) {
-	e.preventDefault();
-});
 
-$("#d > .btn-default").on('click', function(e) {
-	console.log("d");
+
+$("label.btn-default").on('click', function(e) {
 	e.preventDefault();
+	console.log("sss");
 });
 
 
