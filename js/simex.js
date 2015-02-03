@@ -60,6 +60,13 @@ $(".button#d a, .button#f a").on('click', function(e) {
 	e.preventDefault();
 });
 
+$("#d > .btn-default").on('click', function(e) {
+	console.log("d");
+	e.preventDefault();
+});
+
+
+
 // scale
 $(".button#abs a").on('click', function(e) {
 	e.preventDefault();

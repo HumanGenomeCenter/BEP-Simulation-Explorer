@@ -66,6 +66,29 @@
 	    -webkit-transition: background 0.3s linear; /* Safari and Chrome */
 	}
 	
+	/* Buttons */
+	
+	.btn-default, .btn-default:hover {
+		color: #666;
+		border: 1px #fff solid;
+		font-weight: 100;
+		border-radius: 10px;
+		border-left: 1px #eee solid;
+		
+	}
+	
+	
+	.btn-label, .btn-label:hover, .btn-label:active  {
+		color: #666;
+		background: none;
+		font-weight: 700;
+		border-radius: 10px;
+		border: 1px #fff solid;
+		box-shadow: none;
+	}
+	 
+	
+	
 	.button .label {
 		color: #666;
 		font-weight: 100;
@@ -189,7 +212,44 @@
 		<div role="tabpanel" class="tab-pane active" id="home">
 			
 	
-		
+			<div class="col-xs-12">
+				
+				<div class="btn-toolbar text-center" role="toolbar" aria-label="...">
+					
+					<div id="s" class="btn-group" role="group" aria-label="S">
+  						<button type="button" class="btn btn-label">S</button>
+						<button type="button" class="btn btn-default">0.01</button>
+						<button type="button" class="btn btn-default">0.1</button>
+						<button type="button" class="btn btn-default">1</button>
+					</div>
+					
+					<div id="r" class="btn-group" role="group" aria-label="R">
+  						<button type="button" class="btn btn-label">R</button>
+						<button type="button" class="btn btn-default">0.0001</button>
+						<button type="button" class="btn btn-default">0.001</button>
+						<button type="button" class="btn btn-default">0.01</button>
+					</div>
+					
+					<div id="d" class="btn-group" role="group" aria-label="D">
+  						<button type="button" class="btn btn-label">D</button>
+						<button type="button" class="btn btn-default">4</button>
+					</div>
+					
+					<div id="f" class="btn-group" role="group" aria-label="F">
+  						<button type="button" class="btn btn-label">F</button>
+						<button type="button" class="btn btn-default">0.8</button>
+					</div>
+					
+					<div id="abs" class="btn-group" role="group" aria-label="F">
+  						<button type="button" class="btn btn-default" data-value="abs">abs</button>
+						<button type="button" class="btn btn-default" data-value="rel">rel</button>
+					</div>
+					
+					
+					
+				</div>
+			</div>
+			
 			<div class="col-xs-12">
 					<span id="s" class="button">
 						<div class="label">S</div>
