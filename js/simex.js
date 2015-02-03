@@ -2,10 +2,10 @@
 // get default values from html
 var values = {};
 
-values.s = parseFloat($("#s label.active span").html());
-values.r = parseFloat($("#r label.active span").html());
-values.d = parseFloat($("#d label.active span").html());
-values.f = parseFloat($("#f label.active span").html());
+values.s = parseFloat($("#s .btn.active span").html());
+values.r = parseFloat($("#r .btn.active span").html());
+values.d = parseFloat($("#d .btn.active span").html());
+values.f = parseFloat($("#f .btn.active span").html());
 
 var details = [];
 var selected = [false, false, false, false, false];
@@ -46,38 +46,49 @@ var setLabel = function(id, val) {
 
 
 // buttons
-$(".button#r a, .button#s a").on('click', function(e) {
+$("#r .btn.btn-default, #s .btn.btn-default").on('click', function(e) {
 	e.preventDefault();
-	var id = $(this).parent().attr('id');
-	var value = parseFloat($(this).html());
-	
-	$(this).siblings().removeClass("selected");
-	$(this).addClass("selected");
+	var id = $(this).parent().attr('id')
+	var value = parseFloat( $(this).find("span").html() );
 	values[id] = value;
 	setLabel(id, value);
 	update();	
 });
 
-
-
-$("label.btn-default").on('click', function(e) {
+// f,d dropdown
+$("#f .dropdown-menu > li > a").on('click', function(e) {
 	e.preventDefault();
-	console.log("sss");
+	var id = "f";
+	var value = parseFloat( $(this).html() );
+	$("#f .dropdown-toggle span").first().html(value); 		// update button
+	values[id] = value;
+	setLabel(id, value);
+	updateIndicators();
+	updateImages();
 });
+
+$("#d .dropdown-menu > li > a").on('click', function(e) {
+	e.preventDefault();
+	var id = "d";
+	var value = parseFloat( $(this).html() );
+	$("#d .dropdown-toggle span").first().html(value);		// update button
+	
+	values[id] = value;
+	setLabel(id, value);
+	updateIndicators();
+	updateImages();
+});
+
 
 
 
 // scale
-$(".button#abs a").on('click', function(e) {
-	e.preventDefault();
-	var v = $(this).data().value;
+$("#abs .btn.btn-default").on('click', function(e) {	
+	var v = $(this).children("input").val()
 	if (v==="rel") settings.relative = true;
 	if (v==="abs") settings.relative = false;
-	$(this).siblings().removeClass("selected");
-	$(this).addClass("selected");
 	update();
 });
-
 
 
 var data; // a global
@@ -332,7 +343,9 @@ var rectOver= function(d,x,y) {
 
 var rectDown= function(d,x,y) {
 	mouseDown = true;
-	updateIndicators(x,y);
+	values.f = map.f.i(x);
+	values.d = map.d.i(y);
+	updateIndicators();
 }
 var generalMouseUp= function() {
 	mouseDown = false;
@@ -349,7 +362,9 @@ var rectOut= function(d,x,y) {
 
 var rectMove= function(d,x,y) {
 	if (mouseDown) {
-		updateIndicators(x,y);
+		values.f = map.f.i(x);
+		values.d = map.d.i(y);
+		updateIndicators();
 		updateImages();
 	}
 }
@@ -395,12 +410,11 @@ var updateImages = function() {
 
 
 
-var updateIndicators = function(x,y) {
-	values.f = map.f.i(x);
-	values.d = map.d.i(y);
-	console.log("x:", x, "f:", values.f, ",  y:", y, "d:", values.d);
-	$("#f > a").html(values.f);
-	$("#d > a").html(values.d);
+var updateIndicators = function() {
+	var x = map.f.value(values.f);
+	var y = map.d.value(values.d);
+	$("#f .dropdown-toggle span").first().html(values.f); 	// bind button
+	$("#d .dropdown-toggle span").first().html(values.d);
 	var f = (settings.boxWidth+settings.boxSpacing)*(x);
 	var d = (settings.boxHeight+settings.boxSpacing)*(9-y);
 	d3.selectAll(".f-indicator").attr('x', f);
