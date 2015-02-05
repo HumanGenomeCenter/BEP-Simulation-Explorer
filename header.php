@@ -4,7 +4,7 @@ if (!isset($path)) $path = "./";
 
 echo "<!--";
 
-
+print_r($_SERVER['REQUEST_URI']);
 
 $uri = explode("/", trim($_SERVER['REQUEST_URI'], "/"));
 
