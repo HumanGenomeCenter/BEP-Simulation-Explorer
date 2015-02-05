@@ -30,4 +30,11 @@ include("../header.php");
 	</div>
 </div>
 
-<?php include("../footer.php"); ?>
+<?php 
+
+$addlJS = '<script src="'.$path.'js/detail.js"></script>'."\n";
+$addlJS .= '<script src="'.$path.'js/overview.js"></script>'."\n";
+$addlJS .= '<script src="'.$path.'js/ui.js"></script>'."\n";
+$addlJS .= '<script src="'.$path.'js/simex.js"></script>'."\n";
+
+include("../footer.php"); ?>
