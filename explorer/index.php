@@ -1,233 +1,9 @@
-<!DOCTYPE html>
-<head>
-	<meta charset="utf-8">
-	<title>BEP Simulation Explorer</title>
-	<link rel="stylesheet" href="css/bootstrap.min.css" charset="utf-8">
-	<link rel="stylesheet" href="css/font-awesome.min.css" type='text/css'>		
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800' rel='stylesheet' type='text/css'>
-	
-	<style type="text/css" media="screen">
-	body {
-		font-family: 'Open Sans', sans-serif;
-		background: #eeeeee;
-		margin: 0 auto;
-		
-		-webkit-touch-callout: none;
-	    -webkit-user-select: none;
-	    -khtml-user-select: none;
-	    -moz-user-select: none;
-	    -ms-user-select: none;
-	    user-select: none;
-		
-		
-	}
-	a, a:hover, a:active, a:selected {
-		text-decoration: none;
-		color: #428bca;
-	}
-	h1 {
-		font-family: 'Open Sans', sans-serif;
-		font-weight: 300;
-		font-size: 4em;
-		color: #999;
-	}
-	.container {
-	 /* margin: 0 auto; */
-	  width: 990px !important;
-	}
-	.page-header {
-		text-align: center;
-	}
-	
-
-	
-	#details {
-		margin-top: 20px;
-	}
-	
-	/*
-	#details svg {
-		 background: #fff;
-	}
-	*/
-	
-	g.boxes {
-		fill: green;
-	}
-
-	.button a, .button .label {
-		font-size: 14px;
-		border-radius: 25px;
-		width: 50px;
-		height: 50px;
-		line-height: 50px; 	/* some as parent height, https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align*/
-		padding: 0;
-		display: inline-block;
-		text-align: center;
-		vertical-align: middle;
-		text-decoration: none;
-		transition: background 0.3s linear;
-	    -moz-transition: background 0.3s linear; /* Firefox 4 */
-	    -webkit-transition: background 0.3s linear; /* Safari and Chrome */
-	}
-	
-	/* Buttons */
-	
-	
-	
-	.btn-default, .btn-default:hover, .btn-default:active, .open .dropdown-toggle.btn-default {
-		color: #428bca;
-		border: 1px #fff solid;
-		font-weight: 100;
-		border-radius: 10px;
-		border-left: 1px #eee solid;
-		box-shadow: none;
-	}
-	
-	#f .dropdown-toggle, #d .dropdown-toggle{
-		min-width: 55px;
-	}
-	
-	#s .btn-default, #r .btn-default {
-		min-width: 50px;
-	}
-	#f .btn-default {
-		min-width: 70px;
-	}
-	
-	.btn-default:hover, .btn-default:active {
-		background: #f6f6f6;
-		color: #428bca;
-	}
-	
-	
-	.btn-default.active {
-		background: #f6f6f6;
-		color: #428bca;
-		border: 1px #fff solid;
-		font-weight: 700;
-		box-shadow: none;
-	}
-	
-	.btn-default > span {
-	}
-	
-	
-	.btn-label, .btn-label:hover, .btn-label:active, .btn-label.active  {
-		color: #428bca;;
-		background: none;
-		font-weight: 700;
-		border-radius: 10px;
-		border: 1px #fff solid;
-		box-shadow: none;
-	}
-	 
-	/* #f, #d */
-	.dropdown-menu > li > a {
-		color: #428bca;
-		background: #fff;
-	}
-	
-	.dropdown-menu > li > a:hover {
-		color: #428bca;
-		background: #f6f6f6;
-	}
-	
-	.dropdown-menu, .dropdown-menu li {
-		min-width: 20px;
-	}
-
-	
-	.axis path,
-	.axis line {
-	  fill: none;
-	  stroke: #666;
-	}
-	
-	.axis text {
-		font-size: 10px;
-		fill: #666;
-	}
-	
-	img {
-		width: 100%;
-	}
-	.results {
-		margin-top: 10px;
-		margin-bottom: 50px;
-	}
-	
-	.results a {
-		text-decoration: none;
-	}
-	
-	.results > div {
-		margin-left: 28px;
-		padding: 0px;
-	}
-	
-	.results img {
-		width: 45%;
-		display: inline;
-	}
+<?php 
+$path = "../";
+include("../header.php");
+?>
 
 
-	.line {
-		height: 4px;
-		width: 100%;
-		background: #fff;
-		margin-top: 8px;
-	}
-	
-	.details {
-		display: none;
-	}
-
-	.details img {
-		width: 100%;
-	}
-	
-	.caption, .values {
-		text-align: center;
-	}
-	
-	.caption {
-		margin-bottom: 30px;
-	}
-	
-	.tab-pane {
-		margin-top: 30px;
-	}
-	
-	/* svg */
-	
-	.tick line, .tick text {
-		
-		stroke: #999;
-		font-family: 'Open Sans', sans-serif;
-		font-weight: 100;
-	}
-	.indicators rect {
-		fill: #999;
-	}
-	
-	.legend circle {
-		fill: #ccc;
-	}
-	.legend text {
-		font-size: 12px;
-		fill: #eee;
-	}
-	
-
-	
-</style>
-	
-</head>
-
-<body>
-	
-<div class="container">
 	<div class="page-header">
 	  <h1>B.E.P</h1>
 	</div>
@@ -363,36 +139,36 @@
 			<div class="row results">
 				<div class="col-xs-2">
 					<a href="#" data-id="0">
-						<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_0.tumor.png">
-						<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_0.mutprof.png">
+						<img class="tumor" src="../results/s0.01_r0.0001/d5_f0.8_0.tumor.png">
+						<img class="mutprof" src="../results/s0.01_r0.0001/d5_f0.8_0.mutprof.png">
 					</a>
 					<div class="line"></div>
 				</div>
 				<div class="col-xs-2">
 					<a href="#" data-id="1">
-						<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_1.tumor.png">
-						<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_1.mutprof.png">
+						<img class="tumor" src="../results/s0.01_r0.0001/d5_f0.8_1.tumor.png">
+						<img class="mutprof" src="../results/s0.01_r0.0001/d5_f0.8_1.mutprof.png">
 					</a>
 					<div class="line"></div>
 				</div>
 				<div class="col-xs-2">
 					<a href="#" data-id="2">
-						<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_2.tumor.png">
-						<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_2.mutprof.png">
+						<img class="tumor" src="../results/s0.01_r0.0001/d5_f0.8_2.tumor.png">
+						<img class="mutprof" src="../results/s0.01_r0.0001/d5_f0.8_2.mutprof.png">
 					</a>
 					<div class="line"></div>
 				</div>
 				<div class="col-xs-2">
 					<a href="#" data-id="3">
-						<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_3.tumor.png">
-						<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_3.mutprof.png">
+						<img class="tumor" src="../results/s0.01_r0.0001/d5_f0.8_3.tumor.png">
+						<img class="mutprof" src="../results/s0.01_r0.0001/d5_f0.8_3.mutprof.png">
 					</a>
 					<div class="line"></div>
 				</div>
 				<div class="col-xs-2">
 					<a href="#" data-id="4">
-						<img class="tumor" src="results/s0.01_r0.0001/d5_f0.8_4.tumor.png">
-						<img class="mutprof" src="results/s0.01_r0.0001/d5_f0.8_4.mutprof.png">
+						<img class="tumor" src="../results/s0.01_r0.0001/d5_f0.8_4.tumor.png">
+						<img class="mutprof" src="../results/s0.01_r0.0001/d5_f0.8_4.mutprof.png">
 					</a>
 					<div class="line"></div>
 				</div>
@@ -404,10 +180,10 @@
 		
 		<div class="row mutprof">
 			<div class="col-xs-6">
-				<img src='results/s0.01_r0.0001/d4_f0.8_1.mutprof.png'>
+				<img src='../results/s0.01_r0.0001/d4_f0.8_1.mutprof.png'>
 			</div>
 			<div class="col-xs-6">
-				<img src='results/s0.01_r0.0001/d4_f0.8_1.mutprof.png'>
+				<img src='../results/s0.01_r0.0001/d4_f0.8_1.mutprof.png'>
 			</div>
 		</div>
 		
@@ -421,7 +197,7 @@
 	
 		<div class="row tumor">
 			<figure>
-				<img src='results/s0.01_r0.0001/d5_f0.8_2.tumor.png'>
+				<img src='../results/s0.01_r0.0001/d5_f0.8_2.tumor.png'>
 			</figure>
 		</div>
 		
@@ -434,7 +210,7 @@
 
 		<div class="row pc">
 			<figure>
-				<img src='results/s0.01_r0.0001/d5_f0.8_2.pc.png'>
+				<img src='../results/s0.01_r0.0001/d5_f0.8_2.pc.png'>
 			</figure>
 		</div>
 
@@ -449,7 +225,7 @@
 	
 		<div class="row selfsim">
 			<figure>
-				<img src='results/s0.01_r0.0001/d5_f0.8_2.selfsim.png'>
+				<img src='../results/s0.01_r0.0001/d5_f0.8_2.selfsim.png'>
 			</figure>
 		</div>
 	
@@ -465,7 +241,7 @@
 
 		<div class="row cellsim">
 			<figure>
-				<img src='results/s0.01_r0.0001/d5_f0.8_2.cellsim.png'>
+				<img src='../results/s0.01_r0.0001/d5_f0.8_2.cellsim.png'>
 			</figure>
 		</div>
 	
@@ -478,7 +254,7 @@
 	
 		<div class="row alfrq">
 			<figure>
-				<img src='results/s0.01_r0.0001/d5_f0.8_2.alfrq.png'>
+				<img src='../results/s0.01_r0.0001/d5_f0.8_2.alfrq.png'>
 			</figure>
 		</div>
 	
@@ -505,7 +281,7 @@
 		
 		<div class="row">
 			<div class="col-xs-12">
-				<img src="results/heatmap/founderMutationCount.jpg">
+				<img src="../results/heatmap/founderMutationCount.jpg">
 			</div>
 		</div>
 		
@@ -523,14 +299,14 @@
 <br />
 <br />
 
-<script src="js/d3.min.js"></script>
-<script src="js/jquery-2.0.3.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="../js/d3.min.js"></script>
+<script src="../js/jquery-2.0.3.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 
-<script src="js/detail.js"></script>
-<script src="js/overview.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/simex.js"></script>
+<script src="../js/detail.js"></script>
+<script src="../js/overview.js"></script>
+<script src="../js/ui.js"></script>
+<script src="../js/simex.js"></script>
 
 </body>
 </html>

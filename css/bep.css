@@ -1,0 +1,214 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	background: #eeeeee;
+	margin: 0 auto;
+	
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+	
+	
+}
+a, a:hover, a:active, a:selected {
+	text-decoration: none;
+	color: #428bca;
+}
+h1 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	font-size: 5em;
+	color: #999;
+}
+.container {
+ /* margin: 0 auto; */
+  width: 990px !important;
+}
+.page-header {
+	text-align: center;
+}
+
+
+
+#details {
+	margin-top: 20px;
+}
+
+/*
+#details svg {
+	 background: #fff;
+}
+*/
+
+g.boxes {
+	fill: green;
+}
+
+.button a, .button .label {
+	font-size: 14px;
+	border-radius: 25px;
+	width: 50px;
+	height: 50px;
+	line-height: 50px; 	/* some as parent height, https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align*/
+	padding: 0;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	transition: background 0.3s linear;
+    -moz-transition: background 0.3s linear; /* Firefox 4 */
+    -webkit-transition: background 0.3s linear; /* Safari and Chrome */
+}
+
+/* Buttons */
+
+
+
+.btn-default, .btn-default:hover, .btn-default:active, .open .dropdown-toggle.btn-default {
+	color: #428bca;
+	border: 1px #fff solid;
+	font-weight: 100;
+	border-radius: 10px;
+	border-left: 1px #eee solid;
+	box-shadow: none;
+}
+
+#f .dropdown-toggle, #d .dropdown-toggle{
+	min-width: 55px;
+}
+
+#s .btn-default, #r .btn-default {
+	min-width: 50px;
+}
+#f .btn-default {
+	min-width: 70px;
+}
+
+.btn-default:hover, .btn-default:active {
+	background: #f6f6f6;
+	color: #428bca;
+}
+
+
+.btn-default.active {
+	background: #f6f6f6;
+	color: #428bca;
+	border: 1px #fff solid;
+	font-weight: 700;
+	box-shadow: none;
+}
+
+.btn-default > span {
+}
+
+
+.btn-label, .btn-label:hover, .btn-label:active, .btn-label.active  {
+	color: #428bca;;
+	background: none;
+	font-weight: 700;
+	border-radius: 10px;
+	border: 1px #fff solid;
+	box-shadow: none;
+}
+ 
+/* #f, #d */
+.dropdown-menu > li > a {
+	color: #428bca;
+	background: #fff;
+}
+
+.dropdown-menu > li > a:hover {
+	color: #428bca;
+	background: #f6f6f6;
+}
+
+.dropdown-menu, .dropdown-menu li {
+	min-width: 20px;
+}
+
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #666;
+}
+
+.axis text {
+	font-size: 10px;
+	fill: #666;
+}
+
+img {
+	width: 100%;
+}
+.results {
+	margin-top: 10px;
+	margin-bottom: 50px;
+}
+
+.results a {
+	text-decoration: none;
+}
+
+.results > div {
+	margin-left: 28px;
+	padding: 0px;
+}
+
+.results img {
+	width: 45%;
+	display: inline;
+}
+
+
+.line {
+	height: 4px;
+	width: 100%;
+	background: #fff;
+	margin-top: 8px;
+}
+
+.details {
+	display: none;
+}
+
+.details img {
+	width: 100%;
+}
+
+.caption, .values {
+	text-align: center;
+}
+
+.caption {
+	margin-bottom: 30px;
+}
+
+.tab-pane {
+	margin-top: 30px;
+}
+
+/* svg */
+
+.tick line, .tick text {
+	
+	stroke: #999;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 100;
+}
+.indicators rect {
+	fill: #999;
+}
+
+.legend circle {
+	fill: #ccc;
+}
+.legend text {
+	font-size: 12px;
+	fill: #eee;
+}
+
+
+	

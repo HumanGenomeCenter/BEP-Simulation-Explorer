@@ -26,7 +26,7 @@ settings.boxSpacing = 1;
 var data = {};
 
 $(document).ready(function() {
-	d3.json("data/stat.json", function(error, json) {
+	d3.json("../data/stat.json", function(error, json) {
 		if (error) return console.warn(error);
 		data = json;
 		initDetails();
@@ -205,7 +205,7 @@ var updateImages = function() {
 	
 	
 	details = [];
-	var baseurl = "results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
+	var baseurl = "../results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
 	
 	d3.selectAll("img.tumor")
 		.data([0,1,2,3,4])
@@ -381,7 +381,7 @@ var addColumns = function(s, w) {
 	$(".row.values").html( h.html() );	// get html content
 
 
-	var baseurl = "results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
+	var baseurl = "../results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
 	
 	selectedData = []
 	selected.forEach(function(d, i){
