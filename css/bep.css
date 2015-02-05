@@ -1,6 +1,6 @@
 body {
 	font-family: 'Open Sans', sans-serif;
-	background: #eeeeee;
+	background: #ffffff;
 	margin: 0 auto;
 	
 	-webkit-touch-callout: none;
@@ -28,6 +28,7 @@ h1 {
 }
 .page-header {
 	text-align: center;
+	border: none;
 }
 
 
@@ -64,15 +65,14 @@ g.boxes {
 
 /* Buttons */
 
-
-
 .btn-default, .btn-default:hover, .btn-default:active, .open .dropdown-toggle.btn-default {
 	color: #428bca;
 	border: 1px #fff solid;
 	font-weight: 100;
 	border-radius: 10px;
-	border-left: 1px #eee solid;
+	border: 1px #e7e7e7 solid;
 	box-shadow: none;
+	background: #f6f6f6;
 }
 
 #f .dropdown-toggle, #d .dropdown-toggle{
@@ -87,15 +87,15 @@ g.boxes {
 }
 
 .btn-default:hover, .btn-default:active {
-	background: #f6f6f6;
+	background: #e7e7e7;
 	color: #428bca;
 }
 
 
 .btn-default.active {
-	background: #f6f6f6;
+	background: #e7e7e7;
 	color: #428bca;
-	border: 1px #fff solid;
+	border: 1px #e7e7e7 solid;
 	font-weight: 700;
 	box-shadow: none;
 }
@@ -109,8 +109,9 @@ g.boxes {
 	background: none;
 	font-weight: 700;
 	border-radius: 10px;
-	border: 1px #fff solid;
+	border: 1px #e7e7e7 solid;
 	box-shadow: none;
+	background: #fff;
 }
  
 /* #f, #d */
@@ -210,5 +211,8 @@ img {
 	fill: #eee;
 }
 
+.tab-content .selection {
+	margin-bottom: 30px;
+}
 
 	
