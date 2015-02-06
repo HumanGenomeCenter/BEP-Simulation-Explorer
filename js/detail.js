@@ -181,7 +181,7 @@ var updateDisplay = function(x) {
 	// transitions
 	rect
 		.transition()
-		.duration(1000)
+		.duration(slowShift)
 		.attr('fill', function(d) { 
 			return bep[x].colorMap(d[x]);
 		})

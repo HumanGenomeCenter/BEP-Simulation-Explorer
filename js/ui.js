@@ -51,3 +51,20 @@ $("#abs .btn.btn-default").on('click', function(e) {
 	if (v==="abs") settings.relative = false;
 	update();
 });
+
+
+// Checking for shift key down
+var shiftKey = false;
+$(window).on("keydown", function(e) {
+	shiftKey = e.shiftKey;
+});
+
+$(window).on("keyup", function(e) {
+	shiftKey = e.shiftKey
+});
+
+var slowShift = function() {
+	if (shiftKey) return 3000;
+	return 1000;
+}
+		
