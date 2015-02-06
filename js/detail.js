@@ -174,17 +174,22 @@ var updateDisplay = function(x) {
 			return 'translate(0,' + (rh + p) * (9-i) + ')';
 		});
 	
-	
+	// re-bind data
 	var rect = grp.selectAll('rect')
-		.data(function(d) { return d; });		// re-bind data
+		.data(function(d) { return d; });	
 		
+	// transitions
 	rect
 		.transition()
 		.duration(1000)
 		.attr('fill', function(d) { 
-			if (d[x]===0) return '#dddddd';
 			return bep[x].colorMap(d[x]);
-		});
+		})
+		.attr('opacity', function(d) { 
+			if (d[x]===0) return 0;
+			return 1;
+		})
+		
 	
 		
 	
@@ -197,9 +202,14 @@ var updateDisplay = function(x) {
 			.attr('width', rw)
 			.attr('height', rh)
 			.attr('fill', function(d) {
-				if (d[x]===0) return '#dddddd';
+				//if (d[x]===0) return '#dddddd';
 				return bep[x].colorMap(d[x]);
 			})
+			.attr('opacity', function(d) { 
+				if (d[x]===0) return 0;
+				return 1;
+			})
+			
 //			.on("mouseover", function(d,x,y) {
 //					console.log("over", x,y);
 //				})
