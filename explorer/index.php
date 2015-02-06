@@ -21,12 +21,12 @@ include("../header.php");
 <!-- Tab panes -->
 <div class="tab-content">
 	<div role="tabpanel" class="tab-pane active" id="home">
-	<?php include("detail.php"); ?>
+<?php include("detail.php"); ?>
 	</div>
 
 	<!-- Tab Overview -->
 	<div role="tabpanel" class="tab-pane" id="profile">
-		<?php include("overview.php"); ?>
+<?php include("overview.php"); ?>
 	</div>
 </div>
 

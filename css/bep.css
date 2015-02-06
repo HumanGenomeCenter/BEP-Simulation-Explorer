@@ -33,6 +33,32 @@ h1 {
 
 
 
+.populationEntropy > span {
+	border-bottom: 2px solid #FF0000;
+}
+
+.founderMutationCount > span {
+	border-bottom: 2px solid #0000FF;
+}
+
+.averageMutationCount > span {
+	border-bottom: 2px solid #00CD00;
+}
+
+.populationFitness > span {
+	border-bottom: 2px solid #EEEE00;
+}
+
+.growthTime > span {
+	border-bottom: 2px solid #A020F0;
+}
+
+.selfSimilarity > span {
+	border-bottom: 2px solid #FFA500;
+}
+					
+					
+
 #details {
 	margin-top: 20px;
 }

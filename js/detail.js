@@ -1,4 +1,8 @@
 
+var g = {};
+var srMatrix;
+var mouseDown = false;
+
 var initDetails = function() {
 	
 	var width = 960, height = 380;
@@ -7,11 +11,10 @@ var initDetails = function() {
 			.attr('width', width)
 			.attr('height', height);
 			
-	d3.select('body').on("mouseup", generalMouseUp);		// general mouseup handler
-	
+	d3.select('body').on("mouseup", function() { mouseDown = false; });		// general mouseup handler
 	
 	// helper function to add indicators
-	var addLegend = function(x) {
+	var initScales = function(x) {
 
 		var indicators = x.append('g').attr('class', 'indicators');
 		var thickness = 6;
@@ -90,39 +93,140 @@ var initDetails = function() {
 			.attr('class', 'ε')
 			.attr('transform', 'translate(45,0)');
 	g.ε.append('g').attr('class', 'boxes');
-	addLegend(g.ε);
+	initScales(g.ε);
 	
 	g.μ = svg.append('g')
 		.attr('class', 'μ')
 		.attr('transform', 'translate(375,0)');
 	g.μ.append('g').attr('class', 'boxes');
-	addLegend(g.μ);
+	initScales(g.μ);
 	
 	g.τ = svg.append('g')
 		.attr('class', 'τ')
 		.attr('transform', 'translate(695,0)');
 	g.τ.append('g').attr('class', 'boxes');
-	addLegend(g.τ);
+	initScales(g.τ);
 	
 	g.ρ = svg.append('g')
 		.attr('class', 'ρ')
 		.attr('transform', 'translate(45,180)');
 	g.ρ.append('g').attr('class', 'boxes');
-	addLegend(g.ρ);
+	initScales(g.ρ);
 	
 	g.λ = svg.append('g')
 		.attr('class', 'λ')
 		.attr('transform', 'translate(375,180)');
 	g.λ.append('g').attr('class', 'boxes');
-	addLegend(g.λ);
+	initScales(g.λ);
 	
 	g.θ = svg.append('g')
 		.attr('class', 'θ')
 		.attr('transform', 'translate(695,180)');
 	g.θ.append('g').attr('class', 'boxes');
-	addLegend(g.θ);
+	initScales(g.θ);
 	
 	
 	update();
 }
+
+
+
+
+var update = function() {
+	
+	srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];
+	
+	// get data
+	
+	// find higest & lowest values
+	if (settings.relative) {
+		updateLimits(srMatrix);
+	} else {
+		getLimits();		// cache
+	}
+	
+	updateDisplay('ε');
+	updateDisplay('μ');
+	updateDisplay('τ');
+	updateDisplay('ρ');
+	updateDisplay('λ');
+	updateDisplay('θ');
+	
+	updateImages();
+}
+
+
+
+var updateDisplay = function(x) {
+
+	var rw = settings.boxWidth;
+	var rh = settings.boxHeight;
+	var p = settings.boxSpacing;
+	// join
+
+	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
+	grp = boxes.selectAll('g')
+		.data(srMatrix);
+	
+	grp.enter()
+		.append('g')
+		.attr('transform', function(d, i) {
+			return 'translate(0,' + (rh + p) * (9-i) + ')';
+		});
+	
+	
+	var rect = grp.selectAll('rect')
+		.data(function(d) { return d; })
+		.attr('fill', function(d) { 
+			if (d[x]===0) return "transparent";
+			return bep[x].colorMap(d[x]);
+		});
+	
+		
+	
+		
+	rect.enter()
+		.append('rect')
+			.attr('x', function(d, i) { 
+				return (rw + p) * i; 
+			})
+			.attr('width', rw)
+			.attr('height', rh)
+			.attr('fill', function(d) {
+				if (d[x]===0) {
+					return "transparent";
+				}
+				return bep[x].colorMap(d[x]);
+			})
+//			.on("mouseover", function(d,x,y) {
+//					console.log("over", x,y);
+//				})
+			.on("mousedown", function(d,x,y) {
+				mouseDown = true;
+				values.f = map.f.i(x);
+				values.d = map.d.i(y);
+				updateIndicators();
+			})
+			.on("mouseup", function() {
+				updateImages();
+			})
+			.on("mousemove", function(d,x,y) {
+				if (mouseDown) {
+					values.f = map.f.i(x);
+					values.d = map.d.i(y);
+					updateIndicators();
+					updateImages();
+				}
+			});
+}
+
+
+
+
+
+
+
+
+
+
 
