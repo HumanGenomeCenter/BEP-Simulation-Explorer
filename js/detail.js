@@ -176,9 +176,13 @@ var updateDisplay = function(x) {
 	
 	
 	var rect = grp.selectAll('rect')
-		.data(function(d) { return d; })
+		.data(function(d) { return d; });		// re-bind data
+		
+	rect
+		.transition()
+		.duration(1000)
 		.attr('fill', function(d) { 
-			if (d[x]===0) return "transparent";
+			if (d[x]===0) return '#dddddd';
 			return bep[x].colorMap(d[x]);
 		});
 	
@@ -193,9 +197,7 @@ var updateDisplay = function(x) {
 			.attr('width', rw)
 			.attr('height', rh)
 			.attr('fill', function(d) {
-				if (d[x]===0) {
-					return "transparent";
-				}
+				if (d[x]===0) return '#dddddd';
 				return bep[x].colorMap(d[x]);
 			})
 //			.on("mouseover", function(d,x,y) {
