@@ -11,8 +11,7 @@ var initDetails = function() {
 			.attr('width', width)
 			.attr('height', height);
 			
-	d3.select('body').on("mouseup", function() { mouseDown = false; });		// general mouseup handler
-		
+			
 	fields.forEach(function(d, i) {
 		var x = 45 + (i%3)*320;
 		var y = (i<3) ? 0 : 180;
@@ -23,25 +22,21 @@ var initDetails = function() {
 		drawScales(g[d]);
 	});
 	
-	update();
-}
-
-
-
-
-var update = function() {
 	
 	
 	srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];
 	
-	getLimits(srMatrix);		// cache
+	getLimits(srMatrix);
 	
 	fields.forEach(function(d, i) {
 		updateDisplay(d);
 	});
 	
 	updateImages();
+	
 }
+
+
 
 
 
