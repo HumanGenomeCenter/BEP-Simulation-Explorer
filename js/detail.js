@@ -31,18 +31,14 @@ var initDetails = function() {
 
 var update = function() {
 	
-	// get data
+	
 	srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];
 	
-
-	getLimits();		// cache
-	
+	getLimits(srMatrix);		// cache
 	
 	fields.forEach(function(d, i) {
 		updateDisplay(d);
 	});
-	
-	updateDisplay.call(null,fields);
 	
 	updateImages();
 }

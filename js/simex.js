@@ -143,42 +143,30 @@ var updateIndicators = function() {
 
 
 
-var updateLimits = function(matrix) {
-	var linear = [];
-	matrix.map(function(d) { 
-		d.map(function(f) { 
-			linear.push(f);
-		})
-	});
-	for (var key in bep) {
-		if (bep.hasOwnProperty(key)) {
-			var min = d3.min(linear, function(d) {return d[key]});
-			var max = d3.max(linear, function(d) {return d[key]});
-			bep[key].range = [min, max]; 
-			bep[key].colorMap.domain([min, max]);
-		}
-	}
-}
-
 // get Limits. interate over data, get [min, max] of all types
 var getLimits = function(matrix) {
+	// add caching layer
+	var linear = [];
 	
 	// find higest & lowest values
 	if (settings.relative) {
-		updateLimits(srMatrix);
-		return;
-	} 
-	
-	var linear = [];
-	data.map(function(d) { 
-		d.map(function(f) { 
-			f.map(function(g) {
-				g.map(function(h) { 
-					linear.push(h);
-				}) 
+		matrix.map(function(d) { 		// passed-in
+			d.map(function(f) { 
+				linear.push(f);
 			})
-		})
-	});
+		});
+	} else {
+		data.map(function(d) { 			// global
+			d.map(function(f) { 
+				f.map(function(g) {
+					g.map(function(h) { 
+						linear.push(h);
+					}) 
+				})
+			})
+		});
+	}
+
 	for (var key in bep) {
 		if (bep.hasOwnProperty(key)) {
 			var min = d3.min(linear, function(d) {return d[key]});
@@ -188,6 +176,9 @@ var getLimits = function(matrix) {
 		}
 	}	
 }
+
+
+
 
 
 // Tumor, Mutprof Interaction
