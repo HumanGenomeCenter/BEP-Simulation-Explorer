@@ -16,6 +16,8 @@ bep.λ = {};
 bep.τ = {};
 bep.θ = {};
 
+var fields = ['ε', 'μ', 'τ', 'ρ', 'λ', 'θ'];
+
 var settings = {};
 settings.relative = true;
 settings.boxWidth = 8;
@@ -160,6 +162,13 @@ var updateLimits = function(matrix) {
 
 // get Limits. interate over data, get [min, max] of all types
 var getLimits = function(matrix) {
+	
+	// find higest & lowest values
+	if (settings.relative) {
+		updateLimits(srMatrix);
+		return;
+	} 
+	
 	var linear = [];
 	data.map(function(d) { 
 		d.map(function(f) { 
@@ -330,6 +339,80 @@ var addColumns = function(s, w) {
 	
 	//
 }
+
+
+
+// helper function to add indicators
+var drawScales = function(x) {
+
+	var indicators = x.append('g').attr('class', 'indicators');
+	var thickness = 6;
+	var spacing = 3;
+	
+	// vertical
+	indicators.append('rect')
+		.attr('class','d-indicator')
+		.attr('x', -thickness-spacing)
+		.attr('y', (settings.boxHeight+settings.boxSpacing)*(map.d.value(values.d)))
+		.attr('width', thickness)
+		.attr('height', settings.boxHeight);
+
+	// horizontal
+	indicators.append('rect')
+		.attr('class','f-indicator')
+		.attr('x', (settings.boxWidth+settings.boxSpacing)*(map.f.value(values.f)))
+		.attr('y', 132)
+		.attr('width', settings.boxWidth)
+		.attr('height', thickness);
+		
+		
+	// axis
+	var fAxis = d3.svg.axis()
+		.orient('left')
+		.scale(d3.scale.linear().domain([1,10]).range([117,0]))
+		.ticks(10)
+
+	xAxis = x.append('g')
+		.attr('class', 'f-axis axis')
+		.attr('transform', 'translate(-3,6)')
+		.call(fAxis);
+		
+	var dAxis = d3.svg.axis()
+		.orient('bottom')
+		.scale(d3.scale.linear().domain([0.1,1.5]).range([0,251]))
+		.ticks(10)
+
+	yAxis = x.append('g')
+		.attr('class', 'd-axis axis')
+		.attr('transform', 'translate(4.5,132)')
+		.call(dAxis);
+			
+	// legend
+	var dLegend = x.append('g')
+		.attr('class', 'legend')
+		.attr('transform', 'translate(-37,69)');
+		
+	dLegend.append('circle')
+		.attr('cx', '5')
+		.attr('cy', '-4')
+		.attr('r', '8');
+
+	dLegend.append('text')
+		.text("d");
+
+	var fLegend = x.append('g')
+		.attr('class', 'legend')
+		.attr('transform', 'translate(129,163)');
+		
+	fLegend.append('circle')
+		.attr('cx', '2')
+		.attr('cy', '-4')
+		.attr('r', '8');
+
+	fLegend.append('text')
+		.text("f");		
+}
+
 
 
 
