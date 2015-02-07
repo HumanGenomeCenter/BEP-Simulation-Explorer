@@ -22,21 +22,25 @@ var initDetails = function() {
 		drawScales(g[d]);
 	});
 	
+	update();
 	
+}
+
+
+
+
+var update = function() {
 	
 	srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];
 	
-	getLimits(srMatrix);
+	getLimits(srMatrix);		// cache
 	
 	fields.forEach(function(d, i) {
 		updateDisplay(d);
 	});
 	
 	updateImages();
-	
 }
-
-
 
 
 
