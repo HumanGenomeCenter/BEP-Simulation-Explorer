@@ -7,7 +7,7 @@ var initOverview = function() {
 			.attr('width', width)
 			.attr('height', height);
 			
-	d3.select('body').on("mouseup", function() { mouseDown = false; });		// general mouseup handler
+	//d3.select('body').on("mouseup", function() { mouseDown = false; });		// general mouseup handler
 	
 	console.log(svg);
 }

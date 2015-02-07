@@ -28,6 +28,9 @@ settings.boxSpacing = 1;
 var data = {};
 
 $(document).ready(function() {
+	
+	d3.select('body').on("mouseup", function() { mouseDown = false; });		// general mouseup handler
+	
 	d3.json("../data/stat.json", function(error, json) {
 		if (error) return console.warn(error);
 		data = json;
@@ -35,6 +38,8 @@ $(document).ready(function() {
 		initOverview();
 	});
 });
+
+
 	
 
 // Scales to access array data & deal with JS error
