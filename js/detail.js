@@ -44,6 +44,7 @@ var update = function() {
 
 
 
+
 var updateDisplay = function(x) {
 
 	var rw = settings.boxWidth;
@@ -77,7 +78,6 @@ var updateDisplay = function(x) {
 			return 1;
 		})
 		
-	
 		
 	
 		
