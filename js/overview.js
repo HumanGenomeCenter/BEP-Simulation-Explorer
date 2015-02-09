@@ -1,4 +1,8 @@
 
+
+var f = ["a","b","c","d","e","f","g","h","i"];
+	
+	
 var initOverview = function() {
 	
 	var width = 960, height = 570;
@@ -8,7 +12,7 @@ var initOverview = function() {
 			.attr('height', height);
 	
 	
-	var f = ["a","b","c","d","e","f","g","h","i"];
+
 	f.forEach(function(d, i) {
 		var x = 45 + (i%3)*320;
 		var y = 0;
@@ -32,6 +36,96 @@ var initOverview = function() {
 
 var updateOverview = function() {
 	
+	// loop over S & R
+	var s = [0.01, 0.1, 1].reverse();		// reversed 
+	var r = [0.0001, 0.001, 0.01];
 	
+	// change data for each update
+	r.forEach(function(vr,i) {
+		s.forEach(function(vs,j) {
+			var matrix = data[map.s.value(vs)][map.r.value(vr)];
+			updateOverviewDisplay(f[i*3+j], matrix);
+		});
+	});
 	
+	//getLimits(srMatrix);		// cache
+	
+	// updateImages();
 }
+
+
+var updateOverviewDisplay = function(x, matrix) {
+
+	var c = 'ε';
+	console.log(x, matrix.length);
+
+	var rw = settings.boxWidth;
+	var rh = settings.boxHeight;
+	var p = settings.boxSpacing;
+	// join
+
+	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
+	grp = boxes.selectAll('g')
+		.data(matrix);
+	
+	grp.enter()
+		.append('g')
+		.attr('transform', function(d, i) {
+			return 'translate(0,' + (rh + p) * (9-i) + ')';
+		});
+	
+	// re-bind data
+	var rect = grp.selectAll('rect')
+		.data(function(d) { return d; });	
+		
+	// fading transitions
+	rect
+		.transition()
+		.duration(slowShift)
+		.attr('fill', function(d) { 
+			return bep[c].colorMap(d[c]);
+		})
+		.attr('opacity', function(d) { 
+			if (d[x]===0) return 0;
+			return 1;
+		});
+		
+	rect.enter()
+		.append('rect')
+			.attr('x', function(d, i) { 
+				return (rw + p) * i; 
+			})
+			.attr('width', rw)
+			.attr('height', rh)
+			.attr('fill', function(d) {
+				return bep[c].colorMap(d[c]);
+			})
+			.attr('opacity', function(d) { 
+				if (d[x]===0) return 0;
+				return 1;
+			})
+/*
+//			.on("mouseover", function(d,x,y) {
+//					console.log("over", x,y);
+//				})
+			.on("mousedown", function(d,x,y) {
+				mouseDown = true;
+				values.f = map.f.i(x);
+				values.d = map.d.i(y);
+				updateIndicators();
+			})
+			.on("mouseup", function() {
+				updateImages();
+			})
+			.on("mousemove", function(d,x,y) {
+				if (mouseDown) {
+					values.f = map.f.i(x);
+					values.d = map.d.i(y);
+					updateIndicators();
+					updateImages();
+				}
+			});
+	*/
+
+}
+
