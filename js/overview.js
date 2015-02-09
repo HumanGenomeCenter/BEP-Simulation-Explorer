@@ -1,7 +1,7 @@
 
 
 var f = ["a","b","c","d","e","f","g","h","i"];
-	
+var overviewMatrix = {};
 	
 var initOverview = function() {
 	
@@ -29,23 +29,27 @@ var initOverview = function() {
 		g[d].append('g').attr('class', 'boxes');
 		drawScales(g[d]);
 	});
-
-	updateOverview();
-	
-}
-
-var updateOverview = function() {
 	
 	// loop over S & R
 	var s = [0.01, 0.1, 1].reverse();		// reversed 
 	var r = [0.0001, 0.001, 0.01];
 	
-	// change data for each update
+	// prepare data
 	r.forEach(function(vr,i) {
 		s.forEach(function(vs,j) {
-			var matrix = data[map.s.value(vs)][map.r.value(vr)];
-			updateOverviewDisplay(f[i*3+j], matrix);
+			overviewMatrix[f[i*3+j]] = data[map.s.value(vs)][map.r.value(vr)];
 		});
+	});
+
+	updateOverview('ε');
+	
+}
+
+var updateOverview = function(value) {
+	
+	// change data for each update
+	f.forEach(function(d,i) {
+		updateOverviewDisplay(d, value);
 	});
 	
 	//getLimits(srMatrix);		// cache
@@ -54,10 +58,10 @@ var updateOverview = function() {
 }
 
 
-var updateOverviewDisplay = function(x, matrix) {
+var updateOverviewDisplay = function(x, value) {
 
-	var c = 'ε';
-	console.log(x, matrix.length);
+//	console.log(x);
+	var matrix = overviewMatrix[x];
 
 	var rw = settings.boxWidth;
 	var rh = settings.boxHeight;
@@ -83,7 +87,7 @@ var updateOverviewDisplay = function(x, matrix) {
 		.transition()
 		.duration(slowShift)
 		.attr('fill', function(d) { 
-			return bep[c].colorMap(d[c]);
+			return bep[value].colorMap(d[value]);
 		})
 		.attr('opacity', function(d) { 
 			if (d[x]===0) return 0;
@@ -98,7 +102,7 @@ var updateOverviewDisplay = function(x, matrix) {
 			.attr('width', rw)
 			.attr('height', rh)
 			.attr('fill', function(d) {
-				return bep[c].colorMap(d[c]);
+				return bep[value].colorMap(d[value]);
 			})
 			.attr('opacity', function(d) { 
 				if (d[x]===0) return 0;

@@ -52,7 +52,6 @@ $("#abs .btn.btn-default").on('click', function(e) {
 	update();
 });
 
-
 // Checking for shift key down
 var shiftKey = false;
 $(window).on("keydown", function(e) {
@@ -63,6 +62,28 @@ $(window).on("keyup", function(e) {
 	shiftKey = e.shiftKey
 });
 
+
+// Overview UI
+
+
+// buttons
+$(".selection-overview .btn.btn-default").on('click', function(e) {
+	e.preventDefault();
+	var v = $(this).data('value');
+	updateOverview(v);
+	
+	/*
+	var id = $(this).parent().attr('id')
+	var value = parseFloat( $(this).find("span").html() );
+	values[id] = value;
+	setLabel(id, value);
+	update();
+	*/
+});
+
+
+
+// Fading
 var slowShift = function() {
 	if (shiftKey) return 3000;
 	return 1000;
