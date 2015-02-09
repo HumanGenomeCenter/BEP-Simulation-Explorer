@@ -76,10 +76,7 @@ var updateDisplay = function(x) {
 		.attr('opacity', function(d) { 
 			if (d[x]===0) return 0;
 			return 1;
-		})
-		
-		
-	
+		});
 		
 	rect.enter()
 		.append('rect')

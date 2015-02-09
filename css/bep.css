@@ -241,4 +241,9 @@ img {
 	margin-bottom: 30px;
 }
 
-	
+
+/* Overview Tab */
+#overview svg {
+	margin-top: 50px;
+	background: #eee;
+}
