@@ -105,7 +105,7 @@ var updateOverviewDisplay = function(x, value) {
 				if (d[x]===0) return 0;
 				return 1;
 			})
-/*
+
 //			.on("mouseover", function(d,x,y) {
 //					console.log("over", x,y);
 //				})
@@ -126,7 +126,7 @@ var updateOverviewDisplay = function(x, value) {
 					updateImages();
 				}
 			});
-	*/
+
 
 }
 
