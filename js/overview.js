@@ -34,26 +34,23 @@ var initOverview = function() {
 	var s = [0.01, 0.1, 1].reverse();		// reversed 
 	var r = [0.0001, 0.001, 0.01];
 	
-	// prepare data
+	// Preparing data
 	r.forEach(function(vr,i) {
 		s.forEach(function(vs,j) {
 			overviewMatrix[f[i*3+j]] = data[map.s.value(vs)][map.r.value(vr)];
 		});
 	});
 
-	updateOverview('ε');
+	updateOverview('ε');		// intial
 	
 }
 
 var updateOverview = function(value) {
 	
-	// change data for each update
 	f.forEach(function(d,i) {
 		updateOverviewDisplay(d, value);
 	});
-	
-	//getLimits(srMatrix);		// cache
-	
+		
 	// updateImages();
 }
 
