@@ -16,19 +16,26 @@ a, a:hover, a:active, a:selected {
 	text-decoration: none;
 	color: #428bca;
 }
-h1 {
+
+.page-header {
+	text-align: left;
+	border: none;
+}
+
+.page-header h1, .page-header h2 {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
-	font-size: 5em;
+	font-size: 4em;
 	color: #999;
+}
+
+.page-header h2 {
+	font-weight: 100;
+	font-size: 2em;
 }
 .container {
  /* margin: 0 auto; */
   width: 990px !important;
-}
-.page-header {
-	text-align: center;
-	border: none;
 }
 
 

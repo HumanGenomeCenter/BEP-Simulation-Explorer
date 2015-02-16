@@ -8,21 +8,22 @@ print_r($_SERVER['REQUEST_URI']);
 
 $uri = explode("/", trim($_SERVER['REQUEST_URI'], "/"));
 
-$a['home'] = "";
-$a['about'] = "";
-$a['explorer'] = "";
+$pages = array('intro', 'explorer', 'about', 'help', 'code');
+foreach($pages as $p) {
+	$a[$p] = "";
+}
+
 $class = ' class="active"'; 
 
 if (count($uri)>1) {
 	$a[$uri[1]] = $class;
 } else {
-	$a['home'] = $class;
+	$a['intro'] = $class;
 }
 
 echo "-->";
 
 ?>
-
 <!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
@@ -38,28 +39,22 @@ echo "-->";
 <div class="container">
 	
 	<div class="page-header">
-	  <h1>B.E.P</h1>
+		<h1>Branching Evolutionary Processes</h1>
+		<h2>How Cancer evolution simulation identifies possible principles 
+			underlying intratumor heterogeneity</h2>
 	</div>
 	
 	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div id="navbar" class="navbar-collapse collapse">
+		<div class="container">
+			<div id="navbar">
 				<ul class="nav navbar-nav">
-					<li<?php echo $a['home']; ?>><a href="<?php echo $path; ?>">Home</a></li>
-					<li<?php echo $a['about']; ?>><a href="<?php echo $path; ?>about/">About</a></li>
+					<li<?php echo $a['intro']; ?>><a href="<?php echo $path; ?>">Introduction</a></li>
 					<li<?php echo $a['explorer']; ?>><a href="<?php echo $path; ?>explorer/">Simulation Explorer</a></li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li class="dropdown-header">Nav header</li>
-							<li><a href="#">Separated link</a></li>
-							<li><a href="#">One more separated link</a></li>
-						</ul>
-					</li>
+					<li<?php echo $a['about']; ?>><a href="<?php echo $path; ?>about/">About</a></li>
+					<li<?php echo $a['help']; ?>><a href="<?php echo $path; ?>help/">Help</a></li>
+					
+					<li<?php echo $a['code']; ?>><a href="<?php echo $path; ?>code/">Code</a></li>
+					
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div><!--/.container-fluid -->
