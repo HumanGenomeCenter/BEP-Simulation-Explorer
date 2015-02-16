@@ -7,6 +7,9 @@ echo "<!--";
 print_r($_SERVER['REQUEST_URI']);
 
 $uri = explode("/", trim($_SERVER['REQUEST_URI'], "/"));
+print_r($uri);
+$last = array_pop($uri);
+print_r($last);
 
 $pages = array('intro', 'explorer', 'about', 'help', 'code');
 foreach($pages as $p) {
@@ -15,7 +18,7 @@ foreach($pages as $p) {
 
 $class = ' class="active"'; 
 
-if (count($uri)>1) {
+if ($last) {
 	$a[array_pop($uri)] = $class;
 } else {
 	$a['intro'] = $class;
