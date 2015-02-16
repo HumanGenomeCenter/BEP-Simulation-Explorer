@@ -16,7 +16,7 @@ foreach($pages as $p) {
 $class = ' class="active"'; 
 
 if (count($uri)>1) {
-	$a[$uri[1]] = $class;
+	$a[array_pop($uri)] = $class;
 } else {
 	$a['intro'] = $class;
 }
