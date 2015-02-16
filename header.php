@@ -19,7 +19,7 @@ foreach($pages as $p) {
 $class = ' class="active"'; 
 
 if ($last) {
-	$a[array_pop($uri)] = $class;
+	$a[$last] = $class;
 } else {
 	$a['intro'] = $class;
 }
