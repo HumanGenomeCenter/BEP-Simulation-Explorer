@@ -4,7 +4,7 @@
 	
 	<div class="col-xs-12">
 		<p class="lead">
-			404 - Page Not Found.
+			<h1>404 - Page Not Found.<h1>
 		</p>
 	</div>
 	
