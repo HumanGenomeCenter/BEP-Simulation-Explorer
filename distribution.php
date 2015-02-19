@@ -2,33 +2,37 @@
 
 <style type="text/css" media="screen">
 
-.area, .color {
-  shape-rendering: geometricPrecision;
-/*  fill: #f00 !important; */
-  fill: url(#grad);
+
+.area {
+	shape-rendering: geometricPrecision;
+	fill: url(#grad1);
 }
-.boxplot{
-  shape-rendering: crispEdges;
+
+.box {
+  font: 10px sans-serif;
+}
+
+.box line,
+.box rect,
+.box circle {
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 1px;
+}
+
+.box .center {
+  stroke-dasharray: 3,3;
+}
+
+.box .outlier {
   fill: none;
-  stroke: black;
-  stroke-width: 1px;
+  stroke: #aaa;
 }
-.boxplot.fill{
-  fill: black;
+
+.box .median {
+	stroke-width: 2px;
 }
-.boxplot.mean, .boxplot.median{
-  fill: white;
-  stroke: white;
-}
-.boxplot.mean{
-  shape-rendering: geometricPrecision;
-}
-.violin{
-  shape-rendering: geometricPrecision;
-  fill: none !important;
-  stroke: #777;
-  stroke-width: 1px;
-}
+
 
 .axis path, .axis line {
   fill: none;
@@ -58,6 +62,7 @@ svg {
 </div>
 
 <script src="js/d3.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/box.js"></script>
 
 <script type="text/javascript">
 	
@@ -77,7 +82,7 @@ var x = d3.scale.linear()
 	.range([0, width]);
 
 
-var values = d3.range(100).map(d3.random.irwinHall(max));
+var values = d3.range(100).map(d3.random.irwinHall(max)).sort();
 // Generate a histogram using twenty uniformly-spaced bins.
 
 console.log(d3.min(values), d3.max(values));
@@ -106,7 +111,7 @@ var defs = svg.append("defs");
 
 // standard def
 
-var generateDefinition = function(id, start, stop) {
+var updateGradient = function(id, start, stop) {
 	
 	// generates or updates Gradient
 	var gradient = defs.selectAll("#"+id);
@@ -129,66 +134,74 @@ var generateDefinition = function(id, start, stop) {
 	
 }
 
-generateDefinition("grad", 0.2,0.8);
-
-svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+updateGradient("grad", 0,1);
+updateGradient("grad1", x(d3.min(values))/width,x(d3.max(values))/width);
 
 
+// violin container
+var violin = svg.append("g")
+	.attr("class", "violin")
+.attr("transform", "translate(0,0) scale(1, 1)");
 
-
-var interpolation = "basis";
-
-var g = svg.append("g")
-	.attr("class", "area")
-
-
-/*
-var areaBackground = d3.svg.area()
-	//.interpolate("basis")
-	.x(function(d) { return x(d.x+d.dx/2); })
-	.y0(height)
-	.y1(function(d) { return y(d.y);})
-
-
-	
-g.append("path")
-	.datum(generateData( d3.range(100).map(d3.random.irwinHall(max) )))
-	.attr("d", areaBackground)
-	.attr("fill", "#ccc");
-*/
-"basis"
-"linear"
-"step"
-"step-before"
-"step-after"
-"monotone"
 var area = d3.svg.area()
 	.interpolate("basis")
-//	.x(function(d) { return x(d.x+d.dx/2); })
 	.x(function(d) { return x(d.x+d.dx/2); })
-
 	.y0(height)
 	.y1(function(d) { return y(d.y); })
 	.tension(1)
-	
-g.append("path")
-	.datum(data)
-	.attr("d", area);
 
+// append group & path
+violin.append("g")
+		.attr("class", "area")
+	.attr("transform", "rotate(-90,"+width/2+","+height/2+") translate(0,-300)")
+	.append("path")
+		.datum(data)
+		.attr("d", area)
 	
-	
-var c = svg.append("g")
-    .attr("class", "color")
-	.attr("transform", "translate(0," + (height+2) + ")")
 
-c.append("rect")
-	.attr("x", x(d3.min(values)))
-	.attr("width", x(d3.max(values)) - x(d3.min(values)))
-	.attr("height", 16);
+violin.append("g")
+		.attr("class", "area mirrored")
+	.attr("transform", "rotate(-90,"+width/2+","+height/2+") scale(1,-1) translate(0,-300)")
+	.append("path")
+		.datum(data)
+		.attr("d", area);
+
+var chart = d3.box()
+	.whiskers(iqr(1.5))
+	.width(20)
+	.height(height)
+	.domain([d3.min(values), d3.max(values)]);
 	
+// Returns a function to compute the interquartile range.
+function iqr(k) {
+	return function(d, i) {
+		var q1 = d.quartiles[0],
+			q3 = d.quartiles[2],
+			iqr = (q3 - q1) * k,
+			i = -1,
+			j = d.length;
+		while (d[++i] < q1 - iqr);
+		while (d[--j] > q3 + iqr);
+		return [i, j];
+	};
+}
+
+
+violin.selectAll("g")
+	.data([values, values])
+	.enter().append("g")
+		.attr("class", "box")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.bottom + margin.top)
+		.attr("transform", function(d,i) {
+			return "translate(" + (100+120*i + margin.left) + "," + margin.top + ")";
+		})
+		.call(chart);
+      
+	  
+
 // axis
-svg.append("g")
+violin.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + (height+20) + ")")
     .call(xAxis);
@@ -197,4 +210,4 @@ svg.append("g")
 </script>
 
 
-<?php include("footer.php"); ?>
+<?php // include("footer.php"); ?>
