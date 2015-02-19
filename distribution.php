@@ -63,25 +63,31 @@ svg {
 	
 // Generate a Bates distribution of 10 random variables.
 var max = 10;
-var values = d3.range(100).map(d3.random.irwinHall(max));
 
 
 // A formatter for counts.
 var formatCount = d3.format(",.0f");
 
-var margin = {top: 30, right: 30, bottom: 60, left: 30},
-    width = 200,
-    height = 100;
+var margin = {top: 60, right: 30, bottom: 60, left: 30},
+    width = 500,
+    height = 300;
 
 var x = d3.scale.linear()
 	.domain([0, max])
 	.range([0, width]);
 
-// Generate a histogram using twenty uniformly-spaced bins.
-var data = d3.layout.histogram()
-    .bins(x.ticks(20))
-    (values);
 
+var values = d3.range(100).map(d3.random.irwinHall(max));
+// Generate a histogram using twenty uniformly-spaced bins.
+
+console.log(d3.min(values), d3.max(values));
+var generateData = function(v) {
+	return d3.layout.histogram()
+    	.bins(x.ticks(50))
+    	(v);
+}
+
+var data = generateData(values);
 
 var y = d3.scale.linear()
     .domain([0, d3.max(data, function(d) { return d.y; })])
@@ -97,21 +103,34 @@ var svg = d3.select("#distribution").append("svg")
 
 // definition for gradient
 var defs = svg.append("defs");
+
+// standard def
+
+var generateDefinition = function(id, start, stop) {
 	
-defs.append("linearGradient")
-     .attr("id", "grad")
- //    .attr("gradientUnits", "userSpaceOnUse")
-     .attr("x1", 0).attr("y1", 0)
-     .attr("x2", 1).attr("y2", 0)
-   .selectAll("stop")
-     .data([
-		 {offset: "20%", color: "white"},
-		{offset: "80%", color: "red"}
-     ])
-   .enter().append("stop")
-     .attr("offset", function(d) { return d.offset; })
-     .attr("stop-color", function(d) { return d.color; });
-	 
+	// generates or updates Gradient
+	var gradient = defs.selectAll("#"+id);
+	if (gradient.empty()) {
+		gradient = defs.append("linearGradient")
+			.attr("id", id)
+			.attr("x1", 0).attr("y1", 0)
+			.attr("x2", 1).attr("y2", 0);
+	}
+			
+	gradient.selectAll("stop")												// reselect
+			.data(	[	{offset: (start*100)+"%", color: "white"}, 
+						{offset: (stop*100)+"%", color: "red"}		])
+			.attr("offset", function(d) { return d.offset; })				// update
+			.attr("stop-color", function(d) { return d.color; })
+			.enter().append("stop")
+				.attr("offset", function(d) { return d.offset; })			// enter
+				.attr("stop-color", function(d) { return d.color; });
+	
+	
+}
+
+generateDefinition("grad", 0.2,0.8);
+
 svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -120,25 +139,52 @@ svg.append("g")
 
 var interpolation = "basis";
 
-var area = d3.svg.area()
-	.interpolate("basis")
-	.x(function(d) { return x(d.x+d.dx/2); })
-	.y0(height)
-	.y1(function(d) { return y(d.y); });
-	
 var g = svg.append("g")
 	.attr("class", "area")
 
+
+/*
+var areaBackground = d3.svg.area()
+	//.interpolate("basis")
+	.x(function(d) { return x(d.x+d.dx/2); })
+	.y0(height)
+	.y1(function(d) { return y(d.y);})
+
+
+	
+g.append("path")
+	.datum(generateData( d3.range(100).map(d3.random.irwinHall(max) )))
+	.attr("d", areaBackground)
+	.attr("fill", "#ccc");
+*/
+"basis"
+"linear"
+"step"
+"step-before"
+"step-after"
+"monotone"
+var area = d3.svg.area()
+	.interpolate("basis")
+//	.x(function(d) { return x(d.x+d.dx/2); })
+	.x(function(d) { return x(d.x+d.dx/2); })
+
+	.y0(height)
+	.y1(function(d) { return y(d.y); })
+	.tension(1)
+	
 g.append("path")
 	.datum(data)
 	.attr("d", area);
+
+	
 	
 var c = svg.append("g")
     .attr("class", "color")
 	.attr("transform", "translate(0," + (height+2) + ")")
 
 c.append("rect")
-	.attr("width", width)
+	.attr("x", x(d3.min(values)))
+	.attr("width", x(d3.max(values)) - x(d3.min(values)))
 	.attr("height", 16);
 	
 // axis
