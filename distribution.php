@@ -58,50 +58,63 @@ rect.background {
 	
 	<div class="col-xs-12">
 		<div id="distribution"></div>
-	
+		<input type="button" value="Update" id="update">
 		
 	</div>
 	
 </div>
 
 <script src="js/d3.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/box.js"></script>
 
 <script type="text/javascript">
 	
+$(document).ready(function() {
+	$("#update").click(function() {
+		dataRange = [0, 2+Math.floor(Math.random()*10)];
+		console.log("update...", dataRange);
+		
+	});
+});
 // Generate a Bates distribution of 10 random variables.
 
-var dataRange = [0, 2];
-
-// A formatter for counts.
-var formatCount = d3.format(",.0f");
-
-var margin = 30,
-    width = 200,
-    height = 400;
-
-
-var x = d3.scale.linear()
-	.domain(dataRange)
-	.range([height,0]);	// 0 at bottom
+var dataRange,
+	margin = 30,
+    width = 100,
+    height = 200,
+	x, y,			// scales
+	values,
+	data;
 
 
-var values = d3.range(100).map(d3.random.irwinHall(dataRange[1])).sort();
-// Generate a histogram using (max) uniformly-spaced bins.
 
-var generateData = function(v) {
-	return d3.layout.histogram()
-    	.bins(x.ticks(50))
-    	(v);
+
+var init = function(r) {
+	
+	dataRange = [0, r];
+	
+	x = d3.scale.linear()
+		.domain(dataRange)
+		.range([height,0]);	// 0 at bottom
+	
+	values = d3.range(100).map(d3.random.irwinHall(dataRange[1])).sort();
+		// Generate a histogram using (max) uniformly-spaced bins.
+	
+	data = d3.layout.histogram().bins(x.ticks(50))(values);
+	
+
+	y = d3.scale.linear()
+		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
+		.range([0, width]);
+
+
+	
 }
-var data = generateData(values);
+init(2);
 
 
 
-
-var y = d3.scale.linear()
-    .domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
-    .range([0, width]);
 
 
 
@@ -141,6 +154,7 @@ updateGradient("grad", 0,1);
 updateGradient("grad1", x(d3.max(values))/height, x(d3.min(values))/height);
 
 
+
 // violin group
 var violin = svg.append("g")
 	.attr("class", "violin")
@@ -157,9 +171,7 @@ var area = d3.svg.area()
 	.interpolate("basis")
 	.x(function(d) { return x(d.x+d.dx/2); })
 	.y0(0)
-	.y1(function(d) { 
-		console.log(d.y);
-		return y(d.y); })
+	.y1(function(d) { return y(d.y); })
 
 // kdf grounp
 var kdf = violin.append("g")
@@ -174,10 +186,8 @@ kdf.append("g")
 		.datum(data)
 		.attr("d", area)
 	
-
 kdf.append("g")
 	.attr("class", "area mirrored")
-//	.attr("transform", "translate(200,400) scale(-0.25,2) rotate(-90,0,0) ")
 	.attr("transform", "scale(0.5,1) rotate(90)")
 	.append("path")
 		.datum(data)
@@ -185,13 +195,13 @@ kdf.append("g")
 
 
 
-
+// boxplot
 var chart = d3.box()
 	.whiskers(iqr(1.5))
-	.width(200)
-	.height(400)
-//	.domain([d3.min(values), d3.max(values)]);
-	.domain(dataRange);
+	.width(width/10)
+	.height(height)
+	.domain(dataRange)
+	.tickFormat(d3.format("d"));	// hack, not showing labels "d" shows only whole numbers
 	
 // Helper function for boxplot
 // Returns a function to compute the interquartile range.
@@ -210,14 +220,12 @@ function iqr(k) {
 }
 
 
-violin.append("g")
+var boxplot = violin.append("g")
 	.data([values])
 	.attr("class", "box")
 	.attr("width", width)
 	.attr("height", height)
-	.attr("transform", function(d,i) {
-		return "translate(0,0)";
-	})
+	.attr("transform", "translate("+(9*width/10/2)+",0)")
 	.call(chart);
 
 	  
@@ -227,41 +235,40 @@ var xAxis = d3.svg.axis()
 	.orient("left");
 
 
-
-var y2 = d3.scale.linear()
+var yLeft = d3.scale.linear()
     .domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
     .range([0, width/2]);
 
 
-var y2Axis = d3.svg.axis()
-	.scale(y2)
+var yLeftAxis = d3.svg.axis()
+	.scale(yLeft)
 	.orient("bottom");
 	
-
-// X Axis
+/*
+// Y Axis
 violin.append("g")
 	.attr("class", "x axis")
 	.attr("transform", "translate("+width/2+"," + (height+5) + ")")
-	.call(y2Axis);
+	.call(yLeftAxis);
 	
 	
-var y3 = d3.scale.linear()
+var yRight = d3.scale.linear()
     .domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
     .range([0, width/2].reverse());
 
 
-var y3Axis = d3.svg.axis()
-	.scale(y3)
+var yRightAxis = d3.svg.axis()
+	.scale(yRight)
 	.orient("bottom");
 	
 	
 violin.append("g")
 	.attr("class", "x axis")
 	.attr("transform", "translate(0," + (height+5) + ")")
-	.call(y3Axis);
+	.call(yRightAxis);
 
-
-// Y Axis
+*/
+// X Axis
 violin.append("g")
 	.attr("class", "y axis")
 	.attr("transform", "translate(-5,0)")
