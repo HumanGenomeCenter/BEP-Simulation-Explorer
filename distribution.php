@@ -72,8 +72,15 @@ rect.background {
 	
 $(document).ready(function() {
 	$("#update").click(function() {
-		dataRange = [0, 2+Math.floor(Math.random()*10)];
 		console.log("update...", dataRange);
+		
+		// re init
+		// init(2+Math.floor(Math.random()*10));
+		init(2);
+		boxplot
+			.datum(values)
+			.call(chart.duration(1000))
+		
 		
 	});
 });
@@ -220,7 +227,10 @@ function iqr(k) {
 }
 
 
-var boxplot = violin.append("g")
+var boxgroup = violin.append("g").attr("class", "boxgroup");
+
+
+var boxplot = boxgroup.append("g")
 	.data([values])
 	.attr("class", "box")
 	.attr("width", width)
@@ -234,7 +244,7 @@ var xAxis = d3.svg.axis()
 	.scale(x)
 	.orient("left");
 
-
+/*
 var yLeft = d3.scale.linear()
     .domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
     .range([0, width/2]);
@@ -269,7 +279,7 @@ violin.append("g")
 
 */
 // X Axis
-violin.append("g")
+var xA = violin.append("g")
 	.attr("class", "y axis")
 	.attr("transform", "translate(-5,0)")
 	.call(xAxis);
