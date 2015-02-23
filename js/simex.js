@@ -20,18 +20,20 @@ var fields = ['ε', 'μ', 'τ', 'ρ', 'λ', 'θ'];
 
 var settings = {};
 settings.relative = true;
-settings.boxWidth = 8;
-settings.boxHeight = 12;
 settings.boxSpacing = 1;
+settings.width = 202;	// 260
+settings.height = 109;	// 129
+settings.boxWidth = (settings.width - 28*settings.boxSpacing) / 29;
+settings.boxHeight = (settings.height - 9*settings.boxSpacing) / 10;
+
 
 
 var data = {};
 
+
 $(document).ready(function() {
-	
 	d3.select('body').on("mouseup", function() { mouseDown = false; });		// general mouseup handler
-	
-	d3.json("../data/stat.json", function(error, json) {
+	d3.json("../data/stat.json", function(error, json) {					// load data
 		if (error) return console.warn(error);
 		data = json;
 		initDetails();
@@ -342,7 +344,7 @@ var addColumns = function(s, w) {
 var drawScales = function(x) {
 
 	var indicators = x.append('g').attr('class', 'indicators');
-	var thickness = 6;
+	var thickness = 7;
 	var spacing = 3;
 	
 	// vertical
@@ -357,7 +359,7 @@ var drawScales = function(x) {
 	indicators.append('rect')
 		.attr('class','f-indicator')
 		.attr('x', (settings.boxWidth+settings.boxSpacing)*(map.f.value(values.f)))
-		.attr('y', 132)
+		.attr('y', settings.height+spacing)
 		.attr('width', settings.boxWidth)
 		.attr('height', thickness);
 		
@@ -365,45 +367,35 @@ var drawScales = function(x) {
 	// axis
 	var fAxis = d3.svg.axis()
 		.orient('left')
-		.scale(d3.scale.linear().domain([1,10]).range([117,0]))
+		.scale(d3.scale.linear().domain([1,10]).range([settings.height-settings.boxHeight,0]))
 		.ticks(10)
 
 	xAxis = x.append('g')
 		.attr('class', 'f-axis axis')
-		.attr('transform', 'translate(-3,6)')
+		.attr('transform', 'translate(-3,'+(settings.boxHeight/2)+')')
 		.call(fAxis);
 		
 	var dAxis = d3.svg.axis()
 		.orient('bottom')
-		.scale(d3.scale.linear().domain([0.1,1.5]).range([0,251]))
+		.scale(d3.scale.linear().domain([0.1,1.5]).range([0,settings.width-settings.boxWidth]))
 		.ticks(10)
 
 	yAxis = x.append('g')
 		.attr('class', 'd-axis axis')
-		.attr('transform', 'translate(4.5,132)')
+		.attr('transform', 'translate('+(settings.boxWidth/2)+','+(3+settings.height)+')')
 		.call(dAxis);
 			
 	// legend
 	var dLegend = x.append('g')
 		.attr('class', 'legend')
-		.attr('transform', 'translate(-37,69)');
+		.attr('transform', 'translate(-37,'+(settings.height/2)+')');
 		
-	dLegend.append('circle')
-		.attr('cx', '5')
-		.attr('cy', '-4')
-		.attr('r', '8');
-
 	dLegend.append('text')
 		.text("d");
 
 	var fLegend = x.append('g')
 		.attr('class', 'legend')
-		.attr('transform', 'translate(129,163)');
-		
-	fLegend.append('circle')
-		.attr('cx', '2')
-		.attr('cy', '-4')
-		.attr('r', '8');
+		.attr('transform', 'translate('+(settings.width/2)+','+(settings.height+40)+')');
 
 	fLegend.append('text')
 		.text("f");		

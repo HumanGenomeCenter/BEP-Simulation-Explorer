@@ -76,41 +76,12 @@ defs lineargradient {
 	
 $(document).ready(function() {
 	$("#update").click(function() {
-		var d = 1000;
-		
-		// reinitialize
-		init(2+Math.floor(Math.random()*10));
-
-		// update boxplot
-		boxplot
-			.datum(values)
-			.call(chart.domain(dataRange).duration(d));		// don't forget to update chart domain
-			
-		updateGradient("grad1", [x(d3.max(values))/height, x(d3.min(values))/height], d);
-		
-		// update axis
-		xA
-			.transition()
-			.duration(d)
-			.call(d3.svg.axis().scale(x).orient("left"));  
-		
-		// update area
-		area = d3.svg.area()
-			.interpolate("basis")
-			.x(function(d) { return x(d.x+d.dx/2); })
-			.y0(0)
-			.y1(function(d) { return y(d.y); });
-					
-		// updating kdf
-		kdf.selectAll(".area path")
-				.datum(data)
-			.transition()
-				.attr("d", area)
-				.duration(d);
-			
+		update();
 	});
 });
 // Generate a Bates distribution of 10 random variables.
+
+
 
 var dataRange,
 	margin = 30,
@@ -124,7 +95,6 @@ var dataRange,
 
 
 var init = function(r) {
-	
 	dataRange = [0, r];
 	
 	x = d3.scale.linear()
@@ -136,16 +106,41 @@ var init = function(r) {
 	
 	data = d3.layout.histogram().bins(x.ticks(50))(values);
 	
-
 	y = d3.scale.linear()
 		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
 		.range([0, width]);
-
-	
 }
 init(2);
 
 
+var update = function() {
+	var d = 1000;	// duration
+	
+	init(2+Math.floor(Math.random()*10));	// reinitialize
+
+	boxplot.datum(values)
+		.call(chart.domain(dataRange).duration(d));		// don't forget to update chart domain
+		
+	updateGradient("grad1", [x(d3.max(values))/height, x(d3.min(values))/height], d);
+	
+	// update axis
+	xA.transition().duration(d)
+		.call(d3.svg.axis().scale(x).orient("left"));  
+	
+	// update area with new scales
+	area = d3.svg.area()
+		.interpolate("basis")
+		.x(function(d) { return x(d.x+d.dx/2); })
+		.y0(0)
+		.y1(function(d) { return y(d.y); });
+				
+	// update kdf with new data
+	kdf.selectAll(".area path")
+			.datum(data)
+		.transition()
+			.attr("d", area)
+			.duration(d);
+}
 
 
 
@@ -162,7 +157,6 @@ var defs = svg.append("defs");
 var updateGradient = function(id, range, duration, endColor) {
 	
 	if (endColor===undefined) endColor = "red";
-	
 	if (duration===undefined) duration = 0;
 	
 	var d = [
@@ -179,8 +173,8 @@ var updateGradient = function(id, range, duration, endColor) {
 			.attr("x2", 0).attr("y2", 0);
 	}
 	
-	// helper
-	var up = function(s) {
+	
+	var up = function(s) {	// helper
 		s.transition()
 			.duration(0 || duration)
 			.attr("offset", function(d) { return d.offset; })			// enter
@@ -193,11 +187,9 @@ var updateGradient = function(id, range, duration, endColor) {
 	.enter()
 		.append("stop")
 		.call(up);					// enter
-	
-	
 }
 
-updateGradient("grad", [0,1]);
+//updateGradient("grad", [0,1]);
 updateGradient("grad1", [x(d3.max(values))/height, x(d3.min(values))/height]);
 
 
@@ -226,21 +218,19 @@ var kdf = violin.append("g")
 		.attr("transform", "translate("+width/2+",0)")
 		
 // append group & path
-var leftKdf = kdf.append("g")
+kdf.append("g")
 		.attr("class", "area")
 	.attr("transform", "scale(-0.5,1) rotate(90)")
 	.append("path")
 		.datum(data)
 		.attr("d", area)
 	
-var rightKdf =kdf.append("g")
+kdf.append("g")
 	.attr("class", "area mirrored")
 	.attr("transform", "scale(0.5,1) rotate(90)")
 	.append("path")
 		.datum(data)
 		.attr("d", area);
-
-
 
 // boxplot
 var chart = d3.box()
@@ -268,8 +258,6 @@ function iqr(k) {
 
 
 var boxgroup = violin.append("g").attr("class", "boxgroup");
-
-
 var boxplot = boxgroup.append("g")
 	.data([values])
 	.attr("class", "box")
@@ -318,12 +306,11 @@ violin.append("g")
 // X Axis
 	// add enter()...
 	
-var xAxis = d3.svg.axis().scale(x).orient("left");
 
 var xA = violin.append("g")
 	.attr("class", "y axis")
 	.attr("transform", "translate(-5,0)")
-	.call(xAxis);
+	.call(d3.svg.axis().scale(x).orient("left"));
 
 
 </script>

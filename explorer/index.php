@@ -9,6 +9,18 @@ include("../header.php");
 	<div class="col-xs-12">
 		<div role="tabpanel">
 			<!-- Nav tabs -->
+				<div id="abs" class="btn-group" data-toggle="buttons" style="float:right">
+					<div class="btn btn-default">
+						<input type="radio" name="options" value="abs">
+						<span>absolute</span>
+					</div>
+					<div class="btn btn-default active">
+						<input type="radio" name="options" value="rel">
+						<span>relative</span>
+					</div>
+				</div>
+
+			
 			<ul class="nav nav-tabs center" role="tablist">
 				<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Details</a></li>
 				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Overview</a></li>

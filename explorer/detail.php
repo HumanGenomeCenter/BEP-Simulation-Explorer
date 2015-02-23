@@ -88,24 +88,15 @@
 					</div>
 				</div>
 			
-				<div id="abs" class="btn-group" data-toggle="buttons">
-					<div class="btn btn-default">
-						<input type="radio" name="options" value="abs">
-						<span>abs</span>
-					</div>
-					<div class="btn btn-default active">
-						<input type="radio" name="options" value="rel">
-						<span>rel</span>
-					</div>
-				</div>
-			
 			</div>
 		</div>
 	</div>
 	
 	<div class="row">
 		<div class="col-xs-12">
-			<div id="details" width="100%" height="500px"></div><!-- svg container -->
+			<div id="details" width="100%" height="500px">
+				<!-- svg container -->
+			</div>
 		</div>
 	</div>
 

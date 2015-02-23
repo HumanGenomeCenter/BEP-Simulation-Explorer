@@ -237,11 +237,13 @@ img {
 }
 
 .legend circle {
-	fill: #ccc;
+	fill: none
 }
 .legend text {
 	font-size: 12px;
-	fill: #eee;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 600;
+	fill: #999;
 }
 
 .tab-content .selection {
