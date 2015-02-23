@@ -75,11 +75,20 @@ $(document).ready(function() {
 		console.log("update...", dataRange);
 		
 		// re init
-		// init(2+Math.floor(Math.random()*10));
-		init(2);
+		init(2+Math.floor(Math.random()*10));
+		//init(2);
 		boxplot
 			.datum(values)
 			.call(chart.duration(1000))
+		
+		
+		xAxis = d3.svg.axis().scale(x).orient("left");
+
+		xA
+			.transition()
+			.duration(1000)
+		//	.ease("sin-in-out")
+			.call(xAxis);  
 		
 		
 	});
@@ -114,6 +123,9 @@ var init = function(r) {
 	y = d3.scale.linear()
 		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
 		.range([0, width]);
+
+
+
 
 
 	
@@ -240,9 +252,6 @@ var boxplot = boxgroup.append("g")
 
 	  
 
-var xAxis = d3.svg.axis()
-	.scale(x)
-	.orient("left");
 
 /*
 var yLeft = d3.scale.linear()
@@ -279,6 +288,10 @@ violin.append("g")
 
 */
 // X Axis
+	// add enter()...
+	
+var xAxis = d3.svg.axis().scale(x).orient("left");
+
 var xA = violin.append("g")
 	.attr("class", "y axis")
 	.attr("transform", "translate(-5,0)")
