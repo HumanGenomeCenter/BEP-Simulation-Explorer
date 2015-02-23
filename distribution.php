@@ -51,6 +51,10 @@ rect.background {
 	fill: #ddd;
 }
 
+defs lineargradient {
+	
+}
+
 </style>
 
 
@@ -81,6 +85,8 @@ $(document).ready(function() {
 		boxplot
 			.datum(values)
 			.call(chart.domain(dataRange).duration(d));		// don't forget to update chart domain
+			
+		updateGradient("grad1", [x(d3.max(values))/height, x(d3.min(values))/height], d);
 		
 		// update axis
 		xA
@@ -100,7 +106,7 @@ $(document).ready(function() {
 				.datum(data)
 			.transition()
 				.attr("d", area)
-			.duration(d);
+				.duration(d);
 			
 	});
 });
@@ -135,10 +141,6 @@ var init = function(r) {
 		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
 		.range([0, width]);
 
-	console.log("dataRange:", dataRange);
-	console.log("range:", "x", x.range(), "y", y.range() );
-	console.log("domain:", "x", x.domain(), "y", y.domain() );
-
 	
 }
 init(2);
@@ -157,31 +159,46 @@ var defs = svg.append("defs");
 
 // standard def
 
-var updateGradient = function(id, start, stop) {
+var updateGradient = function(id, range, duration, endColor) {
+	
+	if (endColor===undefined) endColor = "red";
+	
+	if (duration===undefined) duration = 0;
+	
+	var d = [
+		{offset: (range[0]*100)+"%", color: "white"},
+		{offset: (range[1]*100)+"%", color: endColor}
+	];
 	
 	// generates or updates Gradient
-	var gradient = defs.selectAll("#"+id);
+	var gradient = defs.select("#"+id);
 	if (gradient.empty()) {
 		gradient = defs.append("linearGradient")
 			.attr("id", id)
 			.attr("x1", 1).attr("y1", 0)
 			.attr("x2", 0).attr("y2", 0);
 	}
-			
-	gradient.selectAll("stop")												// reselect
-			.data(	[	{offset: (start*100)+"%", color: "white"}, 
-						{offset: (stop*100)+"%", color: "red"}		])
-			.attr("offset", function(d) { return d.offset; })				// update
+	
+	// helper
+	var up = function(s) {
+		s.transition()
+			.duration(0 || duration)
+			.attr("offset", function(d) { return d.offset; })			// enter
 			.attr("stop-color", function(d) { return d.color; })
-			.enter().append("stop")
-				.attr("offset", function(d) { return d.offset; })			// enter
-				.attr("stop-color", function(d) { return d.color; });
+	}
+	
+	gradient.selectAll("stop")			// reselect
+		.data(d)
+		.call(up)				// update
+	.enter()
+		.append("stop")
+		.call(up);					// enter
 	
 	
 }
 
-updateGradient("grad", 0,1);
-updateGradient("grad1", x(d3.max(values))/height, x(d3.min(values))/height);
+updateGradient("grad", [0,1]);
+updateGradient("grad1", [x(d3.max(values))/height, x(d3.min(values))/height]);
 
 
 
