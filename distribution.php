@@ -77,20 +77,31 @@ $(document).ready(function() {
 		// reinitialize
 		init(2+Math.floor(Math.random()*10));
 
-		
+		// update boxplot
 		boxplot
 			.datum(values)
-		.call(chart.domain(dataRange).duration(d));		// don't forget to update chart domain
+			.call(chart.domain(dataRange).duration(d));		// don't forget to update chart domain
 		
-		
-		xAxis = d3.svg.axis().scale(x).orient("left");
-
+		// update axis
 		xA
 			.transition()
 			.duration(d)
-			.call(xAxis);  
+			.call(d3.svg.axis().scale(x).orient("left"));  
 		
-		
+		// update area
+		area = d3.svg.area()
+			.interpolate("basis")
+			.x(function(d) { return x(d.x+d.dx/2); })
+			.y0(0)
+			.y1(function(d) { return y(d.y); });
+					
+		// updating kdf
+		kdf.selectAll(".area path")
+				.datum(data)
+			.transition()
+				.attr("d", area)
+			.duration(d);
+			
 	});
 });
 // Generate a Bates distribution of 10 random variables.
@@ -198,14 +209,14 @@ var kdf = violin.append("g")
 		.attr("transform", "translate("+width/2+",0)")
 		
 // append group & path
-kdf.append("g")
+var leftKdf = kdf.append("g")
 		.attr("class", "area")
 	.attr("transform", "scale(-0.5,1) rotate(90)")
 	.append("path")
 		.datum(data)
 		.attr("d", area)
 	
-kdf.append("g")
+var rightKdf =kdf.append("g")
 	.attr("class", "area mirrored")
 	.attr("transform", "scale(0.5,1) rotate(90)")
 	.append("path")
