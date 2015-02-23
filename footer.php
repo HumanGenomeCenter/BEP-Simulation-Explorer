@@ -1,6 +1,7 @@
 </div>
 
 <script src="<?php echo $path; ?>js/d3.min.js"></script>
+<script src="<?php echo $path; ?>js/box.js"></script>
 <script src="<?php echo $path; ?>js/jquery-2.0.3.min.js"></script>
 <script src="<?php echo $path; ?>js/bootstrap.min.js"></script>
 
