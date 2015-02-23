@@ -72,22 +72,22 @@ rect.background {
 	
 $(document).ready(function() {
 	$("#update").click(function() {
-		console.log("update...", dataRange);
+		var d = 1000;
 		
-		// re init
+		// reinitialize
 		init(2+Math.floor(Math.random()*10));
-		//init(2);
+
+		
 		boxplot
 			.datum(values)
-			.call(chart.duration(1000))
+		.call(chart.domain(dataRange).duration(d));		// don't forget to update chart domain
 		
 		
 		xAxis = d3.svg.axis().scale(x).orient("left");
 
 		xA
 			.transition()
-			.duration(1000)
-		//	.ease("sin-in-out")
+			.duration(d)
 			.call(xAxis);  
 		
 		
@@ -124,9 +124,9 @@ var init = function(r) {
 		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
 		.range([0, width]);
 
-
-
-
+	console.log("dataRange:", dataRange);
+	console.log("range:", "x", x.range(), "y", y.range() );
+	console.log("domain:", "x", x.domain(), "y", y.domain() );
 
 	
 }
