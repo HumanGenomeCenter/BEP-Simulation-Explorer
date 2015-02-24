@@ -454,8 +454,6 @@ var initViolinPlots = function(d, i) {
 		.y0(0)
 		.y1(function(d) { return y(d.y); })
 	
-
-
 	// kdf grounp
 	var kdf = violin.append("g")
 			.attr("class", "kdf")
@@ -484,7 +482,7 @@ var initViolinPlots = function(d, i) {
 		.width(width/6)
 		.height(height)
 		.domain(dataRange)
-//		.tickFormat(d3.format("f00"));	// hack, not showing labels "d" shows only whole numbers
+		.tickFormat(" ");
 		
 	// Helper function for boxplot
 	// Returns a function to compute the interquartile range.
@@ -550,7 +548,7 @@ var updateViolinPlots = function(d, i) {
 		.width(width/6)
 		.height(height)
 		.domain(dataRange)
-		.tickFormat(d3.format("d"));	// hack, not showing labels "d" shows only whole numbers
+		.tickFormat(" ");	// hack, " " instead of d3.format
 	
 	
 	boxplot.datum(values)
