@@ -21,7 +21,7 @@ var fields = ['ε', 'μ', 'τ', 'ρ', 'λ', 'θ'];
 var settings = {};
 settings.relative = true;
 settings.boxSpacing = 1;
-settings.width = 202;	// 260
+settings.width = 173;	// 260
 settings.height = 109;	// 129
 settings.boxWidth = (settings.width - 28*settings.boxSpacing) / 29;
 settings.boxHeight = (settings.height - 9*settings.boxSpacing) / 10;
@@ -341,9 +341,9 @@ var addColumns = function(s, w) {
 
 
 // helper function to add indicators
-var drawScales = function(x) {
+var drawScales = function(grp) {
 
-	var indicators = x.append('g').attr('class', 'indicators');
+	var indicators = grp.append('g').attr('class', 'indicators');
 	var thickness = 7;
 	var spacing = 3;
 	
@@ -370,7 +370,7 @@ var drawScales = function(x) {
 		.scale(d3.scale.linear().domain([1,10]).range([settings.height-settings.boxHeight,0]))
 		.ticks(10)
 
-	xAxis = x.append('g')
+	xAxis = grp.append('g')
 		.attr('class', 'f-axis axis')
 		.attr('transform', 'translate(-3,'+(settings.boxHeight/2)+')')
 		.call(fAxis);
@@ -380,20 +380,20 @@ var drawScales = function(x) {
 		.scale(d3.scale.linear().domain([0.1,1.5]).range([0,settings.width-settings.boxWidth]))
 		.ticks(10)
 
-	yAxis = x.append('g')
+	yAxis = grp.append('g')
 		.attr('class', 'd-axis axis')
 		.attr('transform', 'translate('+(settings.boxWidth/2)+','+(3+settings.height)+')')
 		.call(dAxis);
 			
 	// legend
-	var dLegend = x.append('g')
+	var dLegend = grp.append('g')
 		.attr('class', 'legend')
 		.attr('transform', 'translate(-37,'+(settings.height/2)+')');
 		
 	dLegend.append('text')
 		.text("d");
 
-	var fLegend = x.append('g')
+	var fLegend = grp.append('g')
 		.attr('class', 'legend')
 		.attr('transform', 'translate('+(settings.width/2)+','+(settings.height+40)+')');
 
@@ -402,6 +402,188 @@ var drawScales = function(x) {
 }
 
 
+var initViolinPlots = function(d, i) {
+	console.log("update draw violon plot", d, i);
+	
+	var dataRange,
+		margin = 30,
+		width = 60,
+		height = settings.height,
+		x, y,			// scales
+		data;
+	
+	var violin = d3.select("."+d).append('g')
+		.attr('class', 'violin')
+		.attr("transform", "translate("+(settings.width+40)+",0)")
 
+	
+	// srMatrix -> detail
+	// overviewMatrix -> overview
+	// transform srMatrix data
+		
+		
+	var values = srMatrix
+		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
+		.map(function(a) {return a[d]; });					// isolate value
+	
+	dataRange = [0, d3.max(values)];
+
+	x = d3.scale.linear()
+		.domain(dataRange)
+		.range([height,0]);	// 0 at bottom
+
+	data = d3.layout.histogram().bins(x.ticks(50))(values);
+
+	y = d3.scale.linear()
+		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
+		.range([0, width]);
+	
+	// definition for gradient
+	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height]);
+	
+	// area generator
+	var area = d3.svg.area()
+		.interpolate("basis")
+		.x(function(d) { return x(d.x+d.dx/2); })
+		.y0(0)
+		.y1(function(d) { return y(d.y); })
+
+	// kdf grounp
+	var kdf = violin.append("g")
+			.attr("class", "kdf")
+			.attr("transform", "translate("+width/2+",0)")
+		
+	// append group & path
+	kdf.append("g")
+		.attr("class", "area")
+		.style("fill", "url(#grad"+d+")")
+		.attr("transform", "scale(-0.5,1) rotate(90)")
+		.append("path")
+			.datum(data)
+			.attr("d", area)
+	
+	kdf.append("g")
+		.attr("class", "area mirrored")
+		.style("fill", "url(#grad"+d+")")
+		.attr("transform", "scale(0.5,1) rotate(90)")
+		.append("path")
+			.datum(data)
+			.attr("d", area);
+	
+	// boxplot
+	var chart = d3.box()
+		.whiskers(iqr(1.5))
+		.width(width/6)
+		.height(height)
+		.domain(dataRange)
+		.tickFormat(d3.format("d"));	// hack, not showing labels "d" shows only whole numbers
+
+		
+	// Helper function for boxplot
+	// Returns a function to compute the interquartile range.
+	// move to box.js?
+	
+	var boxgroup = violin.append("g").attr("class", "boxgroup");
+	var boxplot = boxgroup.append("g")
+		.data([values])
+		.attr("class", "box")
+		.attr("width", width)
+		.attr("height", height)
+	.attr("transform", "translate("+(width/2-width/6/2)+",0)")		// center
+		.call(chart);
+
+	var xA = violin.append("g")
+		.attr("class", "y axis")
+		.attr("transform", "translate(-5,0)")
+		.call(d3.svg.axis().scale(x).orient("left"));
+		
+	
+}
+
+var updateViolinPlots = function(d, i) {
+	console.log("init draw violon plot", d, i);
+	
+	var d = 1000;	// animation duration
+
+	init(2+Math.floor(Math.random()*10));	// reinitialize
+
+	boxplot.datum(values)
+		.call(chart.domain(dataRange).duration(d));		// don't forget to update chart domain
+	
+	updateGradient("grad1", [x(d3.max(values))/height, x(d3.min(values))/height], d);
+
+	// update axis
+	xA.transition().duration(d)
+		.call(d3.svg.axis().scale(x).orient("left"));  
+
+	// update area with new scales
+	area = d3.svg.area()
+		.interpolate("basis")
+		.x(function(d) { return x(d.x+d.dx/2); })
+		.y0(0)
+		.y1(function(d) { return y(d.y); });
+			
+	// update kdf with new data
+	kdf.selectAll(".area path")
+			.datum(data)
+		.transition()
+			.attr("d", area)
+			.duration(d);
+
+
+}
+
+
+
+
+// update/create gradient
+var updateGradient = function(d, range, duration) {
+
+	var id = "grad"+d;
+	var endColor = bep[d].colorMap.range()[1];
+	if (endColor===undefined) endColor = "red";
+	if (duration===undefined) duration = 0;
+
+	var d = [
+		{offset: (range[0]*100)+"%", color: "white"},
+		{offset: (range[1]*100)+"%", color: endColor}
+	];
+
+	// generates or updates Gradient
+	var gradient = defs.select("#"+id);
+	if (gradient.empty()) {
+		gradient = defs.append("linearGradient")
+			.attr("id", id)
+			.attr("x1", 1).attr("y1", 0)
+			.attr("x2", 0).attr("y2", 0);
+	}
+
+	var up = function(s) {	// helper
+		s.transition()
+			.duration(0 || duration)
+			.attr("offset", function(d) { return d.offset; })			// enter
+			.attr("stop-color", function(d) { return d.color; })
+	}
+
+	gradient.selectAll("stop")			// reselect
+		.data(d)
+		.call(up)				// update
+	.enter()
+		.append("stop")
+		.call(up);					// enter
+}
+
+var iqr = function(k) {
+	return function(d, i) {
+		var q1 = d.quartiles[0],
+			q3 = d.quartiles[2],
+			iqr = (q3 - q1) * k,
+			i = -1,
+			j = d.length;
+		while (d[++i] < q1 - iqr);
+		while (d[--j] > q3 + iqr);
+		return [i, j];
+	};
+}
 
 

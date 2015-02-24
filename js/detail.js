@@ -10,16 +10,21 @@ var initDetails = function() {
 	var svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
+		
+	// global definition
+	defs = svg.append("defs");
 			
 			
 	fields.forEach(function(d, i) {
-		var x = 45 + (i%3)*320;
+		var x = 45 + (i%3)*320;			// padding
 		var y = (i<3) ? 0 : 180;
 		g[d] = svg.append('g')
 				.attr('class', d)
 				.attr('transform', 'translate('+x+','+y+')');
 		g[d].append('g').attr('class', 'boxes');
+		srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];	// init
 		drawScales(g[d]);
+		initViolinPlots(d, i);
 	});
 	
 	update();
@@ -37,6 +42,8 @@ var update = function() {
 	
 	fields.forEach(function(d, i) {
 		updateDisplay(d);
+	//	updateViolinPlots(d, i);
+		
 	});
 	
 	updateImages();
@@ -53,7 +60,7 @@ var updateDisplay = function(x) {
 	// join
 
 	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
-	grp = boxes.selectAll('g')
+	var grp = boxes.selectAll('g')
 		.data(srMatrix);
 	
 	grp.enter()

@@ -66,7 +66,7 @@ var updateOverviewDisplay = function(x, value) {
 	// join
 
 	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
-	grp = boxes.selectAll('g')
+	var grp = boxes.selectAll('g')
 		.data(matrix);
 	
 	grp.enter()

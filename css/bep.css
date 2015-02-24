@@ -256,3 +256,42 @@ img {
 	margin-top: 50px;
 	background: #eee;
 }
+
+.box {
+  font: 10px sans-serif;
+}
+
+.box line,
+.box rect,
+.box circle {
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 1px;
+}
+
+.box .center {
+  stroke-dasharray: 3,3;
+}
+
+.box .outlier {
+  fill: none;
+  stroke: #aaa;
+}
+
+.box .median {
+	stroke-width: 2px;
+}
+
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #999;
+  stroke-width: 1px;
+  color-rendering: optimizeQuality !important;
+  shape-rendering: crispEdges !important;
+  text-rendering: geometricPrecision !important; 
+}
+
+text.whisker {
+	stroke-width: 0
+}

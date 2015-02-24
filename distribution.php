@@ -4,7 +4,7 @@
 
 
 .area {
-	shape-rendering: geometricPrecision;
+	/* shape-rendering: geometricPrecision; */
 	fill: url(#grad1);
 }
 
@@ -172,7 +172,6 @@ var updateGradient = function(id, range, duration, endColor) {
 			.attr("x1", 1).attr("y1", 0)
 			.attr("x2", 0).attr("y2", 0);
 	}
-	
 	
 	var up = function(s) {	// helper
 		s.transition()
