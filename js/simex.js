@@ -402,6 +402,9 @@ var drawScales = function(grp) {
 }
 
 
+
+
+
 var initViolinPlots = function(d, i) {
 	console.log("update draw violon plot", d, i);
 	
@@ -410,24 +413,27 @@ var initViolinPlots = function(d, i) {
 		width = 60,
 		height = settings.height,
 		x, y,			// scales
-		data;
+		data,
+		values,
+		area;
 	
 	var violin = d3.select("."+d).append('g')
 		.attr('class', 'violin')
 		.attr("transform", "translate("+(settings.width+40)+",0)")
 
+	bep[d].violin = violin;		// cache handler for update
 	
 	// srMatrix -> detail
 	// overviewMatrix -> overview
 	// transform srMatrix data
 		
-		
-	var values = srMatrix
+	values = srMatrix
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
 		.map(function(a) {return a[d]; });					// isolate value
 	
 	dataRange = [0, d3.max(values)];
-
+	// init
+	
 	x = d3.scale.linear()
 		.domain(dataRange)
 		.range([height,0]);	// 0 at bottom
@@ -437,16 +443,18 @@ var initViolinPlots = function(d, i) {
 	y = d3.scale.linear()
 		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
 		.range([0, width]);
-	
+
 	// definition for gradient
 	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height]);
-	
+
 	// area generator
-	var area = d3.svg.area()
+	area = d3.svg.area()
 		.interpolate("basis")
 		.x(function(d) { return x(d.x+d.dx/2); })
 		.y0(0)
 		.y1(function(d) { return y(d.y); })
+	
+
 
 	// kdf grounp
 	var kdf = violin.append("g")
@@ -476,8 +484,7 @@ var initViolinPlots = function(d, i) {
 		.width(width/6)
 		.height(height)
 		.domain(dataRange)
-		.tickFormat(d3.format("d"));	// hack, not showing labels "d" shows only whole numbers
-
+//		.tickFormat(d3.format("f00"));	// hack, not showing labels "d" shows only whole numbers
 		
 	// Helper function for boxplot
 	// Returns a function to compute the interquartile range.
@@ -489,7 +496,7 @@ var initViolinPlots = function(d, i) {
 		.attr("class", "box")
 		.attr("width", width)
 		.attr("height", height)
-	.attr("transform", "translate("+(width/2-width/6/2)+",0)")		// center
+		.attr("transform", "translate("+(width/2-width/6/2)+",0)")		// center
 		.call(chart);
 
 	var xA = violin.append("g")
@@ -500,35 +507,67 @@ var initViolinPlots = function(d, i) {
 	
 }
 
+
+
 var updateViolinPlots = function(d, i) {
-	console.log("init draw violon plot", d, i);
 	
-	var d = 1000;	// animation duration
-
-	init(2+Math.floor(Math.random()*10));	// reinitialize
-
-	boxplot.datum(values)
-		.call(chart.domain(dataRange).duration(d));		// don't forget to update chart domain
+	var duration = 1000;	// animation duration
+	var height = settings.height;
+	var width = 60;
+	var violin = bep[d].violin;
 	
-	updateGradient("grad1", [x(d3.max(values))/height, x(d3.min(values))/height], d);
+	var values = srMatrix
+		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
+		.map(function(a) {return a[d]; });					// isolate value
 
-	// update axis
-	xA.transition().duration(d)
-		.call(d3.svg.axis().scale(x).orient("left"));  
+	var dataRange = [0, d3.max(values)];	
 
-	// update area with new scales
-	area = d3.svg.area()
+	var x = d3.scale.linear()
+		.domain(dataRange)
+		.range([height,0]);	// 0 at bottom
+
+	var data = d3.layout.histogram().bins(x.ticks(50))(values);
+
+	var y = d3.scale.linear()
+		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
+		.range([0, width]);
+		
+	// definition for gradient
+	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height], duration);
+
+	
+	// area generator
+	var area = d3.svg.area()
 		.interpolate("basis")
 		.x(function(d) { return x(d.x+d.dx/2); })
 		.y0(0)
-		.y1(function(d) { return y(d.y); });
-			
-	// update kdf with new data
+		.y1(function(d) { return y(d.y); })
+	
+
+	var boxplot = violin.select(".box");
+	var chart = d3.box()
+		.whiskers(iqr(1.5))
+		.width(width/6)
+		.height(height)
+		.domain(dataRange)
+		.tickFormat(d3.format("d"));	// hack, not showing labels "d" shows only whole numbers
+	
+	
+	boxplot.datum(values)
+		.call(chart.domain(dataRange).duration(duration));		// don't forget to update chart domain
+	
+	
+	// update axis
+	var xA = violin.select(".y.axis");
+	xA.transition().duration(duration)
+		.call(d3.svg.axis().scale(x).orient("left"));  
+
+	var kdf = violin.select(".kdf");
 	kdf.selectAll(".area path")
 			.datum(data)
 		.transition()
 			.attr("d", area)
-			.duration(d);
+			.duration(duration);
 
 
 }

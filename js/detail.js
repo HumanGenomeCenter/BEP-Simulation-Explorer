@@ -42,7 +42,7 @@ var update = function() {
 	
 	fields.forEach(function(d, i) {
 		updateDisplay(d);
-	//	updateViolinPlots(d, i);
+		updateViolinPlots(d, i);
 		
 	});
 	
