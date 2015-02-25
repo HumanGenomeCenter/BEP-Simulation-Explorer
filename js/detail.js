@@ -24,7 +24,7 @@ var initDetails = function() {
 		g[d].append('g').attr('class', 'boxes');
 		srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];	// init
 		drawScales(g[d]);
-		initViolinPlots(d, i);
+		initViolinPlots(d, srMatrix);
 	});
 	
 	update();
@@ -42,8 +42,7 @@ var update = function() {
 	
 	fields.forEach(function(d, i) {
 		updateDisplay(d);
-		updateViolinPlots(d, i);
-		
+		updateViolinPlots(d, srMatrix);
 	});
 	
 	updateImages();

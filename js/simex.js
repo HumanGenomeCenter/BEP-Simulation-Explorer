@@ -9,14 +9,9 @@ values.f = parseFloat($("#f .btn.active span").html());
 var details = [];
 var selected = [false, false, false, false, false];
 var bep = {};
-bep.ε = {};
-bep.μ = {};
-bep.ρ = {};
-bep.λ = {};
-bep.τ = {};
-bep.θ = {};
-
-var fields = ['ε', 'μ', 'τ', 'ρ', 'λ', 'θ'];
+var fields = ['ε','μ','τ','ρ','λ','θ'];
+var overviewFields = ['a','b','c','d','e','f','g','h','i'];
+fields.concat(overviewFields).forEach(function(d) {bep[d] = {};});
 
 var settings = {};
 settings.relative = true;
@@ -174,14 +169,12 @@ var getLimits = function(matrix) {
 		});
 	}
 
-	for (var key in bep) {
-		if (bep.hasOwnProperty(key)) {
-			var min = d3.min(linear, function(d) {return d[key]});
-			var max = d3.max(linear, function(d) {return d[key]});
-			bep[key].range = [min, max]; 
-			bep[key].colorMap.domain([min, max]);
-		}
-	}	
+	fields.forEach(function(f) {
+		var min = d3.min(linear, function(d) {return d[f]});
+		var max = d3.max(linear, function(d) {return d[f]});
+		bep[f].range = [min, max]; 
+		bep[f].colorMap.domain([min, max]);
+	});
 }
 
 
@@ -405,8 +398,8 @@ var drawScales = function(grp) {
 
 
 
-var initViolinPlots = function(d, i) {
-	console.log("update draw violon plot", d, i);
+var initViolinPlots = function(d, matrix) {
+	console.log("update draw violin plot", d, matrix);
 	
 	var dataRange,
 		margin = 30,
@@ -427,7 +420,7 @@ var initViolinPlots = function(d, i) {
 	// overviewMatrix -> overview
 	// transform srMatrix data
 		
-	values = srMatrix
+	values = matrix
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
 		.map(function(a) {return a[d]; });					// isolate value
 	
@@ -507,14 +500,15 @@ var initViolinPlots = function(d, i) {
 
 
 
-var updateViolinPlots = function(d, i) {
+var updateViolinPlots = function(d, matrix) {
+	console.log("updateViolinPlots value");
 	
 	var duration = 1000;	// animation duration
 	var height = settings.height;
 	var width = 60;
 	var violin = bep[d].violin;
 	
-	var values = srMatrix
+	var values = matrix
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
 		.map(function(a) {return a[d]; });					// isolate value
 
@@ -533,7 +527,6 @@ var updateViolinPlots = function(d, i) {
 	// definition for gradient
 	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height], duration);
 
-	
 	// area generator
 	var area = d3.svg.area()
 		.interpolate("basis")
@@ -574,11 +567,21 @@ var updateViolinPlots = function(d, i) {
 
 
 // update/create gradient
-var updateGradient = function(d, range, duration) {
+var updateGradient = function(d, range, duration, v) {
 
 	var id = "grad"+d;
-	var endColor = bep[d].colorMap.range()[1];
-	if (endColor===undefined) endColor = "red";
+	var endColor = "red";
+
+	
+	if (v) {
+		endColor = bep[value].colorMap.range()[1];
+	} else {
+		endColor = bep[d].colorMap.range()[1];
+	}
+
+	
+	console.log(d, endColor, v);
+	
 	if (duration===undefined) duration = 0;
 
 	var d = [

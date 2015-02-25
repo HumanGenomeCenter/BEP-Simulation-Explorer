@@ -22,8 +22,8 @@ include("../header.php");
 
 			
 			<ul class="nav nav-tabs center" role="tablist">
-				<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Details</a></li>
-				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Overview</a></li>
+				<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Parameter-centered View</a></li>
+				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Statistic-centered View</a></li>
 			</ul>
 		</div>
 	</div>

@@ -10,9 +10,18 @@ var initOverview = function() {
 	var svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
-	
-	
 
+	// loop over S & R
+	var s = [0.01, 0.1, 1].reverse();		// reversed 
+	var r = [0.0001, 0.001, 0.01];
+
+	// Preparing data
+	r.forEach(function(vr,i) {
+		s.forEach(function(vs,j) {
+			overviewMatrix[f[i*3+j]] = data[map.s.value(vs)][map.r.value(vr)];
+		});
+	});
+			
 	f.forEach(function(d, i) {
 		var x = 45 + (i%3)*320;
 		var y = 0;
@@ -28,18 +37,10 @@ var initOverview = function() {
 				.attr('transform', 'translate('+x+','+y+')');
 		g[d].append('g').attr('class', 'boxes');
 		drawScales(g[d]);
+		initViolinPlots(d, i);
 	});
 	
-	// loop over S & R
-	var s = [0.01, 0.1, 1].reverse();		// reversed 
-	var r = [0.0001, 0.001, 0.01];
-	
-	// Preparing data
-	r.forEach(function(vr,i) {
-		s.forEach(function(vs,j) {
-			overviewMatrix[f[i*3+j]] = data[map.s.value(vs)][map.r.value(vr)];
-		});
-	});
+
 
 	updateOverview('ε');		// intial
 	
@@ -49,8 +50,8 @@ var updateOverview = function(value) {
 	
 	f.forEach(function(d,i) {
 		updateOverviewDisplay(d, value);
+		updateViolinPlots(d);
 	});
-		
 	// updateImages();
 }
 
