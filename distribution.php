@@ -149,7 +149,7 @@ var svg = d3.select("#distribution").append("svg")
     .attr("width", width + margin*2)
     .attr("height", height + margin*2);
 
-// definition for gradient
+// definition for gradient, needs to be present in *all* SVG elements!!!
 var defs = svg.append("defs");
 
 // standard def

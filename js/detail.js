@@ -10,11 +10,9 @@ var initDetails = function() {
 	var svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
-		
-	// global definition
-	defs = svg.append("defs");
 			
-			
+	svg.append("defs");		// for gradients
+				
 	fields.forEach(function(d, i) {
 		var x = 45 + (i%3)*320;			// padding
 		var y = (i<3) ? 0 : 180;
@@ -28,7 +26,6 @@ var initDetails = function() {
 	});
 	
 	update();
-	
 }
 
 

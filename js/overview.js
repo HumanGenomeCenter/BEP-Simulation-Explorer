@@ -1,7 +1,4 @@
-
-
-var f = ["a","b","c","d","e","f","g","h","i"];
-var overviewMatrix = {};
+// var overviewFields = ['a','b','c','d','e','f','g','h','i']; defined in simex.js
 	
 var initOverview = function() {
 	
@@ -11,6 +8,8 @@ var initOverview = function() {
 			.attr('width', width)
 			.attr('height', height);
 
+	svg.append("defs");		// for gradients
+	
 	// loop over S & R
 	var s = [0.01, 0.1, 1].reverse();		// reversed 
 	var r = [0.0001, 0.001, 0.01];
@@ -18,11 +17,12 @@ var initOverview = function() {
 	// Preparing data
 	r.forEach(function(vr,i) {
 		s.forEach(function(vs,j) {
-			overviewMatrix[f[i*3+j]] = data[map.s.value(vs)][map.r.value(vr)];
+			var index = overviewFields[i*r.length+j];
+			bep[index].matrix = data[map.s.value(vs)][map.r.value(vr)];
 		});
 	});
 			
-	f.forEach(function(d, i) {
+	overviewFields.forEach(function(d, i) {
 		var x = 45 + (i%3)*320;
 		var y = 0;
 		
@@ -37,29 +37,24 @@ var initOverview = function() {
 				.attr('transform', 'translate('+x+','+y+')');
 		g[d].append('g').attr('class', 'boxes');
 		drawScales(g[d]);
-		initViolinPlots(d, i);
+		initViolinPlots(d, bep[d].matrix, 'ε');
 	});
 	
-
-
 	updateOverview('ε');		// intial
 	
 }
 
 var updateOverview = function(value) {
 	
-	f.forEach(function(d,i) {
+	overviewFields.forEach(function(d,i) {
 		updateOverviewDisplay(d, value);
-		updateViolinPlots(d);
+		updateViolinPlots(d, bep[d].matrix, value);
 	});
 	// updateImages();
 }
 
 
 var updateOverviewDisplay = function(x, value) {
-
-//	console.log(x);
-	var matrix = overviewMatrix[x];
 
 	var rw = settings.boxWidth;
 	var rh = settings.boxHeight;
@@ -68,7 +63,7 @@ var updateOverviewDisplay = function(x, value) {
 
 	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
 	var grp = boxes.selectAll('g')
-		.data(matrix);
+		.data(bep[x].matrix);
 	
 	grp.enter()
 		.append('g')

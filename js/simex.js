@@ -237,9 +237,7 @@ $(document).ready(function() {
 		selected.forEach(function(d,i) {
 			if (d) selectedDetails.push( details[i] );
 		});
-		
-		console.log(selectedDetails, col);
-	
+			
 		addColumns(selectedDetails, col);
 	});
 	
@@ -398,8 +396,9 @@ var drawScales = function(grp) {
 
 
 
-var initViolinPlots = function(d, matrix) {
-	console.log("update draw violin plot", d, matrix);
+var initViolinPlots = function(d, matrix, parameter) {
+	
+	if (undefined===parameter) parameter = d;
 	
 	var dataRange,
 		margin = 30,
@@ -422,23 +421,22 @@ var initViolinPlots = function(d, matrix) {
 		
 	values = matrix
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
-		.map(function(a) {return a[d]; });					// isolate value
+		.map(function(a) {return a[parameter]; });					// isolate value
 	
 	dataRange = [0, d3.max(values)];
-	// init
 	
 	x = d3.scale.linear()
 		.domain(dataRange)
 		.range([height,0]);	// 0 at bottom
 
 	data = d3.layout.histogram().bins(x.ticks(50))(values);
-
+	
 	y = d3.scale.linear()
 		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
 		.range([0, width]);
 
 	// definition for gradient
-	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height]);
+	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height], 0, parameter);
 
 	// area generator
 	area = d3.svg.area()
@@ -455,7 +453,7 @@ var initViolinPlots = function(d, matrix) {
 	// append group & path
 	kdf.append("g")
 		.attr("class", "area")
-		.style("fill", "url(#grad"+d+")")
+		.style("fill", "url(#grad_"+d+")")
 		.attr("transform", "scale(-0.5,1) rotate(90)")
 		.append("path")
 			.datum(data)
@@ -463,7 +461,7 @@ var initViolinPlots = function(d, matrix) {
 	
 	kdf.append("g")
 		.attr("class", "area mirrored")
-		.style("fill", "url(#grad"+d+")")
+		.style("fill", "url(#grad_"+d+")")
 		.attr("transform", "scale(0.5,1) rotate(90)")
 		.append("path")
 			.datum(data)
@@ -500,8 +498,8 @@ var initViolinPlots = function(d, matrix) {
 
 
 
-var updateViolinPlots = function(d, matrix) {
-	console.log("updateViolinPlots value");
+var updateViolinPlots = function(d, matrix, parameter) {
+	if (undefined===parameter) parameter = d;
 	
 	var duration = 1000;	// animation duration
 	var height = settings.height;
@@ -510,8 +508,8 @@ var updateViolinPlots = function(d, matrix) {
 	
 	var values = matrix
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
-		.map(function(a) {return a[d]; });					// isolate value
-
+		.map(function(a) {return a[parameter]; });			// isolate value
+		
 	var dataRange = [0, d3.max(values)];	
 
 	var x = d3.scale.linear()
@@ -525,7 +523,7 @@ var updateViolinPlots = function(d, matrix) {
 		.range([0, width]);
 		
 	// definition for gradient
-	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height], duration);
+	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height], duration, parameter);
 
 	// area generator
 	var area = d3.svg.area()
@@ -534,7 +532,6 @@ var updateViolinPlots = function(d, matrix) {
 		.y0(0)
 		.y1(function(d) { return y(d.y); })
 	
-
 	var boxplot = violin.select(".box");
 	var chart = d3.box()
 		.whiskers(iqr(1.5))
@@ -543,10 +540,8 @@ var updateViolinPlots = function(d, matrix) {
 		.domain(dataRange)
 		.tickFormat(" ");	// hack, " " instead of d3.format
 	
-	
 	boxplot.datum(values)
 		.call(chart.domain(dataRange).duration(duration));		// don't forget to update chart domain
-	
 	
 	// update axis
 	var xA = violin.select(".y.axis");
@@ -567,24 +562,14 @@ var updateViolinPlots = function(d, matrix) {
 
 
 // update/create gradient
-var updateGradient = function(d, range, duration, v) {
-
-	var id = "grad"+d;
-	var endColor = "red";
-
+var updateGradient = function(d, range, duration, parameter) {
 	
-	if (v) {
-		endColor = bep[value].colorMap.range()[1];
-	} else {
-		endColor = bep[d].colorMap.range()[1];
-	}
+	var defs = d3.selectAll("svg defs");		// both SVG containers
+	var id = "grad_"+d;
 
+	var endColor = bep[parameter].colorMap.range()[1];
 	
-	console.log(d, endColor, v);
-	
-	if (duration===undefined) duration = 0;
-
-	var d = [
+	var data = [
 		{offset: (range[0]*100)+"%", color: "white"},
 		{offset: (range[1]*100)+"%", color: endColor}
 	];
@@ -600,17 +585,18 @@ var updateGradient = function(d, range, duration, v) {
 
 	var up = function(s) {	// helper
 		s.transition()
-			.duration(0 || duration)
+			.duration(duration)
 			.attr("offset", function(d) { return d.offset; })			// enter
-			.attr("stop-color", function(d) { return d.color; })
+			.attr("stop-color", function(d) { return d.color; });
 	}
 
 	gradient.selectAll("stop")			// reselect
-		.data(d)
-		.call(up)				// update
+		.data(data)
+		.call(up)
 	.enter()
 		.append("stop")
 		.call(up);					// enter
+	
 }
 
 var iqr = function(k) {
