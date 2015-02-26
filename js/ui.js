@@ -14,7 +14,7 @@ $("#r .btn.btn-default, #s .btn.btn-default").on('click', function(e) {
 	var value = parseFloat( $(this).find("span").html() );
 	values[id] = value;
 	setLabel(id, value);
-	update();	
+	updateDetails();	
 });
 
 // f,d dropdown
@@ -49,7 +49,7 @@ $("#abs .btn.btn-default").on('click', function(e) {
 	var v = $(this).children("input").val()
 	if (v==="rel") settings.relative = true;
 	if (v==="abs") settings.relative = false;
-	update();
+	updateDetails();
 });
 
 // Checking for shift key down
@@ -71,14 +71,6 @@ $(".selection-overview .btn.btn-default").on('click', function(e) {
 	e.preventDefault();
 	var v = $(this).data('value');
 	updateOverview(v);
-	
-	/*
-	var id = $(this).parent().attr('id')
-	var value = parseFloat( $(this).find("span").html() );
-	values[id] = value;
-	setLabel(id, value);
-	update();
-	*/
 });
 
 

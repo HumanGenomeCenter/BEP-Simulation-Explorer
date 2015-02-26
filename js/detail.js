@@ -1,6 +1,5 @@
 
 var g = {};
-var srMatrix;
 var mouseDown = false;
 
 var initDetails = function() {
@@ -20,26 +19,26 @@ var initDetails = function() {
 				.attr('class', d)
 				.attr('transform', 'translate('+x+','+y+')');
 		g[d].append('g').attr('class', 'boxes');
-		srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];	// init
+		var matrix = data[map.s.value(values.s)][map.r.value(values.r)];	// init
 		drawScales(g[d]);
-		initViolinPlots(d, srMatrix);
+		initViolinPlots(d, matrix);
 	});
 	
-	update();
+	updateDetails();
 }
 
 
 
-
-var update = function() {
+// absolute/relative update
+var updateDetails = function() {
 	
-	srMatrix = data[map.s.value(values.s)][map.r.value(values.r)];
+	var matrix = data[map.s.value(values.s)][map.r.value(values.r)];
 	
-	getLimits(srMatrix);		// cache
+	getLimits(matrix);		// cache
 	
 	fields.forEach(function(d, i) {
-		updateDisplay(d);
-		updateViolinPlots(d, srMatrix);
+		updateDetailGrids(d, matrix);
+		updateViolinPlots(d, matrix);
 	});
 	
 	updateImages();
@@ -48,7 +47,7 @@ var update = function() {
 
 
 
-var updateDisplay = function(x) {
+var updateDetailGrids = function(x, matrix) {
 
 	var rw = settings.boxWidth;
 	var rh = settings.boxHeight;
@@ -57,7 +56,7 @@ var updateDisplay = function(x) {
 
 	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
 	var grp = boxes.selectAll('g')
-		.data(srMatrix);
+		.data(matrix);
 	
 	grp.enter()
 		.append('g')

@@ -11,7 +11,8 @@ var selected = [false, false, false, false, false];
 var bep = {};
 var fields = ['ε','μ','τ','ρ','λ','θ'];
 var overviewFields = ['a','b','c','d','e','f','g','h','i'];
-fields.concat(overviewFields).forEach(function(d) {bep[d] = {};});
+var allFields = fields.concat(overviewFields);
+allFields.forEach(function(d) {bep[d] = {};});
 
 var settings = {};
 settings.relative = true;
@@ -20,7 +21,7 @@ settings.width = 173;	// 260
 settings.height = 109;	// 129
 settings.boxWidth = (settings.width - 28*settings.boxSpacing) / 29;
 settings.boxHeight = (settings.height - 9*settings.boxSpacing) / 10;
-
+settings.duration = 1000;
 
 
 var data = {};
@@ -174,6 +175,8 @@ var getLimits = function(matrix) {
 		var max = d3.max(linear, function(d) {return d[f]});
 		bep[f].range = [min, max]; 
 		bep[f].colorMap.domain([min, max]);
+		
+		console.log(f, min, max);
 	});
 }
 
@@ -414,16 +417,17 @@ var initViolinPlots = function(d, matrix, parameter) {
 		.attr("transform", "translate("+(settings.width+40)+",0)")
 
 	bep[d].violin = violin;		// cache handler for update
-	
-	// srMatrix -> detail
-	// overviewMatrix -> overview
-	// transform srMatrix data
 		
 	values = matrix
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
 		.map(function(a) {return a[parameter]; });					// isolate value
 	
-	dataRange = [0, d3.max(values)];
+	var dataRange;	
+	if (settings.relative) {
+		dataRange = [d3.min(values), d3.max(values)];
+	} else {
+		dataRange = bep[d].range;
+	}
 	
 	x = d3.scale.linear()
 		.domain(dataRange)
@@ -500,7 +504,7 @@ var initViolinPlots = function(d, matrix, parameter) {
 
 var updateViolinPlots = function(d, matrix, parameter) {
 	if (undefined===parameter) parameter = d;
-	
+		
 	var duration = 1000;	// animation duration
 	var height = settings.height;
 	var width = 60;
@@ -509,8 +513,14 @@ var updateViolinPlots = function(d, matrix, parameter) {
 	var values = matrix
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
 		.map(function(a) {return a[parameter]; });			// isolate value
-		
-	var dataRange = [0, d3.max(values)];	
+	
+	var dataRange;	
+	if (settings.relative) {
+		dataRange = [d3.min(values), d3.max(values)];
+	} else {
+		dataRange = bep[d].range;
+	}
+
 
 	var x = d3.scale.linear()
 		.domain(dataRange)
