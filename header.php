@@ -53,7 +53,6 @@ echo "-->";
 				<ul class="nav navbar-nav">
 					<li<?php echo $a['intro']; ?>><a href="<?php echo $path; ?>">Introduction</a></li>
 					<li<?php echo $a['explorer']; ?>><a href="<?php echo $path; ?>explorer/">Simulation Explorer</a></li>
-					<li<?php echo $a['about']; ?>><a href="<?php echo $path; ?>about/">About</a></li>
 					<li<?php echo $a['help']; ?>><a href="<?php echo $path; ?>help/">Help</a></li>
 					
 					<li<?php echo $a['code']; ?>><a href="<?php echo $path; ?>code/">Code</a></li>

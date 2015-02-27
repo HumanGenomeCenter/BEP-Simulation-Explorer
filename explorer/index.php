@@ -103,7 +103,7 @@ include("../header.php");
 			<b> Self similality of the cell-wise dendrogram. </b>
 			From the cell-wise dendrogram of the mutation profile heatmap, 
 			we obtained <i>b</i> clusters by cutting the dendrogram at the height <i>a</i>. the relationship between <i>a</i> and <i>b</i> was plotted in log scale.
-			vertical and horizontal axes denote <i>c</i> and <i>l</i>, respectively. Since their linear relationship indicates self similality,
+			vertical and horizontal axes denote <i>b</i> and <i>a</i>, respectively. Since their linear relationship indicates self similality,
 			we performed linear regression between <i>log</i>(<i>b</i>) and <i>log</i>(<i>a</i>), and assumed that the dendrogram has self-similarity if R<sup>2</sup> &gt 0.95
 		</figcaption>
 	</div>
