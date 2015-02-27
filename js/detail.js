@@ -32,72 +32,12 @@ var updateDetails = function() {
 	getLimits(matrix);		// cache
 	
 	bep.fields.parameter.forEach(function(d, i) {
-		updateDetailGrids(d, matrix);
+		updateGrids(d, matrix);
 		updateViolinPlots(d, matrix);
 	});
 	
 	updateImages();
 }
-
-
-
-var updateDetailGrids = function(x, matrix) {
-
-	var rw = bep.settings.boxWidth;
-	var rh = bep.settings.boxHeight;
-	var p = bep.settings.boxSpacing;
-	// join
-
-	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
-	var grp = boxes.selectAll('g')
-		.data(matrix);
-	
-	grp.enter()
-		.append('g')
-		.attr('transform', function(d, i) {
-			return 'translate(0,' + (rh + p) * (9-i) + ')';
-		});
-	
-	// re-bind data
-	var rect = grp.selectAll('rect')
-		.data(function(d) { return d; });	
-		
-	// fading transitions
-	rect
-		.transition()
-		.duration(slowShift)
-		.attr('fill', function(d) { 
-			return bep[x].colorMap(d[x]);
-		})
-		.attr('opacity', function(d) { 
-			if (d[x]===0) return 0;
-			return 1;
-		});
-		
-	rect.enter()
-		.append('rect')
-			.attr('x', function(d, i) { 
-				return (rw + p) * i; 
-			})
-			.attr('width', rw)
-			.attr('height', rh)
-			.attr('fill', function(d) {
-				//if (d[x]===0) return '#dddddd';
-				return bep[x].colorMap(d[x]);
-			})
-			.attr('opacity', function(d) { 
-				if (d[x]===0) return 0;
-				return 1;
-			})
-			.on("mousedown", gridMouseDown)
-			.on("mouseup", gridMouseUp)
-			.on("mousemove", gridMouseMove);
-			
-			
-}
-
-
-
 
 
 

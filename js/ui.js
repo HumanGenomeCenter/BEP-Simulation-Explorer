@@ -71,8 +71,7 @@ $("#abs .btn.btn-default").on('click', function(e) {
 	if (bep.parameter) {
 		updateDetails();
 	} else {
-		console.log(bep.overviewValue);
-		// updateOverview();
+		updateOverview();
 	}
 	
 });

@@ -45,65 +45,14 @@ var initOverview = function() {
 
 var updateOverview = function(value) {
 	if (value===undefined) value = bep.overviewValue;
+	console.log("updateOverview", value);
 	bep.fields.statistics.forEach(function(d,i) {
-		updateOverviewGrids(d, value);
-		updateViolinPlots(d, bep[d].matrix, value);
+		console.log(d, value);
+		var matrix = bep[d].matrix;
+		updateGrids(d, matrix, value);
+		//updateViolinPlots(d, bep[d].matrix, value);
 	});
 	//updateImages();
-}
-
-
-var updateOverviewGrids = function(x, value) {
-
-	var rw = bep.settings.boxWidth;
-	var rh = bep.settings.boxHeight;
-	var p = bep.settings.boxSpacing;
-	// join
-
-	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
-	var grp = boxes.selectAll('g')
-		.data(bep[x].matrix);
-	
-	grp.enter()
-		.append('g')
-		.attr('transform', function(d, i) {
-			return 'translate(0,' + (rh + p) * (9-i) + ')';
-		});
-	
-	// re-bind data
-	var rect = grp.selectAll('rect')
-		.data(function(d) { return d; });	
-		
-	// fading transitions
-	rect
-		.transition()
-		.duration(slowShift)
-		.attr('fill', function(d) { 
-			return bep[value].colorMap(d[value]);
-		})
-		.attr('opacity', function(d) { 
-			if (d[x]===0) return 0;
-			return 1;
-		});
-		
-	rect.enter()
-		.append('rect')
-			.attr('x', function(d, i) { 
-				return (rw + p) * i; 
-			})
-			.attr('width', rw)
-			.attr('height', rh)
-			.attr('fill', function(d) {
-				return bep[value].colorMap(d[value]);
-			})
-			.attr('opacity', function(d) { 
-				if (d[x]===0) return 0;
-				return 1;
-			})
-			.on("mousedown", gridMouseDown)
-			.on("mouseup", gridMouseUp)
-			.on("mousemove", gridMouseMove);
-
 }
 
 
