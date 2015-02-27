@@ -1,18 +1,19 @@
+var bep = {};
 
 // get default values from html
-var values = {};
-values.s = parseFloat($("#s .btn.active span").html());
-values.r = parseFloat($("#r .btn.active span").html());
-values.d = parseFloat($("#d .btn.active span").html());
-values.f = parseFloat($("#f .btn.active span").html());
+bep.values = {};
+bep.values.s = parseFloat($("#s .btn.active span").html());
+bep.values.r = parseFloat($("#r .btn.active span").html());
+bep.values.d = parseFloat($("#d .btn.active span").html());
+bep.values.f = parseFloat($("#f .btn.active span").html());
 
 var details = [];
 var selected = [false, false, false, false, false];
-var bep = {};
+
 var fields = ['ε','μ','τ','ρ','λ','θ'];
 var overviewFields = ['a','b','c','d','e','f','g','h','i'];
 var allFields = fields.concat(overviewFields);
-allFields.forEach(function(d) {bep[d] = {};});
+allFields.forEach(function(d) {bep[d] = {};});		// init with empty objects
 
 var settings = {};
 settings.relative = true;
@@ -100,7 +101,7 @@ var updateImages = function() {
 	
 	
 	details = [];
-	var baseurl = "../results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
+	var baseurl = "../results/s" + bep.values.s + "_r" + bep.values.r + "/d" + bep.values.d + "_f"+ bep.values.f;
 	
 	d3.selectAll("img.tumor")
 		.data([0,1,2,3,4])
@@ -133,10 +134,10 @@ var updateImages = function() {
 
 
 var updateIndicators = function() {
-	var x = map.f.value(values.f);
-	var y = map.d.value(values.d);
-	$("#f .dropdown-toggle span").first().html(values.f); 	// bind button
-	$("#d .dropdown-toggle span").first().html(values.d);
+	var x = map.f.value(bep.values.f);
+	var y = map.d.value(bep.values.d);
+	$("#f .dropdown-toggle span").first().html(bep.values.f); 	// bind button
+	$("#d .dropdown-toggle span").first().html(bep.values.d);
 	var f = (settings.boxWidth+settings.boxSpacing)*(x);
 	var d = (settings.boxHeight+settings.boxSpacing)*(9-y);
 	d3.selectAll(".f-indicator").attr('x', f);
@@ -280,7 +281,7 @@ var addColumns = function(s, clss) {
 	$(".row.values").html( h.html() );	// get html content
 
 
-	var baseurl = "../results/s" + values.s + "_r" + values.r + "/d" + values.d + "_f"+ values.f;
+	var baseurl = "../results/s" + bep.values.s + "_r" + bep.values.r + "/d" + bep.values.d + "_f"+ bep.values.f;
 	
 	selectedData = []
 	selected.forEach(function(d, i){
@@ -353,14 +354,14 @@ var drawScales = function(grp) {
 	indicators.append('rect')
 		.attr('class','d-indicator')
 		.attr('x', -thickness-spacing)
-		.attr('y', (settings.boxHeight+settings.boxSpacing)*(map.d.value(values.d)))
+		.attr('y', (settings.boxHeight+settings.boxSpacing)*(map.d.value(bep.values.d)))
 		.attr('width', thickness)
 		.attr('height', settings.boxHeight);
 
 	// horizontal
 	indicators.append('rect')
 		.attr('class','f-indicator')
-		.attr('x', (settings.boxWidth+settings.boxSpacing)*(map.f.value(values.f)))
+		.attr('x', (settings.boxWidth+settings.boxSpacing)*(map.f.value(bep.values.f)))
 		.attr('y', settings.height+spacing)
 		.attr('width', settings.boxWidth)
 		.attr('height', thickness);

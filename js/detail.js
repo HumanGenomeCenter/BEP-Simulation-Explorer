@@ -19,7 +19,7 @@ var initDetails = function() {
 				.attr('class', d)
 				.attr('transform', 'translate('+x+','+y+')');
 		g[d].append('g').attr('class', 'boxes');
-		var matrix = data[map.s.value(values.s)][map.r.value(values.r)];	// init
+		var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];	// init
 		drawScales(g[d]);
 		initViolinPlots(d, matrix);
 	});
@@ -32,7 +32,7 @@ var initDetails = function() {
 // absolute/relative update
 var updateDetails = function() {
 	
-	var matrix = data[map.s.value(values.s)][map.r.value(values.r)];
+	var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];
 	
 	getLimits(matrix);		// cache
 	
@@ -101,8 +101,8 @@ var updateDetailGrids = function(x, matrix) {
 //				})
 			.on("mousedown", function(d,x,y) {
 				mouseDown = true;
-				values.f = map.f.i(x);
-				values.d = map.d.i(y);
+				bep.values.f = map.f.i(x);
+				bep.values.d = map.d.i(y);
 				updateIndicators();
 			})
 			.on("mouseup", function() {
@@ -110,8 +110,8 @@ var updateDetailGrids = function(x, matrix) {
 			})
 			.on("mousemove", function(d,x,y) {
 				if (mouseDown) {
-					values.f = map.f.i(x);
-					values.d = map.d.i(y);
+					bep.values.f = map.f.i(x);
+					bep.values.d = map.d.i(y);
 					updateIndicators();
 					updateImages();
 				}

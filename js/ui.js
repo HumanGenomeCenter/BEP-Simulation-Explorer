@@ -12,7 +12,7 @@ $("#r .btn.btn-default, #s .btn.btn-default").on('click', function(e) {
 	e.preventDefault();
 	var id = $(this).parent().attr('id')
 	var value = parseFloat( $(this).find("span").html() );
-	values[id] = value;
+	bep.values[id] = value;
 	setLabel(id, value);
 	updateDetails();	
 });
@@ -23,7 +23,7 @@ $("#f .dropdown-menu > li > a").on('click', function(e) {
 	var id = "f";
 	var value = parseFloat( $(this).html() );
 	$("#f .dropdown-toggle span").first().html(value); 		// update button
-	values[id] = value;
+	bep.values[id] = value;
 	setLabel(id, value);
 	updateIndicators();
 	updateImages();
@@ -35,7 +35,7 @@ $("#d .dropdown-menu > li > a").on('click', function(e) {
 	var value = parseFloat( $(this).html() );
 	$("#d .dropdown-toggle span").first().html(value);		// update button
 	
-	values[id] = value;
+	bep.values[id] = value;
 	setLabel(id, value);
 	updateIndicators();
 	updateImages();

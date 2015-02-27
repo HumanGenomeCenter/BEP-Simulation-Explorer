@@ -107,8 +107,8 @@ var updateOverviewDisplay = function(x, value) {
 //				})
 			.on("mousedown", function(d,x,y) {
 				mouseDown = true;
-				values.f = map.f.i(x);
-				values.d = map.d.i(y);
+				bep.values.f = map.f.i(x);
+				bep.values.d = map.d.i(y);
 				updateIndicators();
 			})
 			.on("mouseup", function() {
@@ -116,8 +116,8 @@ var updateOverviewDisplay = function(x, value) {
 			})
 			.on("mousemove", function(d,x,y) {
 				if (mouseDown) {
-					values.f = map.f.i(x);
-					values.d = map.d.i(y);
+					bep.values.f = map.f.i(x);
+					bep.values.d = map.d.i(y);
 					updateIndicators();
 					updateImages();
 				}
