@@ -46,11 +46,15 @@ var initOverview = function() {
 var updateOverview = function(value) {
 	if (value===undefined) value = bep.overviewValue;
 	console.log("updateOverview", value);
+	
+	// update limites
+	 
+//	getAbsoluteRanges();
 	bep.fields.statistics.forEach(function(d,i) {
 		console.log(d, value);
 		var matrix = bep[d].matrix;
 		updateGrids(d, matrix, value);
-		//updateViolinPlots(d, bep[d].matrix, value);
+		updateViolinPlots(d, bep[d].matrix, value);
 	});
 	//updateImages();
 }

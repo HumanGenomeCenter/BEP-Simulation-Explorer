@@ -29,7 +29,7 @@ var initDetails = function() {
 var updateDetails = function() {
 	var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];
 	
-	getLimits(matrix);		// cache
+	updateLimits(matrix);		// cache
 	
 	bep.fields.parameter.forEach(function(d, i) {
 		updateGrids(d, matrix);

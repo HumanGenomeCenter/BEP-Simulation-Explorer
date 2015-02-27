@@ -87,11 +87,15 @@ map.f = {
 bep.ε.colorMap = d3.scale.linear().range(["#FFFFFF", "#FF0000"]).clamp(true);
 bep.μ.colorMap = d3.scale.linear().range(["#FFFFFF", "#0000FF"]).clamp(true);
 bep.τ.colorMap = d3.scale.linear().range(["#FFFFFF", "#A020F0"]).clamp(true);
-
 bep.ρ.colorMap = d3.scale.linear().range(["#FFFFFF", "#00CD00"]).clamp(true);
 bep.λ.colorMap = d3.scale.linear().range(["#FFFFFF", "#EEEE00"]).clamp(true);
 bep.θ.colorMap = d3.scale.linear().range(["#FFFFFF", "#FFA500"]).clamp(true);
 
+// init ranges & colorMaps for overview fields
+bep.fields.statistics.forEach(function(d) {
+	bep[d].range = [0,1];
+	bep[d].colorMap = d3.scale.linear().range(["#FFFFFF", "#FF0000"]).clamp(true);
+});
 
 
 
@@ -154,8 +158,8 @@ var updateIndicators = function() {
 
 
 
-// get Limits. interate over data, get [min, max] of all types
-var getLimits = function(matrix) {
+// update Limits. interate over data, get [min, max] of all types
+var updateLimits = function(matrix) {
 	// add caching layer
 	var linear = [];
 	
@@ -184,6 +188,31 @@ var getLimits = function(matrix) {
 		bep[f].range = [min, max]; 
 		bep[f].colorMap.domain([min, max]);
 	});
+}
+
+var getAbsoluteRanges = function() {
+	
+	// absolute
+	var linear = [];
+	console.time("abs");
+	// serialise all matrices
+	bep.fields.statistics.forEach(function(m) {		
+		bep[m].matrix.map(function(d) { 		// passed-in
+			d.map(function(f) { 
+				linear.push(f);
+			})
+		});
+	});
+	
+	bep.fields.parameter.forEach(function(f) {
+		var min = d3.min(linear, function(d) {return d[f]});
+		var max = d3.max(linear, function(d) {return d[f]});
+		bep[f].absoluteRange = [min, max]; 
+	});
+	
+	console.timeEnd("abs");
+	//bep.overviewValue
+	
 }
 
 
@@ -531,10 +560,10 @@ var updateViolinPlots = function(d, matrix, parameter) {
 		.map(function(a) {return a[parameter]; });			// isolate value
 	
 	var dataRange;	
-	if (bep.settings.relative) {
+	if (bep.settings.relative) {	// relative
 		dataRange = [d3.min(values), d3.max(values)];
 	} else {
-		dataRange = bep[d].range;
+		dataRange = bep[d].range;	// absolute
 	}
 
 
