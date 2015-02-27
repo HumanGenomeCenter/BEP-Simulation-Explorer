@@ -32,11 +32,11 @@ var initOverview = function() {
 			y = 360;
 		}
 		
-		g[d] = svg.append('g')
+		bep[d].g = svg.append('g')
 				.attr('class', d)
 				.attr('transform', 'translate('+x+','+y+')');
-		g[d].append('g').attr('class', 'boxes');
-		drawScales(g[d]);
+		bep[d].g.append('g').attr('class', 'boxes');
+		drawScales(bep[d].g);
 		initViolinPlots(d, bep[d].matrix, 'ε');
 	});
 	

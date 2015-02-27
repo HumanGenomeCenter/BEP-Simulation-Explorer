@@ -1,5 +1,5 @@
 
-var g = {};
+//var g = {};
 
 var initDetails = function() {
 	
@@ -14,12 +14,12 @@ var initDetails = function() {
 	fields.forEach(function(d, i) {
 		var x = 45 + (i%3)*320;			// padding
 		var y = (i<3) ? 0 : 180;
-		g[d] = svg.append('g')
+		bep[d].g = svg.append('g')
 				.attr('class', d)
 				.attr('transform', 'translate('+x+','+y+')');
-		g[d].append('g').attr('class', 'boxes');
+		bep[d].g.append('g').attr('class', 'boxes');
 		var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];	// init
-		drawScales(g[d]);
+		drawScales(bep[d].g);
 		initViolinPlots(d, matrix);
 	});
 	
