@@ -1,6 +1,5 @@
 
 var g = {};
-var mouseDown = false;
 
 var initDetails = function() {
 	
@@ -100,7 +99,7 @@ var updateDetailGrids = function(x, matrix) {
 //					console.log("over", x,y);
 //				})
 			.on("mousedown", function(d,x,y) {
-				mouseDown = true;
+				bep.mouseDown = true;
 				bep.values.f = map.f.i(x);
 				bep.values.d = map.d.i(y);
 				updateIndicators();
@@ -109,7 +108,7 @@ var updateDetailGrids = function(x, matrix) {
 				updateImages();
 			})
 			.on("mousemove", function(d,x,y) {
-				if (mouseDown) {
+				if (bep.mouseDown) {
 					bep.values.f = map.f.i(x);
 					bep.values.d = map.d.i(y);
 					updateIndicators();

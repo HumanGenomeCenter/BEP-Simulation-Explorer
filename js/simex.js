@@ -24,6 +24,7 @@ bep.settings.boxWidth = (bep.settings.width - 28*bep.settings.boxSpacing) / 29;
 bep.settings.boxHeight = (bep.settings.height - 9*bep.settings.boxSpacing) / 10;
 bep.settings.duration = 1000;
 
+bep.mouseDown = false;
 
 var data = {};
 
