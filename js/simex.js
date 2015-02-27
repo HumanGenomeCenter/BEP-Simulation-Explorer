@@ -15,14 +15,14 @@ var overviewFields = ['a','b','c','d','e','f','g','h','i'];
 var allFields = fields.concat(overviewFields);
 allFields.forEach(function(d) {bep[d] = {};});		// init with empty objects
 
-var settings = {};
-settings.relative = true;
-settings.boxSpacing = 1;
-settings.width = 173;	// 260
-settings.height = 109;	// 129
-settings.boxWidth = (settings.width - 28*settings.boxSpacing) / 29;
-settings.boxHeight = (settings.height - 9*settings.boxSpacing) / 10;
-settings.duration = 1000;
+bep.settings = {};
+bep.settings.relative = true;
+bep.settings.boxSpacing = 1;
+bep.settings.width = 173;	// 260
+bep.settings.height = 109;	// 129
+bep.settings.boxWidth = (bep.settings.width - 28*bep.settings.boxSpacing) / 29;
+bep.settings.boxHeight = (bep.settings.height - 9*bep.settings.boxSpacing) / 10;
+bep.settings.duration = 1000;
 
 
 var data = {};
@@ -138,8 +138,8 @@ var updateIndicators = function() {
 	var y = map.d.value(bep.values.d);
 	$("#f .dropdown-toggle span").first().html(bep.values.f); 	// bind button
 	$("#d .dropdown-toggle span").first().html(bep.values.d);
-	var f = (settings.boxWidth+settings.boxSpacing)*(x);
-	var d = (settings.boxHeight+settings.boxSpacing)*(9-y);
+	var f = (bep.settings.boxWidth+bep.settings.boxSpacing)*(x);
+	var d = (bep.settings.boxHeight+bep.settings.boxSpacing)*(9-y);
 	d3.selectAll(".f-indicator").attr('x', f);
 	d3.selectAll(".d-indicator").attr('y', d);
 }
@@ -153,7 +153,7 @@ var getLimits = function(matrix) {
 	var linear = [];
 	
 	// find higest & lowest values
-	if (settings.relative) {
+	if (bep.settings.relative) {
 		matrix.map(function(d) { 		// passed-in
 			d.map(function(f) { 
 				linear.push(f);
@@ -354,51 +354,51 @@ var drawScales = function(grp) {
 	indicators.append('rect')
 		.attr('class','d-indicator')
 		.attr('x', -thickness-spacing)
-		.attr('y', (settings.boxHeight+settings.boxSpacing)*(map.d.value(bep.values.d)))
+		.attr('y', (bep.settings.boxHeight+bep.settings.boxSpacing)*(map.d.value(bep.values.d)))
 		.attr('width', thickness)
-		.attr('height', settings.boxHeight);
+		.attr('height', bep.settings.boxHeight);
 
 	// horizontal
 	indicators.append('rect')
 		.attr('class','f-indicator')
-		.attr('x', (settings.boxWidth+settings.boxSpacing)*(map.f.value(bep.values.f)))
-		.attr('y', settings.height+spacing)
-		.attr('width', settings.boxWidth)
+		.attr('x', (bep.settings.boxWidth+bep.settings.boxSpacing)*(map.f.value(bep.values.f)))
+		.attr('y', bep.settings.height+spacing)
+		.attr('width', bep.settings.boxWidth)
 		.attr('height', thickness);
 		
 		
 	// axis
 	var fAxis = d3.svg.axis()
 		.orient('left')
-		.scale(d3.scale.linear().domain([1,10]).range([settings.height-settings.boxHeight,0]))
+		.scale(d3.scale.linear().domain([1,10]).range([bep.settings.height-bep.settings.boxHeight,0]))
 		.ticks(10)
 
 	xAxis = grp.append('g')
 		.attr('class', 'f-axis axis')
-		.attr('transform', 'translate(-3,'+(settings.boxHeight/2)+')')
+		.attr('transform', 'translate(-3,'+(bep.settings.boxHeight/2)+')')
 		.call(fAxis);
 		
 	var dAxis = d3.svg.axis()
 		.orient('bottom')
-		.scale(d3.scale.linear().domain([0.1,1.5]).range([0,settings.width-settings.boxWidth]))
+		.scale(d3.scale.linear().domain([0.1,1.5]).range([0,bep.settings.width-bep.settings.boxWidth]))
 		.ticks(10)
 
 	yAxis = grp.append('g')
 		.attr('class', 'd-axis axis')
-		.attr('transform', 'translate('+(settings.boxWidth/2)+','+(3+settings.height)+')')
+		.attr('transform', 'translate('+(bep.settings.boxWidth/2)+','+(3+bep.settings.height)+')')
 		.call(dAxis);
 			
 	// legend
 	var dLegend = grp.append('g')
 		.attr('class', 'legend')
-		.attr('transform', 'translate(-37,'+(settings.height/2)+')');
+		.attr('transform', 'translate(-37,'+(bep.settings.height/2)+')');
 		
 	dLegend.append('text')
 		.text("d");
 
 	var fLegend = grp.append('g')
 		.attr('class', 'legend')
-		.attr('transform', 'translate('+(settings.width/2)+','+(settings.height+40)+')');
+		.attr('transform', 'translate('+(bep.settings.width/2)+','+(bep.settings.height+40)+')');
 
 	fLegend.append('text')
 		.text("f");		
@@ -415,7 +415,7 @@ var initViolinPlots = function(d, matrix, parameter) {
 	var dataRange,
 		margin = 30,
 		width = 60,
-		height = settings.height,
+		height = bep.settings.height,
 		x, y,			// scales
 		data,
 		values,
@@ -423,7 +423,7 @@ var initViolinPlots = function(d, matrix, parameter) {
 	
 	var violin = d3.select("."+d).append('g')
 		.attr('class', 'violin')
-		.attr("transform", "translate("+(settings.width+40)+",0)")
+		.attr("transform", "translate("+(bep.settings.width+40)+",0)")
 
 	bep[d].violin = violin;		// cache handler for update
 		
@@ -432,7 +432,7 @@ var initViolinPlots = function(d, matrix, parameter) {
 		.map(function(a) {return a[parameter]; });					// isolate value
 	
 	var dataRange;	
-	if (settings.relative) {
+	if (bep.settings.relative) {
 		dataRange = [d3.min(values), d3.max(values)];
 	} else {
 		dataRange = bep[d].range;
@@ -515,7 +515,7 @@ var updateViolinPlots = function(d, matrix, parameter) {
 	if (undefined===parameter) parameter = d;
 		
 	var duration = 1000;	// animation duration
-	var height = settings.height;
+	var height = bep.settings.height;
 	var width = 60;
 	var violin = bep[d].violin;
 	
@@ -524,7 +524,7 @@ var updateViolinPlots = function(d, matrix, parameter) {
 		.map(function(a) {return a[parameter]; });			// isolate value
 	
 	var dataRange;	
-	if (settings.relative) {
+	if (bep.settings.relative) {
 		dataRange = [d3.min(values), d3.max(values)];
 	} else {
 		dataRange = bep[d].range;

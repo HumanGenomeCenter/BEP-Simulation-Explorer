@@ -47,8 +47,8 @@ $("#d .dropdown-menu > li > a").on('click', function(e) {
 // scale
 $("#abs .btn.btn-default").on('click', function(e) {	
 	var v = $(this).children("input").val()
-	if (v==="rel") settings.relative = true;
-	if (v==="abs") settings.relative = false;
+	if (v==="rel") bep.settings.relative = true;
+	if (v==="abs") bep.settings.relative = false;
 	updateDetails();
 });
 

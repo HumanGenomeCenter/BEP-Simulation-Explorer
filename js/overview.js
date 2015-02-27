@@ -56,9 +56,9 @@ var updateOverview = function(value) {
 
 var updateOverviewDisplay = function(x, value) {
 
-	var rw = settings.boxWidth;
-	var rh = settings.boxHeight;
-	var p = settings.boxSpacing;
+	var rw = bep.settings.boxWidth;
+	var rh = bep.settings.boxHeight;
+	var p = bep.settings.boxSpacing;
 	// join
 
 	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
