@@ -1,5 +1,3 @@
-// var overviewFields = ['a','b','c','d','e','f','g','h','i']; defined in simex.js
-	
 var initOverview = function() {
 	
 	var width = 960, height = 570;
@@ -17,12 +15,13 @@ var initOverview = function() {
 	// Preparing data
 	r.forEach(function(vr,i) {
 		s.forEach(function(vs,j) {
-			var index = overviewFields[i*r.length+j];
+			var index = bep.fields.statistics[i*r.length+j];
 			bep[index].matrix = data[map.s.value(vs)][map.r.value(vr)];
 		});
 	});
 			
-	overviewFields.forEach(function(d, i) {
+	bep.overviewValue = 'ε';
+	bep.fields.statistics.forEach(function(d, i) {
 		var x = 45 + (i%3)*320;
 		var y = 0;
 		
@@ -37,24 +36,24 @@ var initOverview = function() {
 				.attr('transform', 'translate('+x+','+y+')');
 		bep[d].g.append('g').attr('class', 'boxes');
 		drawScales(bep[d].g);
-		initViolinPlots(d, bep[d].matrix, 'ε');
+		initViolinPlots(d, bep[d].matrix, bep.overviewValue);
 	});
 	
-	updateOverview('ε');		// intial
+	updateOverview();		// intial
 	
 }
 
 var updateOverview = function(value) {
-	
-	overviewFields.forEach(function(d,i) {
-		updateOverviewDisplay(d, value);
+	if (value===undefined) value = bep.overviewValue;
+	bep.fields.statistics.forEach(function(d,i) {
+		updateOverviewGrids(d, value);
 		updateViolinPlots(d, bep[d].matrix, value);
 	});
-	// updateImages();
+	//updateImages();
 }
 
 
-var updateOverviewDisplay = function(x, value) {
+var updateOverviewGrids = function(x, value) {
 
 	var rw = bep.settings.boxWidth;
 	var rh = bep.settings.boxHeight;
@@ -101,28 +100,11 @@ var updateOverviewDisplay = function(x, value) {
 				if (d[x]===0) return 0;
 				return 1;
 			})
-
-//			.on("mouseover", function(d,x,y) {
-//					console.log("over", x,y);
-//				})
-			.on("mousedown", function(d,x,y) {
-				bep.mouseDown = true;
-				bep.values.f = map.f.i(x);
-				bep.values.d = map.d.i(y);
-				updateIndicators();
-			})
-			.on("mouseup", function() {
-				updateImages();
-			})
-			.on("mousemove", function(d,x,y) {
-				if (bep.mouseDown) {
-					bep.values.f = map.f.i(x);
-					bep.values.d = map.d.i(y);
-					updateIndicators();
-					updateImages();
-				}
-			});
-
+			.on("mousedown", gridMouseDown)
+			.on("mouseup", gridMouseUp)
+			.on("mousemove", gridMouseMove);
 
 }
+
+
 

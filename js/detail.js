@@ -1,6 +1,3 @@
-
-//var g = {};
-
 var initDetails = function() {
 	
 	var width = 960, height = 380;
@@ -11,7 +8,7 @@ var initDetails = function() {
 			
 	svg.append("defs");		// for gradients
 				
-	fields.forEach(function(d, i) {
+	bep.fields.parameter.forEach(function(d, i) {
 		var x = 45 + (i%3)*320;			// padding
 		var y = (i<3) ? 0 : 180;
 		bep[d].g = svg.append('g')
@@ -30,19 +27,17 @@ var initDetails = function() {
 
 // absolute/relative update
 var updateDetails = function() {
-	
 	var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];
 	
 	getLimits(matrix);		// cache
 	
-	fields.forEach(function(d, i) {
+	bep.fields.parameter.forEach(function(d, i) {
 		updateDetailGrids(d, matrix);
 		updateViolinPlots(d, matrix);
 	});
 	
 	updateImages();
 }
-
 
 
 
@@ -94,33 +89,12 @@ var updateDetailGrids = function(x, matrix) {
 				if (d[x]===0) return 0;
 				return 1;
 			})
+			.on("mousedown", gridMouseDown)
+			.on("mouseup", gridMouseUp)
+			.on("mousemove", gridMouseMove);
 			
-//			.on("mouseover", function(d,x,y) {
-//					console.log("over", x,y);
-//				})
-			.on("mousedown", function(d,x,y) {
-				bep.mouseDown = true;
-				bep.values.f = map.f.i(x);
-				bep.values.d = map.d.i(y);
-				updateIndicators();
-			})
-			.on("mouseup", function() {
-				updateImages();
-			})
-			.on("mousemove", function(d,x,y) {
-				if (bep.mouseDown) {
-					bep.values.f = map.f.i(x);
-					bep.values.d = map.d.i(y);
-					updateIndicators();
-					updateImages();
-				}
-			});
+			
 }
-
-
-
-
-
 
 
 

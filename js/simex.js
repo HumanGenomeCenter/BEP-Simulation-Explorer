@@ -1,5 +1,6 @@
 var bep = {};
 
+bep.parameter = true;
 // get default values from html
 bep.values = {};
 bep.values.s = parseFloat($("#s .btn.active span").html());
@@ -8,12 +9,13 @@ bep.values.d = parseFloat($("#d .btn.active span").html());
 bep.values.f = parseFloat($("#f .btn.active span").html());
 
 var details = [];
-var selected = [false, false, false, false, false];
+bep.selected = [false, false, false, false, false];
 
-var fields = ['ε','μ','τ','ρ','λ','θ'];
-var overviewFields = ['a','b','c','d','e','f','g','h','i'];
-var allFields = fields.concat(overviewFields);
-allFields.forEach(function(d) {bep[d] = {};});		// init with empty objects
+bep.fields = {};
+bep.fields.parameter = ['ε','μ','τ','ρ','λ','θ'];
+bep.fields.statistics = ['a','b','c','d','e','f','g','h','i'];
+bep.fields.all = bep.fields.parameter.concat(bep.fields.statistics);
+bep.fields.all.forEach(function(d) {bep[d] = {};});		// init with empty objects
 
 bep.settings = {};
 bep.settings.relative = true;
@@ -97,10 +99,11 @@ bep.θ.colorMap = d3.scale.linear().range(["#FFFFFF", "#FFA500"]).clamp(true);
 
 
 var updateImages = function() {
+	console.log("update images");
 	
 	// close, reset details
 	$(".details").hide(200);
-	selected = [false, false, false, false, false];
+	bep.selected = [false, false, false, false, false];		// reset
 	$(".line").css('background-color', '#fff');
 	
 	
@@ -175,7 +178,7 @@ var getLimits = function(matrix) {
 		});
 	}
 
-	fields.forEach(function(f) {
+	bep.fields.parameter.forEach(function(f) {
 		var min = d3.min(linear, function(d) {return d[f]});
 		var max = d3.max(linear, function(d) {return d[f]});
 		bep[f].range = [min, max]; 
@@ -207,12 +210,12 @@ $(document).ready(function() {
 		var id = $(this).data('id'); 
 		if ($(this).data('selected')) {
 			$(this).data('selected', false);
-			selected[id] = false;			// deselect
+			bep.selected[id] = false;			// deselect
 			$(this).next().css('background-color', '#fff');
 		} else {
 			
 			$(this).data('selected', true);
-			selected[id] = true;
+			bep.selected[id] = true;
 			$(this).next().css('background-color', '#999');
 			$(".details").slideDown(200);
 			
@@ -223,7 +226,7 @@ $(document).ready(function() {
 		
 		
 		// reduce
-		var sum = selected.reduce(function(a, b) {
+		var sum = bep.selected.reduce(function(a, b) {
 		  return a + b;
 		});
 		
@@ -240,7 +243,7 @@ $(document).ready(function() {
 		// reduce data form 'details'
 		
 		var selectedDetails = [];
-		selected.forEach(function(d,i) {
+		bep.selected.forEach(function(d,i) {
 			if (d) selectedDetails.push( details[i] );
 		});
 			
@@ -288,7 +291,7 @@ var addColumns = function(s, clss) {
 	var baseurl = "../results/s" + bep.values.s + "_r" + bep.values.r + "/d" + bep.values.d + "_f"+ bep.values.f;
 	
 	selectedData = []
-	selected.forEach(function(d, i){
+	bep.selected.forEach(function(d, i){
 		if (d) selectedData.push(i);
 	});
 	

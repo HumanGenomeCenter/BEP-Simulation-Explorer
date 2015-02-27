@@ -5,7 +5,10 @@ var setLabel = function(id, val) {
 }
 
 
-// Details UI
+// Parameter UI
+$("#tab_parameter").click(function() {
+	bep.parameter = true;
+});
 
 // buttons
 $("#r .btn.btn-default, #s .btn.btn-default").on('click', function(e) {
@@ -44,40 +47,75 @@ $("#d .dropdown-menu > li > a").on('click', function(e) {
 
 
 
-// scale
-$("#abs .btn.btn-default").on('click', function(e) {	
-	var v = $(this).children("input").val()
-	if (v==="rel") bep.settings.relative = true;
-	if (v==="abs") bep.settings.relative = false;
-	updateDetails();
+// Statisic-centered View UI
+
+$("#tab_statistic").click(function() {
+	bep.parameter = false;
 });
 
-// Checking for shift key down
-var shiftKey = false;
-$(window).on("keydown", function(e) {
-	shiftKey = e.shiftKey;
-});
-
-$(window).on("keyup", function(e) {
-	shiftKey = e.shiftKey
-});
-
-
-// Overview UI
-
-
-// buttons
 $(".selection-overview .btn.btn-default").on('click', function(e) {
 	e.preventDefault();
 	var v = $(this).data('value');
+	bep.overviewValue = v;
 	updateOverview(v);
 });
 
 
 
-// Fading
+
+// Absolute/Relative Scale Button
+
+$("#abs .btn.btn-default").on('click', function(e) {	
+	var v = $(this).children("input").val()
+	bep.settings.relative = (v==="rel") ? true : false;
+	if (bep.parameter) {
+		updateDetails();
+	} else {
+		console.log(bep.overviewValue);
+		// updateOverview();
+	}
+	
+});
+
+
+
+// Grid Interactions
+
+var gridMouseDown = function(d,x,y) {
+	bep.mouseDown = true;
+	bep.values.f = map.f.i(x);
+	bep.values.d = map.d.i(y);
+	updateIndicators();
+}
+
+var gridMouseUp = function(d,x,y,z) {
+	console.log(d,x,y,z, this);
+	updateImages();
+}
+
+var gridMouseMove = function(d,x,y) {
+	if (bep.mouseDown) {
+		bep.values.f = map.f.i(x);
+		bep.values.d = map.d.i(y);
+		updateIndicators();
+		updateImages();
+	}
+}
+
+
+
+
+// Slow fading
+
+$(window).on("keydown", function(e) {
+	bep.shiftKey = e.shiftKey;
+});
+
+$(window).on("keyup", function(e) {
+	bep.shiftKey = e.shiftKey
+});
+
 var slowShift = function() {
-	if (shiftKey) return 3000;
+	if (bep.shiftKey) return 3000;
 	return 1000;
 }
-		

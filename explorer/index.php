@@ -22,8 +22,8 @@ include("../header.php");
 
 			
 			<ul class="nav nav-tabs center" role="tablist">
-				<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Parameter-centered View</a></li>
-				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Statistic-centered View</a></li>
+				<li role="presentation" class="active"><a href="#parameter" id="tab_parameter" aria-controls="home" role="tab" data-toggle="tab">Parameter-centered View</a></li>
+				<li role="presentation"><a href="#statistic" id="tab_statistic" aria-controls="profile" role="tab" data-toggle="tab">Statistic-centered View</a></li>
 			</ul>
 		</div>
 	</div>
@@ -32,12 +32,12 @@ include("../header.php");
 
 <!-- Tab panes -->
 <div class="tab-content">
-	<div role="tabpanel" class="tab-pane active" id="home">
+	<div role="tabpanel" class="tab-pane active" id="parameter">
 <?php include("detail.php"); ?>
 	</div>
 
 	<!-- Tab Overview -->
-	<div role="tabpanel" class="tab-pane" id="profile">
+	<div role="tabpanel" class="tab-pane" id="statistic">
 <?php include("overview.php"); ?>
 	</div>
 </div>
@@ -139,9 +139,10 @@ include("../header.php");
 
 <?php 
 
-$addlJS = '<script src="'.$path.'js/detail.js"></script>'."\n";
-$addlJS .= '<script src="'.$path.'js/overview.js"></script>'."\n";
-$addlJS .= '<script src="'.$path.'js/ui.js"></script>'."\n";
+$addlJS = "";
 $addlJS .= '<script src="'.$path.'js/simex.js"></script>'."\n";
+$addlJS .= '<script src="'.$path.'js/ui.js"></script>'."\n";
+$addlJS .= '<script src="'.$path.'js/detail.js"></script>'."\n";
+$addlJS .= '<script src="'.$path.'js/overview.js"></script>'."\n";
 
 include("../footer.php"); ?>
