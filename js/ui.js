@@ -7,7 +7,7 @@ var setLabel = function(id, val) {
 
 // Parameter UI
 $("#tab_parameter").click(function() {
-	bep.parameter = true;
+	bep.settings.parameterView = true;
 });
 
 // buttons
@@ -50,7 +50,7 @@ $("#d .dropdown-menu > li > a").on('click', function(e) {
 // Statisic-centered View UI
 
 $("#tab_statistic").click(function() {
-	bep.parameter = false;
+	bep.settings.parameterView = false;
 });
 
 $(".selection-overview .btn.btn-default").on('click', function(e) {
@@ -68,10 +68,10 @@ $(".selection-overview .btn.btn-default").on('click', function(e) {
 $("#abs .btn.btn-default").on('click', function(e) {	
 	var v = $(this).children("input").val()
 	bep.settings.relative = (v==="rel") ? true : false;
-	if (bep.parameter) {
-		updateDetails();
+	if (bep.settings.parameterView) {		// which view are we on?
+		updateParameterView();
 	} else {
-		updateOverview();
+		updateStatisticsView();
 	}
 	
 });

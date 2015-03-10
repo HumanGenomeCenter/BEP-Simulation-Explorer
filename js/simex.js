@@ -1,6 +1,5 @@
 var bep = {};
 
-bep.parameter = true;
 // get default values from html
 bep.values = {};
 bep.values.s = parseFloat($("#s .btn.active span").html());
@@ -25,6 +24,7 @@ bep.settings.height = 109;	// 129
 bep.settings.boxWidth = (bep.settings.width - 28*bep.settings.boxSpacing) / 29;
 bep.settings.boxHeight = (bep.settings.height - 9*bep.settings.boxSpacing) / 10;
 bep.settings.duration = 1000;
+bep.settings.parameterView = true;  // Selected tab
 
 bep.mouseDown = false;
 
@@ -158,62 +158,7 @@ var updateIndicators = function() {
 
 
 
-// update Limits. interate over data, get [min, max] of all types
-var updateLimits = function(matrix) {
-	// add caching layer
-	var linear = [];
-	
-	// find higest & lowest values
-	if (bep.settings.relative) {
-		matrix.map(function(d) { 		// passed-in
-			d.map(function(f) { 
-				linear.push(f);
-			})
-		});
-	} else {
-		data.map(function(d) { 			// global
-			d.map(function(f) { 
-				f.map(function(g) {
-					g.map(function(h) { 
-						linear.push(h);
-					}) 
-				})
-			})
-		});
-	}
 
-	bep.fields.parameter.forEach(function(f) {
-		var min = d3.min(linear, function(d) {return d[f]});
-		var max = d3.max(linear, function(d) {return d[f]});
-		bep[f].range = [min, max]; 
-		bep[f].colorMap.domain([min, max]);
-	});
-}
-
-var getAbsoluteRanges = function() {
-	
-	// absolute
-	var linear = [];
-	console.time("abs");
-	// serialise all matrices
-	bep.fields.statistics.forEach(function(m) {		
-		bep[m].matrix.map(function(d) { 		// passed-in
-			d.map(function(f) { 
-				linear.push(f);
-			})
-		});
-	});
-	
-	bep.fields.parameter.forEach(function(f) {
-		var min = d3.min(linear, function(d) {return d[f]});
-		var max = d3.max(linear, function(d) {return d[f]});
-		bep[f].absoluteRange = [min, max]; 
-	});
-	
-	console.timeEnd("abs");
-	//bep.overviewValue
-	
-}
 
 
 

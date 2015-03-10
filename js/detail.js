@@ -20,16 +20,20 @@ var initDetails = function() {
 		initViolinPlots(d, matrix);
 	});
 	
-	updateDetails();
+	updateParameterView();	// initial
 }
 
 
 
 // absolute/relative update
-var updateDetails = function() {
+var updateParameterView = function() {
+	console.log("updateDetails");
+	
+	// get matrix data
 	var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];
 	
-	updateLimits(matrix);		// cache
+	// update limits
+	updateParameterLimits(matrix);		// cache
 	
 	bep.fields.parameter.forEach(function(d, i) {
 		updateGrids(d, matrix);
@@ -39,5 +43,42 @@ var updateDetails = function() {
 	updateImages();
 }
 
+
+
+// update Limits. interate over data, get [min, max] of all types
+var updateParameterLimits = function(matrix) {
+	// add caching layer
+	var linear = [];
+	
+	// find higest & lowest values
+	
+	// relative
+	if (bep.settings.relative) {		
+		matrix.map(function(d) { 		// passed-in
+			d.map(function(f) { 
+				linear.push(f);
+			})
+		});
+		
+	// absolute
+	} else {
+		data.map(function(d) { 			// global
+			d.map(function(f) { 
+				f.map(function(g) {
+					g.map(function(h) { 
+						linear.push(h);
+					}) 
+				})
+			})
+		});
+	}
+
+	bep.fields.parameter.forEach(function(f) {
+		var min = d3.min(linear, function(d) {return d[f]});
+		var max = d3.max(linear, function(d) {return d[f]});
+		bep[f].range = [min, max]; 
+		bep[f].colorMap.domain([min, max]);
+	});
+}
 
 

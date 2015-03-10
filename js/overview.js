@@ -39,19 +39,18 @@ var initOverview = function() {
 		initViolinPlots(d, bep[d].matrix, bep.overviewValue);
 	});
 	
-	updateOverview();		// intial
-	
+	updateStatisticsView();		// intial
+	getAbsoluteRanges();		// pre-compute
 }
 
-var updateOverview = function(value) {
+var updateStatisticsView = function(value) {
 	if (value===undefined) value = bep.overviewValue;
 	console.log("updateOverview", value);
 	
 	// update limites
-	 
-//	getAbsoluteRanges();
+	updateStatisticsLimits();
+	
 	bep.fields.statistics.forEach(function(d,i) {
-		console.log(d, value);
 		var matrix = bep[d].matrix;
 		updateGrids(d, matrix, value);
 		updateViolinPlots(d, bep[d].matrix, value);
@@ -60,4 +59,33 @@ var updateOverview = function(value) {
 }
 
 
+var updateStatisticsLimits = function() {
+	console.log("updateStatisticsLimits");
+	
+}
+
+
+var getAbsoluteRanges = function() {
+	
+	var linear = [];
+	console.time("abs");
+	// serialise all matrices
+	bep.fields.statistics.forEach(function(m) {		
+		bep[m].matrix.map(function(d) { 		// passed-in
+			d.map(function(f) { 
+				linear.push(f);
+			})
+		});
+	});
+	
+	bep.fields.parameter.forEach(function(f) {
+		var min = d3.min(linear, function(d) {return d[f]});
+		var max = d3.max(linear, function(d) {return d[f]});
+		bep[f].absoluteRange = [min, max]; 
+		console.log(f, [min, max] );
+	});
+	
+	console.timeEnd("abs");	
+	
+}
 
