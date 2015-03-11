@@ -73,6 +73,7 @@ var updateParameterLimits = function(matrix) {
 		});
 	}
 
+	// update ranges & colorMaps
 	bep.fields.parameter.forEach(function(f) {
 		var min = d3.min(linear, function(d) {return d[f]});
 		var max = d3.max(linear, function(d) {return d[f]});
