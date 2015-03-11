@@ -40,7 +40,6 @@ var initOverview = function() {
 	});
 	
 	updateStatisticsView();		// intial
-	getAbsoluteRanges();		// pre-compute
 }
 
 var updateStatisticsView = function(value) {
@@ -60,32 +59,13 @@ var updateStatisticsView = function(value) {
 
 
 var updateStatisticsLimits = function(value) {
-	console.log("updateStatisticsLimits", bep[value].range);
+	console.log("updateStatisticsLimits", value);
 	
+	var cache = bep.ranges[bep.s.indexOf(bep.values.s)][bep.r.indexOf(bep.values.r)];
+	console.log("cache", cache);
 	
 }
 
 
-var getAbsoluteRanges = function() {
-	
-	var linear = [];
-	console.time("abs");
-	// serialise all matrices
-	bep.fields.statistics.forEach(function(m) {		
-		bep[m].matrix.map(function(d) { 		// passed-in
-			d.map(function(f) { 
-				linear.push(f);
-			})
-		});
-	});
-	
-	bep.fields.parameter.forEach(function(f) {
-		var min = d3.min(linear, function(d) {return d[f]});
-		var max = d3.max(linear, function(d) {return d[f]});
-		bep[f].absoluteRange = [min, max]; 
-	});
-	
-	console.timeEnd("abs");	
-	
-}
+
 
