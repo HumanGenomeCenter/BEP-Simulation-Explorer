@@ -57,7 +57,7 @@ $(".selection-overview .btn.btn-default").on('click', function(e) {
 	e.preventDefault();
 	var v = $(this).data('value');
 	bep.overviewValue = v;
-	updateOverview(v);
+	updateStatisticsView(v);
 });
 
 

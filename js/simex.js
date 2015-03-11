@@ -25,11 +25,7 @@ bep.ranges = [];		// cache ranges
 bep.s.forEach(function(s, i) {
 	bep.ranges[i] = [];
 	bep.r.forEach(function(r, j) {
-		bep.ranges[i][j] = {};
-		bep.ranges[i][j]
-		bep.fields.parameter.forEach(function(p) { 
-			bep.ranges[i][j][p] = {rel:[], abs:[]};
-		});
+		bep.ranges[i][j] = false
 	});
 });
 console.timeEnd("range");

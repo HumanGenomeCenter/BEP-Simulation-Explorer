@@ -33,7 +33,7 @@ var updateParameterView = function() {
 	var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];
 	
 	// update limits
-	updateParameterLimits(matrix);		// cache
+	updateParameterLimits();		// cache
 	
 	bep.fields.parameter.forEach(function(d, i) {
 		updateGrids(d, matrix);
@@ -46,40 +46,63 @@ var updateParameterView = function() {
 
 
 // update Limits. interate over data, get [min, max] of all types
-var updateParameterLimits = function(matrix) {
-	// add caching layer
-	var linear = [];
-	
+var updateParameterLimits = function() {
+	// add caching layer	
 	// find higest & lowest values
 	
-	// relative
-	if (bep.settings.relative) {		
+	// check cache
+	
+	var cache = bep.ranges[bep.s.indexOf(bep.values.s)][bep.r.indexOf(bep.values.r)];
+	console.time("cache");
+	if (!cache) {
+		console.log("filling cache");
+		// fill cache
+		cache = bep.ranges[bep.s.indexOf(bep.values.s)][bep.r.indexOf(bep.values.r)] = {};
+		
+		
+		// rel
+		var relativeValues = [];
+		var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];
 		matrix.map(function(d) { 		// passed-in
 			d.map(function(f) { 
-				linear.push(f);
+				relativeValues.push(f);
 			})
 		});
 		
-	// absolute
-	} else {
+		var absValues = []
 		data.map(function(d) { 			// global
 			d.map(function(f) { 
 				f.map(function(g) {
 					g.map(function(h) { 
-						linear.push(h);
+						absValues.push(h);
 					}) 
 				})
 			})
 		});
+			
+		// update ranges & colorMaps for all fields
+		bep.fields.parameter.forEach(function(f) {
+			var relativeRange 	= [	d3.min(relativeValues, function(d) {return d[f]}), 
+									d3.max(relativeValues, function(d) {return d[f]})	];
+			var absRange 		= [	d3.min(absValues, function(d) {return d[f]}), 
+									d3.max(absValues, function(d) {return d[f]})		];
+			cache[f] = {rel:relativeRange, abs:absRange};
+		});
+		
+		
 	}
-
-	// update ranges & colorMaps
+	console.timeEnd("cache");
+	
+	
+	var absOrRel = bep.settings.relative ? "rel" : "abs";
+	
 	bep.fields.parameter.forEach(function(f) {
-		var min = d3.min(linear, function(d) {return d[f]});
-		var max = d3.max(linear, function(d) {return d[f]});
-		bep[f].range = [min, max]; 
-		bep[f].colorMap.domain([min, max]);
-	});
+		var r = cache[f][absOrRel];
+		bep[f].range = r; 
+		bep[f].colorMap.domain(r);
+	});	
+	
+
 }
 
 
