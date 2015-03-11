@@ -62,6 +62,8 @@ var updateStatisticsLimits = function(value) {
 	console.log("updateStatisticsLimits", value);
 	
 	var cache = bep.ranges[bep.s.indexOf(bep.values.s)][bep.r.indexOf(bep.values.r)];
+	// loop over s & r
+
 	console.log("cache", cache);
 	
 }

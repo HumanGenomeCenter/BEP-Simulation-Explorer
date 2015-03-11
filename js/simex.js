@@ -19,18 +19,6 @@ bep.fields.all.forEach(function(d) {bep[d] = {};});		// init with empty objects
 bep.s = [0.01, 0.1, 1];
 bep.r = [0.0001, 0.001, 0.01];
 
-// Cache Ranges &
-console.time("range");
-bep.ranges = [];		// cache ranges
-bep.s.forEach(function(s, i) {
-	bep.ranges[i] = [];
-	bep.r.forEach(function(r, j) {
-		bep.ranges[i][j] = false
-	});
-});
-console.timeEnd("range");
-
-
 bep.settings = {};
 bep.settings.relative = true;
 bep.settings.boxSpacing = 1;
@@ -46,21 +34,6 @@ bep.mouseDown = false;
 var data = {};
 
 
-$(document).ready(function() {
-	d3.select('body').on("mouseup", function() { 	// general mouseup handler
-		bep.mouseDown = false;
-	});		
-	
-	d3.json("../data/stat.json", function(error, json) {					// load data
-		if (error) return console.warn(error);
-		data = json;
-		initDetails();
-		initOverview();
-	});
-});
-
-
-	
 
 // Scales to access array data & deal with JS error
 var map = {};
@@ -87,6 +60,22 @@ map.f = {
 	value: function(x) { return this.map(x*100) },
 	i: function(x) { return Math.round(this.map.invert(x))/100;},
 }
+
+
+
+$(document).ready(function() {
+	d3.select('body').on("mouseup", function() { 	// general mouseup handler
+		bep.mouseDown = false;
+	});		
+	
+	d3.json("../data/stat.json", function(error, json) {					// load data
+		if (error) return console.warn(error);
+		data = json;
+		initRanges();					// initRanges
+		initDetails();
+		initOverview();
+	});
+});
 
 
 /*
@@ -685,4 +674,52 @@ var updateGrids = function(x, matrix, value) {
 
 }
 
+
+var initRanges = function() {
+	// Cache Ranges &
+	bep.ranges = [];
+	console.time("initRanges");
+	bep.s.forEach(function(s, i) {
+		bep.ranges[i] = [];
+		bep.r.forEach(function(r, j) {
+			bep.ranges[i][j] = getRanges(s, r);
+		});
+	});
+	console.timeEnd("initRanges");
+}
+
+var getRanges = function(s, r) {
+		
+	var cache = {};
+	// rel
+	var relativeValues = [];
+	var matrix = data[map.s.value(s)][map.r.value(r)];
+	matrix.map(function(d) { 		// passed-in
+		d.map(function(f) { 
+			relativeValues.push(f);
+		})
+	});
+		
+	var absValues = []
+	data.map(function(d) { 			// global
+		d.map(function(f) { 
+			f.map(function(g) {
+				g.map(function(h) { 
+					absValues.push(h);
+				}) 
+			})
+		})
+	});	
+		
+	// update ranges & colorMaps for all fields
+	bep.fields.parameter.forEach(function(f) {
+		var relativeRange 	= [	d3.min(relativeValues, function(d) {return d[f]}), 
+								d3.max(relativeValues, function(d) {return d[f]})	];
+		var absRange 		= [	d3.min(absValues, function(d) {return d[f]}), 
+								d3.max(absValues, function(d) {return d[f]})		];
+		cache[f] = {rel:relativeRange, abs:absRange};
+	});
+	
+	return cache;
+}
 
