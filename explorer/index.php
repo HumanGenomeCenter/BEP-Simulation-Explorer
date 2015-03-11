@@ -33,12 +33,12 @@ include("../header.php");
 <!-- Tab panes -->
 <div class="tab-content">
 	<div role="tabpanel" class="tab-pane active" id="parameter">
-<?php include("detail.php"); ?>
+<?php include("parameter-centric.php"); ?>
 	</div>
 
 	<!-- Tab Overview -->
 	<div role="tabpanel" class="tab-pane" id="statistic">
-<?php include("overview.php"); ?>
+<?php include("statistics-centric.php"); ?>
 	</div>
 </div>
 
