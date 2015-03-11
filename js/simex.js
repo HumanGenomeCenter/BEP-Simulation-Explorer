@@ -16,6 +16,25 @@ bep.fields.statistics = ['a','b','c','d','e','f','g','h','i'];
 bep.fields.all = bep.fields.parameter.concat(bep.fields.statistics);
 bep.fields.all.forEach(function(d) {bep[d] = {};});		// init with empty objects
 
+bep.s = [0.01, 0.1, 1];
+bep.r = [0.0001, 0.001, 0.01];
+
+// Cache Ranges &
+console.time("range");
+bep.ranges = [];		// cache ranges
+bep.s.forEach(function(s, i) {
+	bep.ranges[i] = [];
+	bep.r.forEach(function(r, j) {
+		bep.ranges[i][j] = {};
+		bep.ranges[i][j]
+		bep.fields.parameter.forEach(function(p) { 
+			bep.ranges[i][j][p] = {rel:[], abs:[]};
+		});
+	});
+});
+console.timeEnd("range");
+
+
 bep.settings = {};
 bep.settings.relative = true;
 bep.settings.boxSpacing = 1;

@@ -17,7 +17,7 @@ $("#r .btn.btn-default, #s .btn.btn-default").on('click', function(e) {
 	var value = parseFloat( $(this).find("span").html() );
 	bep.values[id] = value;
 	setLabel(id, value);
-	updateDetails();	
+	updateParameterView();	
 });
 
 // f,d dropdown

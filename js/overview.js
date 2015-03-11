@@ -48,7 +48,7 @@ var updateStatisticsView = function(value) {
 	console.log("updateOverview", value);
 	
 	// update limites
-	updateStatisticsLimits();
+	updateStatisticsLimits(value);
 	
 	bep.fields.statistics.forEach(function(d,i) {
 		var matrix = bep[d].matrix;
@@ -59,8 +59,9 @@ var updateStatisticsView = function(value) {
 }
 
 
-var updateStatisticsLimits = function() {
-	console.log("updateStatisticsLimits");
+var updateStatisticsLimits = function(value) {
+	console.log("updateStatisticsLimits", bep[value].range);
+	
 	
 }
 
@@ -82,7 +83,6 @@ var getAbsoluteRanges = function() {
 		var min = d3.min(linear, function(d) {return d[f]});
 		var max = d3.max(linear, function(d) {return d[f]});
 		bep[f].absoluteRange = [min, max]; 
-		console.log(f, [min, max] );
 	});
 	
 	console.timeEnd("abs");	
