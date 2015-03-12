@@ -8,14 +8,13 @@ var initOverview = function() {
 
 	svg.append("defs");		// for gradients
 	
-	// loop over S & R
-	var s = [0.01, 0.1, 1].reverse();		// reversed 
-	var r = [0.0001, 0.001, 0.01];
 
 	// Preparing data
-	r.forEach(function(vr,i) {
-		s.forEach(function(vs,j) {
-			var index = bep.fields.statistics[i*r.length+j];
+	bep.r.forEach(function(vr,i) {
+		bep.s.reverse().forEach(function(vs,j) {		// reverse s...
+			var index = bep.fields.statistics[i*bep.r.length+j];
+			bep[index].r = vr;
+			bep[index].s = vs;
 			bep[index].matrix = data[map.s.value(vs)][map.r.value(vr)];
 		});
 	});
@@ -47,10 +46,14 @@ var updateStatisticsView = function(value) {
 	console.log("updateOverview", value);
 	
 	// update limites
-	updateStatisticsLimits(value);
 	
+
 	bep.fields.statistics.forEach(function(d,i) {
+		
+		
 		var matrix = bep[d].matrix;
+		updateStatisticsLimits(d, value);
+		
 		updateGrids(d, matrix, value);
 		updateViolinPlots(d, bep[d].matrix, value);
 	});
@@ -58,14 +61,12 @@ var updateStatisticsView = function(value) {
 }
 
 
-var updateStatisticsLimits = function(value) {
-	console.log("updateStatisticsLimits", value);
-	
-	var cache = bep.ranges[bep.s.indexOf(bep.values.s)][bep.r.indexOf(bep.values.r)];
-	// loop over s & r
-
-	console.log("cache", cache);
-	
+var updateStatisticsLimits = function(d, value) {
+	var ranges = bep.ranges[bep.s.indexOf(bep[d].s)][bep.r.indexOf(bep[d].r)];	
+	var absOrRel = bep.settings.relative ? "rel" : "abs";	
+	var r = ranges[value][absOrRel];
+	bep[d].range = r; 
+	bep[d].colorMap.domain(r);
 }
 
 

@@ -10,14 +10,26 @@ bep.values.f = parseFloat($("#f .btn.active span").html());
 var details = [];
 bep.selected = [false, false, false, false, false];
 
+bep.s = [0.01, 0.1, 1];
+bep.r = [0.0001, 0.001, 0.01];
+
 bep.fields = {};
 bep.fields.parameter = ['ε','μ','τ','ρ','λ','θ'];
 bep.fields.statistics = ['a','b','c','d','e','f','g','h','i'];
+/*
+bep.fields.st = function() {
+	var fields = []
+	bep.s.forEach(function(s, i) {
+		bep.r.forEach(function(r, j) {
+			fields.push("s"+s+"_r"+r);
+		});
+	});
+	return fields;
+}();
+*/
 bep.fields.all = bep.fields.parameter.concat(bep.fields.statistics);
 bep.fields.all.forEach(function(d) {bep[d] = {};});		// init with empty objects
 
-bep.s = [0.01, 0.1, 1];
-bep.r = [0.0001, 0.001, 0.01];
 
 bep.settings = {};
 bep.settings.relative = true;
