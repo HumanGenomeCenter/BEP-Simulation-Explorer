@@ -633,9 +633,11 @@ var iqr = function(k) {
 
 var updateGrids = function(x, matrix, value) {
 
+	console.log(x, value);
+	if (value===undefined) value = x;
+	
 	var getColor = function(d) {
-		if (value===undefined) value = x;
-		return bep[value].colorMap(d[value]);
+		return bep[x].colorMap(d[value]);
 	}
 	
 	var rw = bep.settings.boxWidth;

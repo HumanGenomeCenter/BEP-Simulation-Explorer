@@ -45,10 +45,10 @@ var updateParameterView = function() {
 
 
 var getParameterLimits = function() {	
-	var range = bep.ranges[bep.s.indexOf(bep.values.s)][bep.r.indexOf(bep.values.r)];
+	var ranges = bep.ranges[bep.s.indexOf(bep.values.s)][bep.r.indexOf(bep.values.r)];
 	var absOrRel = bep.settings.relative ? "rel" : "abs";	
 	bep.fields.parameter.forEach(function(f) {
-		var r = range[f][absOrRel];
+		var r = ranges[f][absOrRel];
 		bep[f].range = r; 
 		bep[f].colorMap.domain(r);
 	});	

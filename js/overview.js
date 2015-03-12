@@ -11,7 +11,7 @@ var initOverview = function() {
 
 	// Preparing data
 	bep.r.forEach(function(vr,i) {
-		bep.s.reverse().forEach(function(vs,j) {		// reverse s...
+		bep.s.forEach(function(vs,j) {		// reverse s...
 			var index = bep.fields.statistics[i*bep.r.length+j];
 			bep[index].r = vr;
 			bep[index].s = vs;
@@ -65,7 +65,9 @@ var updateStatisticsLimits = function(d, value) {
 	var ranges = bep.ranges[bep.s.indexOf(bep[d].s)][bep.r.indexOf(bep[d].r)];	
 	var absOrRel = bep.settings.relative ? "rel" : "abs";	
 	var r = ranges[value][absOrRel];
-	bep[d].range = r; 
+	console.log(d, value, absOrRel, r);
+	bep[d].range = r;
+	bep[d].colorMap = bep[value].colorMap;		// get colorMap for value
 	bep[d].colorMap.domain(r);
 }
 
