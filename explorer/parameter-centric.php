@@ -1,7 +1,7 @@
 	<div class="row">
 		<div class="col-xs-12 selection">
 		
-			<div class="btn-toolbar text-center" role="toolbar" aria-label="...">
+			<div class="btn-toolbar" role="toolbar" aria-label="...">
 				<div id="s" class="btn-group" data-toggle="buttons">
 					<label class="btn btn-label">S</label>
 					<div class="btn btn-default">

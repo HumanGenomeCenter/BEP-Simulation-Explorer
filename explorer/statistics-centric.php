@@ -1,6 +1,6 @@
 	<div class="row">
 		<div class="col-xs-12 selection-overview">
-			<div class="btn-toolbar text-center" role="toolbar" aria-label="...">
+			<div class="btn-toolbar" role="toolbar" aria-label="...">
 				<div class="btn-group" data-toggle="buttons">
 					<div class="btn btn-default populationEntropy active" data-value="ε">
 						<input type="radio" name="options">

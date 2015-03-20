@@ -98,6 +98,15 @@ g.boxes {
 
 /* Buttons */
 
+/* float off... */
+.btn-toolbar .btn-group {
+	float: none;
+}
+/* center on... */
+.btn-toolbar {
+	text-align: center;
+}
+
 .btn-default, .btn-default:hover, .btn-default:active, .open .dropdown-toggle.btn-default {
 	color: #428bca;
 	font-weight: 100;
