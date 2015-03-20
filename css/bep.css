@@ -96,14 +96,15 @@ g.boxes {
     -webkit-transition: background 0.3s linear; /* Safari and Chrome */
 }
 
+
 /* Buttons */
 
 .btn-default, .btn-default:hover, .btn-default:active, .open .dropdown-toggle.btn-default {
 	color: #428bca;
-	border: 1px #fff solid;
 	font-weight: 100;
-	border-radius: 10px;
-	border: 1px #e7e7e7 solid;
+	border-radius: 0px;
+/*	border: 1px #e7e7e7 solid; */
+	border: none;
 	box-shadow: none;
 	background: #f6f6f6;
 }
@@ -128,7 +129,8 @@ g.boxes {
 .btn-default.active {
 	background: #e7e7e7;
 	color: #428bca;
-	border: 1px #e7e7e7 solid;
+/*	border: 1px #e7e7e7 solid; */
+	border: none;
 	font-weight: 700;
 	box-shadow: none;
 }
@@ -141,10 +143,12 @@ g.boxes {
 	color: #428bca;;
 	background: none;
 	font-weight: 700;
-	border-radius: 10px;
-	border: 1px #e7e7e7 solid;
+	font-style: oblique;
+	border-radius: 0px;
+/*	border: 1px #e7e7e7 solid; */
+	border: none;
 	box-shadow: none;
-	background: #fff;
+	background: #f6f6f6;
 }
  
 /* #f, #d */
@@ -238,12 +242,15 @@ img {
 .legend circle {
 	fill: none
 }
-.legend text {
+.legend text, text.legend {
 	font-size: 12px;
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 600;
 	fill: #999;
 }
+
+
+
 
 .tab-content .selection {
 	margin-bottom: 30px;

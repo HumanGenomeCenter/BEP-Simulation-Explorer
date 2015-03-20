@@ -1,12 +1,12 @@
 var initOverview = function() {
 	
-	var width = 960, height = 570;
+	var width = 960, height = 670;
 	var div = d3.select('#overview');
 	var svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
 
-	svg.append("defs");		// for gradients
+	svg.append("defs");		// needed for gradients
 	
 
 	// Preparing data
@@ -20,6 +20,10 @@ var initOverview = function() {
 	});
 			
 	bep.overviewValue = 'ε';
+	
+	
+	
+	
 	bep.fields.statistics.forEach(function(d, i) {
 		var x = 45 + (i%3)*320;
 		var y = 0;
@@ -28,6 +32,16 @@ var initOverview = function() {
 			y = 180;
 		} else if (i>=6) {
 			y = 360;
+		}
+		
+		y=y+30;	// additional padding to accomodate S,R legend
+		
+		if (i<3) {
+			svg.append('text')
+				.attr("class", "legend")
+				.text("S = " + bep.s[i])
+				.attr('text-anchor', 'middle')
+				.attr('transform', 'translate('+(135 + i*320)+',14)');
 		}
 		
 		bep[d].g = svg.append('g')
@@ -65,7 +79,6 @@ var updateStatisticsLimits = function(d, value) {
 	var ranges = bep.ranges[bep.s.indexOf(bep[d].s)][bep.r.indexOf(bep[d].r)];	
 	var absOrRel = bep.settings.relative ? "rel" : "abs";	
 	var r = ranges[value][absOrRel];
-	console.log(d, value, absOrRel, r);
 	bep[d].range = r;
 	bep[d].colorMap = bep[value].colorMap;		// get colorMap for value
 	bep[d].colorMap.domain(r);

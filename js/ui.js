@@ -84,11 +84,10 @@ var gridMouseDown = function(d,x,y) {
 	bep.mouseDown = true;
 	bep.values.f = map.f.i(x);
 	bep.values.d = map.d.i(y);
-	updateIndicators();
+	updateIndicators(d);
 }
 
-var gridMouseUp = function(d,x,y,z) {
-	console.log(d,x,y,z, this);
+var gridMouseUp = function(d,x,y) {
 	updateImages();
 }
 
@@ -96,7 +95,7 @@ var gridMouseMove = function(d,x,y) {
 	if (bep.mouseDown) {
 		bep.values.f = map.f.i(x);
 		bep.values.d = map.d.i(y);
-		updateIndicators();
+		updateIndicators(d);
 		updateImages();
 	}
 }

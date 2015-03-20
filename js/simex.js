@@ -119,6 +119,7 @@ bep.fields.statistics.forEach(function(d) {
 
 
 var updateImages = function() {
+	
 	console.log("update images");
 	
 	// close, reset details
@@ -160,15 +161,28 @@ var updateImages = function() {
 
 
 
-var updateIndicators = function() {
+var updateIndicators = function(d) {
+	
+	console.log(d);
 	var x = map.f.value(bep.values.f);
 	var y = map.d.value(bep.values.d);
 	$("#f .dropdown-toggle span").first().html(bep.values.f); 	// bind button
 	$("#d .dropdown-toggle span").first().html(bep.values.d);
 	var f = (bep.settings.boxWidth+bep.settings.boxSpacing)*(x);
 	var d = (bep.settings.boxHeight+bep.settings.boxSpacing)*(9-y);
-	d3.selectAll(".f-indicator").attr('x', f);
-	d3.selectAll(".d-indicator").attr('y', d);
+	
+	d3.selectAll(".f-indicator").attr('x', f).style('display', 'inline');
+	d3.selectAll(".d-indicator").attr('y', d).style('display', 'inline');
+	
+	if (!bep.settings.parameterView) {
+		
+		d3.selectAll(".f-indicator").style('display', 'none');
+		d3.selectAll(".d-indicator").style('display', 'none');
+		
+	}
+	
+	
+	
 }
 
 
@@ -267,7 +281,7 @@ var addColumns = function(s, clss) {
 	];
 	
 	// values
-	var h = $("<div>");		"empty"
+	var h = $("<div>");
 	s.forEach(function(v,i) {
 		var column = $('<div class="'+prepareClass(i)+'"></div>');
 		txt.forEach(function(d) {
@@ -287,7 +301,7 @@ var addColumns = function(s, clss) {
 	
 		
 	// mutprof
-	var h = $("<div>");		"empty"
+	var h = $("<div>");
 	s.forEach(function(v,i) {
 		var url = baseurl + "_" + selectedData[i] + ".mutprof.png";
 		h.append( $('<div class="'+prepareClass(i)+'"><img src='+url+'></div>)') );
@@ -295,7 +309,7 @@ var addColumns = function(s, clss) {
 	$(".row.mutprof").html( h.html() );
 	
 	// tumor
-	var h = $("<div>");		"empty"
+	var h = $("<div>");
 	s.forEach(function(v,i) {
 		var url = baseurl + "_" + selectedData[i] + ".tumor.png";
 		h.append( $('<div class="'+prepareClass(i)+'"><img src='+url+'></div>)') );
@@ -303,7 +317,7 @@ var addColumns = function(s, clss) {
 	$(".row.tumor").html( h.html() );
 	
 	// pc
-	var h = $("<div>");		"empty"
+	var h = $("<div>");
 	s.forEach(function(v,i) {
 		var url = baseurl + "_" + selectedData[i] + ".pc.png";
 		h.append( $('<div class="'+prepareClass(i)+'"><img src='+url+'></div>)') );
@@ -311,7 +325,7 @@ var addColumns = function(s, clss) {
 	$(".row.pc").html( h.html() );
 	
 	// selfsim
-	var h = $("<div>");		"empty"
+	var h = $("<div>");
 	s.forEach(function(v,i) {
 		var url = baseurl + "_" + selectedData[i] + ".selfsim.png";
 		h.append( $('<div class="'+prepareClass(i)+'"><img src='+url+'></div>)') );
@@ -319,7 +333,7 @@ var addColumns = function(s, clss) {
 	$(".row.selfsim").html( h.html() );
 	
 	// cellsim
-	var h = $("<div>");		"empty"
+	var h = $("<div>");
 	s.forEach(function(v,i) {
 		var url = baseurl + "_" + selectedData[i] + ".cellsim.png";
 		h.append( $('<div class="'+prepareClass(i)+'"><img src='+url+'></div>)') );
@@ -327,7 +341,7 @@ var addColumns = function(s, clss) {
 	$(".row.cellsim").html( h.html() );
 	
 	// alfrq
-	var h = $("<div>");		"empty"
+	var h = $("<div>");
 	s.forEach(function(v,i) {
 		var url = baseurl + "_" + selectedData[i] + ".alfrq.png";
 		h.append( $('<div class="'+prepareClass(i)+'"><img src='+url+'></div>)') );
@@ -631,18 +645,26 @@ var iqr = function(k) {
 
 
 
-var updateGrids = function(x, matrix, value) {
+var updateGrids = function(x, matrix, value, settings) {
 
-	console.log(x, value);
 	if (value===undefined) value = x;
 	
 	var getColor = function(d) {
 		return bep[x].colorMap(d[value]);
 	}
 	
+	// default
 	var rw = bep.settings.boxWidth;
 	var rh = bep.settings.boxHeight;
 	var p = bep.settings.boxSpacing;
+	
+	// optional settings
+	if (settings!==undefined) {
+		if (settings.boxWidth!==undefined) rw = settings.boxWidth;
+		if (settings.boxHeight!==undefined) rw = settings.boxHeight;
+		if (settings.boxSpacing!==undefined) rw = settings.boxSpacing;
+	}
+	
 	// join
 
 	var boxes = d3.select("g."+x+" g.boxes");  // select boxes
