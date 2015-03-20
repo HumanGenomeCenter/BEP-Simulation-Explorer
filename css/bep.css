@@ -66,7 +66,7 @@ a, a:hover, a:active, a:selected {
 					
 
 #details {
-	margin-top: 20px;
+	margin-top: 0px;
 }
 
 /*
@@ -232,7 +232,7 @@ img {
 }
 
 .tab-pane {
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 /* svg */
@@ -259,15 +259,9 @@ img {
 
 
 
-
-.tab-content .selection {
-	margin-bottom: 30px;
-}
-
-
 /* Overview Tab */
-#overview svg {
-	margin-top: 50px;
+#overview, #details {
+	margin-top: 10px;
 }
 
 .box {
