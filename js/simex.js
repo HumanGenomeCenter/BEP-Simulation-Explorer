@@ -36,8 +36,10 @@ bep.settings.relative = true;
 bep.settings.boxSpacing = 1;
 bep.settings.width = 173;	// 260
 bep.settings.height = 109;	// 129
-bep.settings.boxWidth = (bep.settings.width - 28*bep.settings.boxSpacing) / 29;
-bep.settings.boxHeight = (bep.settings.height - 9*bep.settings.boxSpacing) / 10;
+//bep.settings.boxWidth = (bep.settings.width - 28*bep.settings.boxSpacing) / 29;
+//bep.settings.boxHeight = (bep.settings.height - 9*bep.settings.boxSpacing) / 10;
+bep.settings.boxWidth = 5;
+bep.settings.boxHeight = 10;
 bep.settings.duration = 1000;
 bep.settings.parameterView = true;  // Selected tab
 
@@ -90,15 +92,6 @@ $(document).ready(function() {
 });
 
 
-/*
-"ε (population entropy)"		red 		#FF0000
-"μ (founder mutation count)"	blue		#0000FF
-"ρ (average mutation count)"	green3		#00CD00
-"log10 λ (population fitness)"	yellow2		#EEEE00
-"log10 τ (growth time)" 		purple 		#A020F0
-"θ (self similality)"			orange		#FFA500
-
-*/
 
 bep.ε.colorMap = d3.scale.linear().range(["#FFFFFF", "#FF0000"]).clamp(true);
 bep.μ.colorMap = d3.scale.linear().range(["#FFFFFF", "#0000FF"]).clamp(true);

@@ -1,16 +1,30 @@
 var initDetails = function() {
 	
-	var width = 960, height = 380;
+	var width = 1020, height = 380;
 	var div = d3.select('#details');
 	var svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
 			
 	svg.append("defs");		// for gradients
-				
+	
+
 	bep.fields.parameter.forEach(function(d, i) {
-		var x = 45 + (i%3)*320;			// padding
+		var x = 85 + (i%3)*320;			// padding
 		var y = (i<3) ? 0 : 180;
+		y=y+30;	// additional padding to accomodate legend
+		
+		// Horizontal Lables
+		var labelData = ["Population Entropy", "Founder Mutation Count", "Average Mutation Count",
+						"Population Fitness", "Growth Time", "Selfsimilarity"]
+
+		svg.append('text')
+			.attr("class", "legend")
+			.text(labelData[i])
+			.attr('text-anchor', 'middle')
+			.attr('transform', 'translate('+(x+90)+','+(y-10)+')');
+
+		
 		bep[d].g = svg.append('g')
 				.attr('class', d)
 				.attr('transform', 'translate('+x+','+y+')');
@@ -27,7 +41,6 @@ var initDetails = function() {
 
 // absolute/relative update
 var updateParameterView = function() {
-	console.log("updateDetails");
 	
 	// get matrix data
 	var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];

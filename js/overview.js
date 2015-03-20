@@ -1,6 +1,6 @@
 var initOverview = function() {
 	
-	var width = 960, height = 670;
+	var width = 1020, height = 550;
 	var div = d3.select('#overview');
 	var svg = div.append('svg')
 			.attr('width', width)
@@ -18,14 +18,11 @@ var initOverview = function() {
 			bep[index].matrix = data[map.s.value(vs)][map.r.value(vr)];
 		});
 	});
-			
 	bep.overviewValue = 'ε';
 	
-	
-	
-	
+	var labelY = 0;
 	bep.fields.statistics.forEach(function(d, i) {
-		var x = 45 + (i%3)*320;
+		var x = 85 + (i%3)*320;
 		var y = 0;
 		
 		if (i>=3 && i<6) {
@@ -36,12 +33,23 @@ var initOverview = function() {
 		
 		y=y+30;	// additional padding to accomodate S,R legend
 		
+		// Horizontal Lables
 		if (i<3) {
 			svg.append('text')
 				.attr("class", "legend")
 				.text("S = " + bep.s[i])
 				.attr('text-anchor', 'middle')
-				.attr('transform', 'translate('+(135 + i*320)+',14)');
+				.attr('transform', 'translate('+(x+90)+','+(y-10)+')');
+		}
+		
+		// Vertical Labels
+		if ((i%3)===0) {
+			svg.append('text')
+				.attr("class", "legend")
+				.text("R = " + bep.r[labelY++])
+				.attr('text-anchor', 'middle')
+				.attr('transform', 'translate(17,'+(y+55)+'), rotate(-90)');
+			
 		}
 		
 		bep[d].g = svg.append('g')

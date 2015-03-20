@@ -34,8 +34,7 @@ a, a:hover, a:active, a:selected {
 	font-size: 2em;
 }
 .container {
- /* margin: 0 auto; */
-  width: 990px !important;
+	width: 1050px; /* -> 1020 after margins */
 }
 
 
@@ -71,8 +70,8 @@ a, a:hover, a:active, a:selected {
 }
 
 /*
-#details svg {
-	 background: #fff;
+svg {
+	 background: #eeeeee;
 }
 */
 
