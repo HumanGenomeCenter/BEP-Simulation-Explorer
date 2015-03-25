@@ -9,16 +9,34 @@ include("../header.php");
 	<div class="col-xs-12">
 		<div role="tabpanel">
 			<!-- Nav tabs -->
-				<div id="abs" class="btn-group" data-toggle="buttons" style="float:right">
-					<div class="btn btn-default">
-						<input type="radio" name="options" value="abs">
-						<span>absolute</span>
-					</div>
-					<div class="btn btn-default active">
-						<input type="radio" name="options" value="rel">
-						<span>relative</span>
-					</div>
+			
+			<div id="abs" class="btn-group" data-toggle="buttons" style="float:right">
+				<div class="btn btn-label">
+					<span>Values</span>
 				</div>
+				<div class="btn btn-default">
+					<input type="radio" name="options" value="abs">
+					<span>Absolute</span>
+				</div>
+				<div class="btn btn-default active">
+					<input type="radio" name="options" value="rel">
+					<span>Relative</span>
+				</div>
+			</div>
+			
+			<div id="animation" class="btn-group" data-toggle="animation" style="float:right">
+				<div class="btn btn-label">
+					<span>Animations</span>
+				</div>
+				<div class="btn btn-default active">
+					<input type="radio" name="options" value="on">
+					<span>On</span>
+				</div>
+				<div class="btn btn-default ">
+					<input type="radio" name="options" value="off">
+					<span>Off</span>
+				</div>
+			</div>
 
 			
 			<ul class="nav nav-tabs center" role="tablist">

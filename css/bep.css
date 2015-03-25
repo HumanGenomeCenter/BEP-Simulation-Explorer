@@ -2,7 +2,6 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	background: #ffffff;
 	margin: 0 auto;
-	
 	-webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -175,6 +174,8 @@ g.boxes {
 }
 
 
+
+
 .axis path,
 .axis line {
   fill: none;
@@ -253,8 +254,12 @@ img {
 .legend text, text.legend {
 	font-size: 12px;
 	font-family: 'Open Sans', sans-serif;
-	font-weight: 600;
+	font-weight: 300;
 	fill: #999;
+}
+
+text.legend {
+	font-style: oblique;
 }
 
 
@@ -301,4 +306,13 @@ img {
 
 text.whisker {
 	stroke-width: 0
+}
+
+
+#abs {
+	margin-left: 1em;
+}
+
+.btn-group#animation {
+	
 }

@@ -42,6 +42,7 @@ bep.settings.boxWidth = 5;
 bep.settings.boxHeight = 10;
 bep.settings.duration = 1000;
 bep.settings.parameterView = true;  // Selected tab
+bep.settings.animation = true; // Animations on by default ... TODO save locally
 
 bep.mouseDown = false;
 

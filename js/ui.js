@@ -60,11 +60,7 @@ $(".selection-overview .btn.btn-default").on('click', function(e) {
 	updateStatisticsView(v);
 });
 
-
-
-
 // Absolute/Relative Scale Button
-
 $("#abs .btn.btn-default").on('click', function(e) {	
 	var v = $(this).children("input").val()
 	bep.settings.relative = (v==="rel") ? true : false;
@@ -73,13 +69,17 @@ $("#abs .btn.btn-default").on('click', function(e) {
 	} else {
 		updateStatisticsView();
 	}
-	
+});
+
+// Anmations On/Off
+$("#animation .btn.btn-default").on('click', function(e) {	
+	var v = $(this).children("input").val()
+	bep.settings.animation = (v==="on") ? true : false;
+	console.log(bep.settings.animation);
 });
 
 
-
 // Grid Interactions
-
 var gridMouseDown = function(d,x,y) {
 	bep.mouseDown = true;
 	bep.values.f = map.f.i(x);
