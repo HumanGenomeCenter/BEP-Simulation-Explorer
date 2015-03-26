@@ -314,6 +314,10 @@ text.whisker {
 	margin-left: 1em;
 }
 
-.btn-group#animation {
-	
+.btn-group#settings {
+	margin-left: 1em;
+}
+
+#panel-settings {
+	display: none;
 }

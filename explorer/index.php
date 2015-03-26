@@ -5,10 +5,35 @@ include("../header.php");
 
 
 <div class="row">
-	
+	<div class="col-xs-12" id="panel-settings">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Settings</div>
+			<div class="panel-body">
+				<div id="animation" class="btn-group" data-toggle="buttons">
+					<div class="btn btn-label">
+						<span>Animations</span>
+					</div>
+					<div class="btn btn-default active">
+						<input type="radio" name="options" value="on">
+						<span>On</span>
+					</div>
+					<div class="btn btn-default ">
+						<input type="radio" name="options" value="off">
+						<span>Off</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="col-xs-12">
 		<div role="tabpanel">
 			<!-- Nav tabs -->
+			
+			<div id="settings" class="btn-group" data-toggle="buttons" style="float:right">
+				<div class="btn btn-default">
+					<a href="#"><i class="fa fa-cog fa-lg"></i></a>
+				</div>
+			</div>
 			
 			<div id="abs" class="btn-group" data-toggle="buttons" style="float:right">
 				<div class="btn btn-label">
@@ -23,20 +48,6 @@ include("../header.php");
 					<span>Relative</span>
 				</div>
 			</div>
-			
-			<div id="animation" class="btn-group" data-toggle="buttons" style="float:right">
-				<div class="btn btn-label">
-					<span>Animations</span>
-				</div>
-				<div class="btn btn-default active">
-					<input type="radio" name="options" value="on">
-					<span>On</span>
-				</div>
-				<div class="btn btn-default ">
-					<input type="radio" name="options" value="off">
-					<span>Off</span>
-				</div>
-			</div>
 
 			
 			<ul class="nav nav-tabs center" role="tablist">
@@ -45,7 +56,6 @@ include("../header.php");
 			</ul>
 		</div>
 	</div>
-	
 </div>
 
 <!-- Tab panes -->

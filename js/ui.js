@@ -71,8 +71,23 @@ $("#abs .btn.btn-default").on('click', function(e) {
 	}
 });
 
+// Settings Show/Hide
+
+
+
+$("#settings .btn").on('click', function(e) {
+	e.preventDefault();	
+	var p = $("#panel-settings");
+	if (p.is(':hidden')) {
+		p.slideDown(500);
+	} else {
+		p.slideUp(500);
+	}
+});
+
 // Anmations On/Off
-$("#animation .btn.btn-default").on('click', function(e) {	
+$("#animation .btn.btn-default").on('click', function(e) {
+	e.preventDefault();
 	var v = $(this).children("input").val()
 	bep.settings.animation = (v==="on") ? true : false;
 	bep.settings.duration = bep.settings.animation ? bep.settings.durationNormal : 0
