@@ -147,7 +147,8 @@ g.boxes {
 
 
 .btn-label, .btn-label:hover, .btn-label:active, .btn-label.active  {
-	color: #428bca;;
+/*	color: #428bca; */
+	color: #999;
 	background: none;
 	font-weight: 700;
 	font-style: oblique;

@@ -24,7 +24,7 @@ include("../header.php");
 				</div>
 			</div>
 			
-			<div id="animation" class="btn-group" data-toggle="animation" style="float:right">
+			<div id="animation" class="btn-group" data-toggle="buttons" style="float:right">
 				<div class="btn btn-label">
 					<span>Animations</span>
 				</div>
