@@ -75,7 +75,7 @@ $("#abs .btn.btn-default").on('click', function(e) {
 $("#animation .btn.btn-default").on('click', function(e) {	
 	var v = $(this).children("input").val()
 	bep.settings.animation = (v==="on") ? true : false;
-	console.log(bep.settings.animation);
+	bep.settings.duration = bep.settings.animation ? bep.settings.durationNormal : 0
 });
 
 
@@ -104,16 +104,17 @@ var gridMouseMove = function(d,x,y) {
 
 
 // Slow fading
-
 $(window).on("keydown", function(e) {
-	bep.shiftKey = e.shiftKey;
+	if (e.shiftKey) {
+		bep.shiftKey = true;
+		bep.settings.duration = bep.settings.durationSlow;
+	}
 });
 
 $(window).on("keyup", function(e) {
-	bep.shiftKey = e.shiftKey
+	if (bep.shiftKey) {
+		bep.shiftKey = false;
+		bep.settings.duration = bep.settings.animation ? bep.settings.durationNormal : 0;		
+	}
 });
 
-var slowShift = function() {
-	if (bep.shiftKey) return 3000;
-	return 1000;
-}

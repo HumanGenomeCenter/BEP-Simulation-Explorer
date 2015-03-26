@@ -40,7 +40,10 @@ bep.settings.height = 109;	// 129
 //bep.settings.boxHeight = (bep.settings.height - 9*bep.settings.boxSpacing) / 10;
 bep.settings.boxWidth = 5;
 bep.settings.boxHeight = 10;
+
 bep.settings.duration = 1000;
+bep.settings.durationNormal = 1000;	// for slow shift
+bep.settings.durationSlow = 3000;	// for slow shift
 bep.settings.parameterView = true;  // Selected tab
 bep.settings.animation = true; // Animations on by default ... TODO save locally
 
@@ -519,7 +522,7 @@ var initViolinPlots = function(d, matrix, parameter) {
 var updateViolinPlots = function(d, matrix, parameter) {
 	if (undefined===parameter) parameter = d;
 		
-	var duration = 1000;	// animation duration
+	var duration = bep.settings.duration;	// animation duration
 	var height = bep.settings.height;
 	var width = 60;
 	var violin = bep[d].violin;
@@ -679,7 +682,7 @@ var updateGrids = function(x, matrix, value, settings) {
 	// fading transitions
 	rect
 		.transition()
-		.duration(slowShift)
+		.duration(bep.settings.duration)
 		.attr('fill', getColor)
 		.attr('opacity', function(d) { 
 			if (d[x]===0) return 0;

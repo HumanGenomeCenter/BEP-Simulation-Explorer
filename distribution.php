@@ -114,7 +114,7 @@ init(2);
 
 
 var update = function() {
-	var d = 1000;	// duration
+	var d = bep.settings.duration;	// duration
 	
 	init(2+Math.floor(Math.random()*10));	// reinitialize
 
