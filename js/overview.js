@@ -7,7 +7,6 @@ var initOverview = function() {
 			.attr('height', height);
 
 	svg.append("defs");		// needed for gradients
-	
 
 	// Preparing data
 	bep.r.forEach(function(vr,i) {
@@ -33,6 +32,19 @@ var initOverview = function() {
 		
 		y=y+30;	// additional padding to accomodate S,R legend
 		
+		bep[d].g = svg.append('g')
+				.attr('class', d)
+				.attr('transform', 'translate('+x+','+y+')');
+
+		// init background highlight
+		bep[d].g.append('rect')
+				.attr('class', 'background-highlight')
+				.attr('width', 319)
+				.attr('height', 179)
+				.attr('rx', 20)
+				.attr('ry', 20)
+				.attr('transform', 'translate(-45,-25)');
+				
 		// Horizontal Lables
 		if (i<3) {
 			svg.append('text')
@@ -51,10 +63,7 @@ var initOverview = function() {
 				.attr('transform', 'translate(17,'+(y+55)+'), rotate(-90)');
 			
 		}
-		
-		bep[d].g = svg.append('g')
-				.attr('class', d)
-				.attr('transform', 'translate('+x+','+y+')');
+				
 		bep[d].g.append('g').attr('class', 'boxes');
 		drawScales(bep[d].g);
 		initViolinPlots(d, bep[d].matrix, bep.overviewValue);
@@ -65,13 +74,8 @@ var initOverview = function() {
 
 var updateStatisticsView = function(value) {
 	if (value===undefined) value = bep.overviewValue;
-	console.log("updateOverview", value);
-	
-	// update limites
-	
 
 	bep.fields.statistics.forEach(function(d,i) {
-		
 		
 		var matrix = bep[d].matrix;
 		updateStatisticsLimits(d, value);

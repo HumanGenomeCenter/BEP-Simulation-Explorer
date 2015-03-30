@@ -44,7 +44,7 @@ bep.settings.boxHeight = 10;
 bep.settings.duration = 1000;
 bep.settings.durationNormal = 1000;	// for slow shift
 bep.settings.durationSlow = 3000;	// for slow shift
-bep.settings.parameterView = true;  // Selected tab
+bep.settings.view = "parameter";  // Selected tab
 bep.settings.animation = true; // Animations on by default ... TODO save locally
 
 bep.mouseDown = false;
@@ -158,9 +158,9 @@ var updateImages = function() {
 
 
 
-var updateIndicators = function(d) {
+var updateIndicators = function() {
 	
-	console.log(d);
+	console.log("updateIndicators");
 	var x = map.f.value(bep.values.f);
 	var y = map.d.value(bep.values.d);
 	$("#f .dropdown-toggle span").first().html(bep.values.f); 	// bind button
@@ -171,10 +171,21 @@ var updateIndicators = function(d) {
 	d3.selectAll(".f-indicator").attr('x', f).style('display', 'inline');
 	d3.selectAll(".d-indicator").attr('y', d).style('display', 'inline');
 	
-	if (!bep.settings.parameterView) {
+	
+	if (bep.settings.view==="statistics") {
+		// hide all indicators
+		d3.selectAll("#statistic .f-indicator").style('display', 'none');
+		d3.selectAll("#statistic .d-indicator").style('display', 'none');
+		d3.selectAll("#statistic .background-highlight").style('display', 'none');
 		
-		d3.selectAll(".f-indicator").style('display', 'none');
-		d3.selectAll(".d-indicator").style('display', 'none');
+		// show only selected, not pretty...
+		bep.fields.statistics.forEach(function(d) {
+			if (bep[d].s === bep.values.s && bep[d].r === bep.values.r) {
+				d3.selectAll("#statistic ."+d+" .f-indicator").style('display', 'block');
+				d3.selectAll("#statistic ."+d+" .d-indicator").style('display', 'block');
+				d3.selectAll("#statistic ."+d+" .background-highlight").style('display', 'block');
+			}
+		})
 		
 	}
 	
@@ -704,21 +715,18 @@ var updateGrids = function(x, matrix, value, settings) {
 			.on("mousedown", gridMouseDown)
 			.on("mouseup", gridMouseUp)
 			.on("mousemove", gridMouseMove);
-
 }
 
 
 var initRanges = function() {
 	// Cache Ranges &
 	bep.ranges = [];
-	console.time("initRanges");
 	bep.s.forEach(function(s, i) {
 		bep.ranges[i] = [];
 		bep.r.forEach(function(r, j) {
 			bep.ranges[i][j] = getRanges(s, r);
 		});
 	});
-	console.timeEnd("initRanges");
 }
 
 var getRanges = function(s, r) {

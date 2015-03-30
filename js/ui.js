@@ -7,7 +7,9 @@ var setLabel = function(id, val) {
 
 // Parameter UI
 $("#tab_parameter").click(function() {
-	bep.settings.parameterView = true;
+	bep.settings.view = "parameter";
+	console.log("view", bep.settings.view);
+	updateIndicators();
 });
 
 // buttons
@@ -50,7 +52,9 @@ $("#d .dropdown-menu > li > a").on('click', function(e) {
 // Statisic-centered View UI
 
 $("#tab_statistic").click(function() {
-	bep.settings.parameterView = false;
+	bep.settings.view = "statistics";
+	console.log("view", bep.settings.view);
+	updateIndicators();
 });
 
 $(".selection-overview .btn.btn-default").on('click', function(e) {
@@ -64,11 +68,9 @@ $(".selection-overview .btn.btn-default").on('click', function(e) {
 $("#abs .btn.btn-default").on('click', function(e) {	
 	var v = $(this).children("input").val()
 	bep.settings.relative = (v==="rel") ? true : false;
-	if (bep.settings.parameterView) {		// which view are we on?
-		updateParameterView();
-	} else {
-		updateStatisticsView();
-	}
+	if (bep.settings.view==="parameter") { updateParameterView() }
+	else if (bep.settings.view==="statistics") { updateStatisticsView() };
+	
 });
 
 // Settings Show/Hide
@@ -90,7 +92,7 @@ $("#animation .btn.btn-default").on('click', function(e) {
 	e.preventDefault();
 	var v = $(this).children("input").val()
 	bep.settings.animation = (v==="on") ? true : false;
-	bep.settings.duration = bep.settings.animation ? bep.settings.durationNormal : 0
+	bep.settings.duration = bep.settings.animation ? bep.settings.durationNormal : 0;
 });
 
 
@@ -99,6 +101,7 @@ var gridMouseDown = function(d,x,y) {
 	bep.mouseDown = true;
 	bep.values.f = map.f.i(x);
 	bep.values.d = map.d.i(y);
+	console.log("mouse down", d);
 	updateIndicators(d);
 }
 
@@ -114,6 +117,8 @@ var gridMouseMove = function(d,x,y) {
 		updateImages();
 	}
 }
+
+
 
 
 

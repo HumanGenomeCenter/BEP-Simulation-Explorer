@@ -321,3 +321,10 @@ text.whisker {
 #panel-settings {
 	display: none;
 }
+
+/* statistics background highlight */
+.background-highlight {
+	display: none;
+	fill: #f3f3f3;
+}
+	
