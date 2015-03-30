@@ -1,7 +1,11 @@
 
 // UI Helper Functions
-var setLabel = function(id, val) {
-	$("#"+id+"_label").html(val);
+var updateLabels = function() {
+	$("#d .dropdown-toggle span").first().html(bep.values.d);		// update button
+	$("#f .dropdown-toggle span").first().html(bep.values.f); 		// update button
+	// deselect & select
+	// $("#s .btn-default").removeClass("active").eq(0).addClass("active");
+	
 }
 
 
@@ -18,30 +22,22 @@ $("#r .btn.btn-default, #s .btn.btn-default").on('click', function(e) {
 	var id = $(this).parent().attr('id')
 	var value = parseFloat( $(this).find("span").html() );
 	bep.values[id] = value;
-	setLabel(id, value);
 	updateParameterView();	
 });
 
 // f,d dropdown
 $("#f .dropdown-menu > li > a").on('click', function(e) {
 	e.preventDefault();
-	var id = "f";
-	var value = parseFloat( $(this).html() );
-	$("#f .dropdown-toggle span").first().html(value); 		// update button
-	bep.values[id] = value;
-	setLabel(id, value);
+	bep.values["f"] = parseFloat( $(this).html() );
+	updateLabels();
 	updateIndicators();
 	updateImages();
 });
 
 $("#d .dropdown-menu > li > a").on('click', function(e) {
 	e.preventDefault();
-	var id = "d";
-	var value = parseFloat( $(this).html() );
-	$("#d .dropdown-toggle span").first().html(value);		// update button
-	
-	bep.values[id] = value;
-	setLabel(id, value);
+	bep.values["d"] = parseFloat( $(this).html() );
+	updateLabels();
 	updateIndicators();
 	updateImages();
 });
@@ -102,6 +98,15 @@ var gridMouseDown = function(d,x,y) {
 	bep.values.f = map.f.i(x);
 	bep.values.d = map.d.i(y);
 	console.log("mouse down", d);
+	
+	if (bep.settings.view==="statistics") {
+		// update r&s
+		var b = bep[bep.statisticsOver]
+		bep.values.r = b.r;
+		bep.values.s = b.s;
+		// update labels
+		updateLabels();
+	}
 	updateIndicators(d);
 }
 
@@ -118,7 +123,12 @@ var gridMouseMove = function(d,x,y) {
 	}
 }
 
-
+// add event listener, get class, temp store in bep.statisticsOver, on mousedown update s&r
+var readyStatisticsMouseOver = function() {	 
+	$("#statistic svg > g").on('mouseover', function(e, d) {
+		bep.statisticsOver = $(this).attr('class');
+	});
+}
 
 
 

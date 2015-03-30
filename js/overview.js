@@ -43,8 +43,8 @@ var initOverview = function() {
 				.attr('height', 179)
 				.attr('rx', 20)
 				.attr('ry', 20)
-				.attr('transform', 'translate(-45,-25)');
-				
+				.attr('transform', 'translate(-45,-25)');		
+		
 		// Horizontal Lables
 		if (i<3) {
 			svg.append('text')
@@ -70,6 +70,8 @@ var initOverview = function() {
 	});
 	
 	updateStatisticsView();		// intial
+	readyStatisticsMouseOver(); 	// init statistcs mouseover event listener	
+	
 }
 
 var updateStatisticsView = function(value) {
