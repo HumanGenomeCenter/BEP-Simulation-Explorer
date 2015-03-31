@@ -47,6 +47,10 @@ include("../header.php");
 					<input type="radio" name="options" value="rel">
 					<span>Relative</span>
 				</div>
+				<div class="btn btn-default">
+					<input type="radio" name="options" value="missing">
+					<span>Missing</span>
+				</div>
 			</div>
 
 			

@@ -65,8 +65,11 @@ $(".selection-overview .btn.btn-default").on('click', function(e) {
 
 // Absolute/Relative Scale Button
 $("#abs .btn.btn-default").on('click', function(e) {	
-	var v = $(this).children("input").val()
+	var v = $(this).children("input").val();
+
+	bep.settings.valuesView = v;
 	bep.settings.relative = (v==="rel") ? true : false;
+	
 	if (bep.settings.view==="parameter") { updateParameterView() }
 	else if (bep.settings.view==="statistics") { updateStatisticsView() };
 	

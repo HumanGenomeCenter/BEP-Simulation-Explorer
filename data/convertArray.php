@@ -44,11 +44,11 @@ if ($handle = opendir('tsv')) {
 				$d = $a[0];
 				$f = $a[1];
 				$x = $a[2];
-				$x = ($x=='na') ? 'null' : $x;
+				$x = ($x=='na') ? NULL : (float)$x;
 				
 				if (!isset($result[$s][$r][$d])) $result[$s][$r][$d] = array();
 				if (!isset($result[$s][$r][$d][$f])) $result[$s][$r][$d][$f] = array();
-				$result[$s][$r][$d][$f][$v] = (float)$x;
+				$result[$s][$r][$d][$f][$v] = $x;
 				
 			}
 			
