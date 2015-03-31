@@ -49,6 +49,8 @@ bep.settings.animation = true; // Animations on by default ... TODO save locally
 
 bep.mouseDown = false;
 
+bep.missingColor = "#dddddd";
+
 var data = {};
 
 
@@ -658,6 +660,10 @@ var updateGrids = function(x, matrix, value, settings) {
 	if (value===undefined) value = x;
 	
 	var getColor = function(d) {
+		// 0 means missing
+		if (d[value] === 0 ) {			
+			return bep.missingColor;
+		}
 		return bep[x].colorMap(d[value]);
 	}
 	
@@ -694,11 +700,8 @@ var updateGrids = function(x, matrix, value, settings) {
 	rect
 		.transition()
 		.duration(bep.settings.duration)
-		.attr('fill', getColor)
-		.attr('opacity', function(d) { 
-			if (d[x]===0) return 0;
-			return 1;
-		});
+		.attr('fill', getColor);
+//		.attr('opacity', function(d) { if (d[x]===0) { return 0; } else { return 1;} });
 		
 	rect.enter()
 		.append('rect')
@@ -708,10 +711,7 @@ var updateGrids = function(x, matrix, value, settings) {
 			.attr('width', rw)
 			.attr('height', rh)
 			.attr('fill', getColor)
-			.attr('opacity', function(d) { 
-				if (d[x]===0) return 0;
-				return 1;
-			})
+//			.attr('opacity', function(d) { if (d[x]===0) { return 0; } else { return 1;} });
 			.on("mousedown", gridMouseDown)
 			.on("mouseup", gridMouseUp)
 			.on("mousemove", gridMouseMove);
