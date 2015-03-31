@@ -240,7 +240,6 @@ img {
 /* svg */
 
 .tick line, .tick text {
-	
 	stroke: #999;
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 100;
@@ -328,3 +327,12 @@ text.whisker {
 	fill: #f3f3f3;
 }
 	
+.violin path {
+	stroke: #999999;
+	stroke-width: 0.5px;
+}
+
+.boxes rect {
+	stroke: #cccccc;
+	stroke-width: 0.1px;
+}
