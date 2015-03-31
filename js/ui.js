@@ -4,7 +4,10 @@ var updateLabels = function() {
 	$("#d .dropdown-toggle span").first().html(bep.values.d);		// update button
 	$("#f .dropdown-toggle span").first().html(bep.values.f); 		// update button
 	// deselect & select
-	// $("#s .btn-default").removeClass("active").eq(0).addClass("active");
+	var s = bep.s.indexOf(bep.values.s);
+	var r = bep.r.indexOf(bep.values.r);
+	$("#s .btn-default").removeClass("active").eq(s).addClass("active");
+	$("#r .btn-default").removeClass("active").eq(r).addClass("active");
 	
 }
 
