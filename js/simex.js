@@ -84,19 +84,18 @@ map.f = {
 
 
 $(document).ready(function() {
-	d3.select('body').on("mouseup", function() { 	// general mouseup handler
+	d3.select('body').on("mouseup", function() { 	// add general mouseup handler
 		bep.mouseDown = false;
 	});		
 	
-	d3.json("../data/stat.json", function(error, json) {					// load data
+	d3.json("../data/stat.json", function(error, json) {	// load data
 		if (error) return console.warn(error);
-		data = json;
+		data = json;					// make data gloabl
 		initRanges();					// initRanges
 		initDetails();
 		initOverview();
 	});
 });
-
 
 
 bep.ε.colorMap = d3.scale.linear().range(["#FFFFFF", "#FF0000"]).clamp(true);
@@ -105,6 +104,7 @@ bep.τ.colorMap = d3.scale.linear().range(["#FFFFFF", "#A020F0"]).clamp(true);
 bep.ρ.colorMap = d3.scale.linear().range(["#FFFFFF", "#00CD00"]).clamp(true);
 bep.λ.colorMap = d3.scale.linear().range(["#FFFFFF", "#EEEE00"]).clamp(true);
 bep.θ.colorMap = d3.scale.linear().range(["#FFFFFF", "#FFA500"]).clamp(true);
+
 
 // init ranges & colorMaps for overview fields
 bep.fields.statistics.forEach(function(d) {
@@ -660,10 +660,8 @@ var updateGrids = function(x, matrix, value, settings) {
 	if (value===undefined) value = x;
 	
 	var getColor = function(d) {
-		// 0 means missing
-		if (d[value] === 0 ) {			
-			return bep.missingColor;
-		}
+		// missing values -> null
+		if (d[value] === null ) return bep.missingColor;
 		return bep[x].colorMap(d[value]);
 	}
 	
