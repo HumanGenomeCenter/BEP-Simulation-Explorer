@@ -52,8 +52,8 @@ $("#d .dropdown-menu > li > a").on('click', function(e) {
 
 $("#tab_statistic").click(function() {
 	bep.settings.view = "statistics";
-	console.log("view", bep.settings.view);
 	updateIndicators();
+	updateStatisticsView();
 });
 
 $(".selection-overview .btn.btn-default").on('click', function(e) {
@@ -66,13 +66,16 @@ $(".selection-overview .btn.btn-default").on('click', function(e) {
 // Absolute/Relative Scale Button
 $("#abs .btn.btn-default").on('click', function(e) {	
 	var v = $(this).children("input").val();
-
-	bep.settings.valuesView = v;
-	bep.settings.relative = (v==="rel") ? true : false;
 	
-	if (bep.settings.view==="parameter") { updateParameterView() }
-	else if (bep.settings.view==="statistics") { updateStatisticsView() };
+	if (v==='missing') {
+		bep.settings.missingView = true;
+	} else {
+		bep.settings.missingView = false;
+		bep.settings.valuesView = v;		// rel, abs or missing
+	}
 	
+	updateParameterView();
+	updateStatisticsView();
 });
 
 // Settings Show/Hide
@@ -103,7 +106,6 @@ var gridMouseDown = function(d,x,y) {
 	bep.mouseDown = true;
 	bep.values.f = map.f.i(x);
 	bep.values.d = map.d.i(y);
-	console.log("mouse down", d);
 	
 	if (bep.settings.view==="statistics") {
 		// update r&s

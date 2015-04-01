@@ -32,7 +32,7 @@ bep.fields.all.forEach(function(d) {bep[d] = {};});		// init with empty objects
 
 
 bep.settings = {};
-bep.settings.relative = true;
+bep.settings.valuesView = 'rel';
 bep.settings.boxSpacing = 1;
 bep.settings.width = 173;	// 260
 bep.settings.height = 109;	// 129
@@ -49,7 +49,10 @@ bep.settings.animation = true; // Animations on by default ... TODO save locally
 
 bep.mouseDown = false;
 
-bep.missingColor = "#dddddd";
+bep.color = {};
+bep.color.na = "#dddddd";
+bep.color.valueHighlight = "#ffffff";
+bep.color.naHighlight = "#333333";
 
 var data = {};
 
@@ -453,11 +456,12 @@ var initViolinPlots = function(d, matrix, parameter) {
 		.map(function(a) {return a[parameter]; });					// isolate value
 	
 	var dataRange;	
-	if (bep.settings.relative) {
+	if (bep.settings.valuesView==='rel') {
 		dataRange = [d3.min(values), d3.max(values)];
-	} else {
+	} else if (bep.settings.valuesView==='abs') {
 		dataRange = bep[d].range;
 	}
+	console.log(dataRange);
 	
 	x = d3.scale.linear()
 		.domain(dataRange)
@@ -545,12 +549,11 @@ var updateViolinPlots = function(d, matrix, parameter) {
 		.map(function(a) {return a[parameter]; });			// isolate value
 	
 	var dataRange;	
-	if (bep.settings.relative) {	// relative
+	if (bep.settings.valuesView==='rel') {	// relative
 		dataRange = [d3.min(values), d3.max(values)];
-	} else {
+	} else if (bep.settings.valuesView==='abs') {
 		dataRange = bep[d].range;	// absolute
 	}
-
 
 	var x = d3.scale.linear()
 		.domain(dataRange)
@@ -573,16 +576,18 @@ var updateViolinPlots = function(d, matrix, parameter) {
 		.y1(function(d) { return y(d.y); })
 	
 	var boxplot = violin.select(".box");
+	
 	var chart = d3.box()
 		.whiskers(iqr(1.5))
 		.width(width/6)
 		.height(height)
 		.domain(dataRange)
 		.tickFormat(" ");	// hack, " " instead of d3.format
-	
-	boxplot.datum(values)
-		.call(chart.domain(dataRange).duration(duration));		// don't forget to update chart domain
-	
+		
+	boxplot
+		.datum(values)
+		.call(chart.domain(dataRange).duration(duration).height(height));		// don't forget to update chart domain
+		
 	// update axis
 	var xA = violin.select(".y.axis");
 	xA.transition().duration(duration)
@@ -661,7 +666,9 @@ var updateGrids = function(x, matrix, value, settings) {
 	
 	var getColor = function(d) {
 		// missing values -> null
-		if (d[value] === null ) return bep.missingColor;
+		if (d[value] === null && bep.settings.missingView) return bep.color.naHighlight;
+		if (d[value] === null ) return bep.color.na;
+		if (bep.settings.missingView) return bep.color.valueHighlight;
 		return bep[x].colorMap(d[value]);
 	}
 	
@@ -699,7 +706,6 @@ var updateGrids = function(x, matrix, value, settings) {
 		.transition()
 		.duration(bep.settings.duration)
 		.attr('fill', getColor);
-//		.attr('opacity', function(d) { if (d[x]===0) { return 0; } else { return 1;} });
 		
 	rect.enter()
 		.append('rect')
@@ -709,7 +715,6 @@ var updateGrids = function(x, matrix, value, settings) {
 			.attr('width', rw)
 			.attr('height', rh)
 			.attr('fill', getColor)
-//			.attr('opacity', function(d) { if (d[x]===0) { return 0; } else { return 1;} });
 			.on("mousedown", gridMouseDown)
 			.on("mouseup", gridMouseUp)
 			.on("mousemove", gridMouseMove);

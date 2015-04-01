@@ -42,26 +42,33 @@ var initDetails = function() {
 // absolute/relative update
 var updateParameterView = function() {
 	
-	// get matrix data
-	var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];
+	// update view
+	if (bep.settings.view==="parameter") {
 	
-	// update limits
-	getParameterLimits();		// cache
+		// get matrix data
+		var matrix = data[map.s.value(bep.values.s)][map.r.value(bep.values.r)];
 	
-	bep.fields.parameter.forEach(function(d, i) {
-		updateGrids(d, matrix);
-		updateViolinPlots(d, matrix);
-	});
+		// update limits
+		getParameterLimits();		// cache
 	
-	updateImages();
+		bep.fields.parameter.forEach(function(d, i) {
+			updateGrids(d, matrix);
+			updateViolinPlots(d, matrix);
+		});
+	
+		updateImages();
+		
+	// keep view in sync
+	} else {
+		
+	}
 }
 
 
 var getParameterLimits = function() {	
-	var ranges = bep.ranges[bep.s.indexOf(bep.values.s)][bep.r.indexOf(bep.values.r)];
-	var absOrRel = bep.settings.relative ? "rel" : "abs";	
+	var ranges = bep.ranges[bep.s.indexOf(bep.values.s)][bep.r.indexOf(bep.values.r)];	
 	bep.fields.parameter.forEach(function(f) {
-		var r = ranges[f][absOrRel];
+		var r = ranges[f][bep.settings.valuesView];
 		bep[f].range = r; 
 		bep[f].colorMap.domain(r);
 	});	

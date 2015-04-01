@@ -75,24 +75,30 @@ var initOverview = function() {
 }
 
 var updateStatisticsView = function(value) {
+	
+	if (bep.settings.view!=="statistics") {
+		
+	}
+	
+	
 	if (value===undefined) value = bep.overviewValue;
 
 	bep.fields.statistics.forEach(function(d,i) {
-		
+	
 		var matrix = bep[d].matrix;
 		updateStatisticsLimits(d, value);
-		
+	
 		updateGrids(d, matrix, value);
 		updateViolinPlots(d, bep[d].matrix, value);
 	});
 	//updateImages();
+
 }
 
 
 var updateStatisticsLimits = function(d, value) {
 	var ranges = bep.ranges[bep.s.indexOf(bep[d].s)][bep.r.indexOf(bep[d].r)];	
-	var absOrRel = bep.settings.relative ? "rel" : "abs";	
-	var r = ranges[value][absOrRel];
+	var r = ranges[value][bep.settings.valuesView];
 	bep[d].range = r;
 	bep[d].colorMap = bep[value].colorMap;		// get colorMap for value
 	bep[d].colorMap.domain(r);
