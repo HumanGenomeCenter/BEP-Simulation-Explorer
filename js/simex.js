@@ -121,9 +121,7 @@ bep.fields.statistics.forEach(function(d) {
 
 
 var updateImages = function() {
-	
-	console.log("update images");
-	
+		
 	// close, reset details
 	$(".details").hide(200);
 	bep.selected = [false, false, false, false, false];		// reset
@@ -455,7 +453,6 @@ var initViolinPlots = function(d, matrix, parameter) {
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
 		.map(function(a) { return a[parameter] || 0 });		// isolate value, replace null with 0, boxplot can't handle null
 	
-	console.log(values);
 	// replace null with 0. boxplot doesnot handle null values
 	
 	var dataRange;	
@@ -769,4 +766,16 @@ var getRanges = function(s, r) {
 	
 	return cache;
 }
+
+
+// replace missing image, jQuery way
+$('img.tumor').error(function() {
+	$(this).attr('src', '../img/missing.tumor.png');
+});
+
+$('img.mutprof').error(function() {
+	$(this).attr('src', '../img/missing.mutprof.png');
+});
+
+
 
