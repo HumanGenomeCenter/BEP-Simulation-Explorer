@@ -453,7 +453,10 @@ var initViolinPlots = function(d, matrix, parameter) {
 		
 	values = matrix
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
-		.map(function(a) {return a[parameter]; });					// isolate value
+		.map(function(a) { return a[parameter] || 0 });		// isolate value, replace null with 0, boxplot can't handle null
+	
+	console.log(values);
+	// replace null with 0. boxplot doesnot handle null values
 	
 	var dataRange;	
 	if (bep.settings.valuesView==='rel') {
@@ -461,7 +464,6 @@ var initViolinPlots = function(d, matrix, parameter) {
 	} else if (bep.settings.valuesView==='abs') {
 		dataRange = bep[d].range;
 	}
-	console.log(dataRange);
 	
 	x = d3.scale.linear()
 		.domain(dataRange)
@@ -546,7 +548,7 @@ var updateViolinPlots = function(d, matrix, parameter) {
 	
 	var values = matrix
 		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
-		.map(function(a) {return a[parameter]; });			// isolate value
+		.map(function(a) { return a[parameter] || 0 });	 	// isolate value, replace null with 0, boxplot can't handle null
 	
 	var dataRange;	
 	if (bep.settings.valuesView==='rel') {	// relative
@@ -666,6 +668,7 @@ var updateGrids = function(x, matrix, value, settings) {
 	
 	var getColor = function(d) {
 		// missing values -> null
+		//if (d[value] === 9¥)
 		if (d[value] === null && bep.settings.missingView) return bep.color.naHighlight;
 		if (d[value] === null ) return bep.color.na;
 		if (bep.settings.missingView) return bep.color.valueHighlight;
