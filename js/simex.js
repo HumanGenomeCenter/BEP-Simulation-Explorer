@@ -666,6 +666,9 @@ var updateGrids = function(x, matrix, value, settings) {
 	var getColor = function(d) {
 		// missing values -> null
 		//if (d[value] === 9¥)
+		if (d[value] === null ) {
+			console.log(d);
+		}
 		if (d[value] === null && bep.settings.missingView) return bep.color.naHighlight;
 		if (d[value] === null ) return bep.color.na;
 		if (bep.settings.missingView) return bep.color.valueHighlight;

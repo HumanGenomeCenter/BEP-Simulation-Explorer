@@ -103,6 +103,17 @@ $("#animation .btn.btn-default").on('click', function(e) {
 
 // Grid Interactions
 var gridMouseDown = function(d,x,y) {
+	console.log(d);
+	// terse js. -> if any values is null
+	if (~[d.ε, d.λ, d.μ, d.ρ, d.τ].indexOf(null)) {
+		console.log("at least one value null");
+	}
+	if (![d.ε, d.λ, d.μ, d.ρ, d.τ].reduce(function(a,b){return a||b})) {
+		console.log("all values null");
+	}
+	
+	
+	
 	bep.mouseDown = true;
 	bep.values.f = map.f.i(x);
 	bep.values.d = map.d.i(y);
