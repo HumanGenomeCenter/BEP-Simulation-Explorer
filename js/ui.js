@@ -101,18 +101,14 @@ $("#animation .btn.btn-default").on('click', function(e) {
 });
 
 
+var allValesAreNull = function(d) {
+	return ![d.ε, d.λ, d.μ, d.ρ, d.τ].reduce(function(a,b){return a||b});
+}
+
 // Grid Interactions
 var gridMouseDown = function(d,x,y) {
-	console.log(d);
-	// terse js. -> if any values is null
-	if (~[d.ε, d.λ, d.μ, d.ρ, d.τ].indexOf(null)) {
-		console.log("at least one value null");
-	}
-	if (![d.ε, d.λ, d.μ, d.ρ, d.τ].reduce(function(a,b){return a||b})) {
-		console.log("all values null");
-	}
-	
-	
+
+	bep.allValuesAreNull = allValesAreNull(d) ? true : false;
 	
 	bep.mouseDown = true;
 	bep.values.f = map.f.i(x);

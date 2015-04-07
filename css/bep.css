@@ -8,7 +8,7 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-	
+	min-height: 1000px;
 	
 }
 a, a:hover, a:active, a:selected {

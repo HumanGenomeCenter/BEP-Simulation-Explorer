@@ -127,35 +127,44 @@ var updateImages = function() {
 	bep.selected = [false, false, false, false, false];		// reset
 	$(".line").css('background-color', '#fff');
 	
-	
-	details = [];
-	var baseurl = "../results/s" + bep.values.s + "_r" + bep.values.r + "/d" + bep.values.d + "_f"+ bep.values.f;
-	
-	d3.selectAll("img.tumor")
-		.data([0,1,2,3,4])
-		.attr('src', function(d) {
-			return baseurl + "_" + d + ".tumor.png";
-		});
-		
-	d3.selectAll("img.mutprof")
-		.data([0,1,2,3,4])
-		.attr('src', function(d) {
-			$.get(baseurl + "_" + d + ".html", function(data) {
-				// QnD way of getting the data out of HTML
-				var a = data.split("</td><td>");
-				var v = {};
-				v.ε = parseFloat(a[1]);
-				v.μ = parseFloat(a[2]);
-				v.ρ = parseFloat(a[3]);
-				v.λ = parseFloat(a[4]);
-				v.τ = parseFloat(a[5]);
-				v.θ = parseFloat(a[6]);
-				details[d] = v;
-			});
-			
-			return baseurl + "_" + d + ".mutprof.png";
-		});
+	if (bep.allValuesAreNull) {
 
+
+		$(".results").hide();
+		$(".results-placeholder").show();
+		
+	} else {
+		
+		$(".results-placeholder").hide();
+		$(".results").show();
+		details = [];
+		var baseurl = "../results/s" + bep.values.s + "_r" + bep.values.r + "/d" + bep.values.d + "_f"+ bep.values.f;
+	
+		d3.selectAll("img.tumor")
+			.data([0,1,2,3,4])
+			.attr('src', function(d) {
+				return baseurl + "_" + d + ".tumor.png";
+			});
+		
+		d3.selectAll("img.mutprof")
+			.data([0,1,2,3,4])
+			.attr('src', function(d) {
+				$.get(baseurl + "_" + d + ".html", function(data) {
+					// QnD way of getting the data out of HTML
+					var a = data.split("</td><td>");
+					var v = {};
+					v.ε = parseFloat(a[1]);
+					v.μ = parseFloat(a[2]);
+					v.ρ = parseFloat(a[3]);
+					v.λ = parseFloat(a[4]);
+					v.τ = parseFloat(a[5]);
+					v.θ = parseFloat(a[6]);
+					details[d] = v;
+				});
+			
+				return baseurl + "_" + d + ".mutprof.png";
+			});
+	}
 
 }
 
@@ -665,10 +674,6 @@ var updateGrids = function(x, matrix, value, settings) {
 	
 	var getColor = function(d) {
 		// missing values -> null
-		//if (d[value] === 9¥)
-		if (d[value] === null ) {
-			console.log(d);
-		}
 		if (d[value] === null && bep.settings.missingView) return bep.color.naHighlight;
 		if (d[value] === null ) return bep.color.na;
 		if (bep.settings.missingView) return bep.color.valueHighlight;
