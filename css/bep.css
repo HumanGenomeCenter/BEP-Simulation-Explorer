@@ -333,6 +333,7 @@ text.whisker {
 }
 
 .boxes rect {
-	stroke: #cccccc;
-	stroke-width: 0.1px;
+	stroke: #ffffff;
+	stroke-width: 0px;
 }
+

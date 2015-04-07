@@ -114,7 +114,7 @@ include("../header.php");
 	<div class="row results-placeholder" style="display:none">
 		<div class="col-xs-12">
 			<p class="text-center">
-				Sorry, the experiment with values No results for <span>d=2, sf</span> did not yield any results.
+				Sorry, the experiment with value span>d=2, sf</span> did not yield any results.
 			</p>
 		</div>
 	</div>

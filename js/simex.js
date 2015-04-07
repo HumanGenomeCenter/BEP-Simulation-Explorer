@@ -33,13 +33,13 @@ bep.fields.all.forEach(function(d) {bep[d] = {};});		// init with empty objects
 
 bep.settings = {};
 bep.settings.valuesView = 'rel';
-bep.settings.boxSpacing = 1;
+bep.settings.boxSpacing = 0;
 bep.settings.width = 173;	// 260
 bep.settings.height = 109;	// 129
 //bep.settings.boxWidth = (bep.settings.width - 28*bep.settings.boxSpacing) / 29;
 //bep.settings.boxHeight = (bep.settings.height - 9*bep.settings.boxSpacing) / 10;
-bep.settings.boxWidth = 5;
-bep.settings.boxHeight = 10;
+bep.settings.boxWidth = 6;
+bep.settings.boxHeight = 11;
 
 bep.settings.duration = 1000;
 bep.settings.durationNormal = 1000;	// for slow shift
