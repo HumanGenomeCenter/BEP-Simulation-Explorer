@@ -49,7 +49,7 @@ var initOverview = function() {
 		if (i<3) {
 			svg.append('text')
 				.attr("class", "legend")
-				.text("S = " + bep.s[i])
+				.text("s = " + bep.s[i])
 				.attr('text-anchor', 'middle')
 				.attr('transform', 'translate('+(x+90)+','+(y-10)+')');
 		}
@@ -58,7 +58,7 @@ var initOverview = function() {
 		if ((i%3)===0) {
 			svg.append('text')
 				.attr("class", "legend")
-				.text("R = " + bep.r[labelY++])
+				.text("r = " + bep.r[labelY++])
 				.attr('text-anchor', 'middle')
 				.attr('transform', 'translate(17,'+(y+55)+'), rotate(-90)');
 			

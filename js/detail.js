@@ -15,8 +15,8 @@ var initDetails = function() {
 		y=y+30;	// additional padding to accomodate legend
 		
 		// Horizontal Lables
-		var labelData = ["Population Entropy", "Founder Mutation Count", "Average Mutation Count",
-						"Population Fitness", "Growth Time", "Selfsimilarity"]
+		var labelData = ["ε: Population Entropy", "μ: Founder Mutation Count", "ρ: Average Mutation Count",
+						"λ: Population Fitness", "τ: Growth Time", "θ: Selfsimilarity"]
 
 		svg.append('text')
 			.attr("class", "legend")

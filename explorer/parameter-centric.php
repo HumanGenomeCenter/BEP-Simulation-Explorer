@@ -3,7 +3,7 @@
 		
 			<div class="btn-toolbar" role="toolbar" aria-label="...">
 				<div id="s" class="btn-group" data-toggle="buttons">
-					<label class="btn btn-label">S</label>
+					<label class="btn btn-label">s</label>
 					<div class="btn btn-default">
 						<input type="radio" name="options">
 						<span>0.01</span>
@@ -19,7 +19,7 @@
 				</div>
 			
 				<div id="r" class="btn-group" data-toggle="buttons">
-					<label class="btn btn-label">R</label>
+					<label class="btn btn-label">r</label>
 					<div class="btn btn-default">
 						<input type="radio" name="options">
 						<span>0.0001</span>
@@ -36,7 +36,7 @@
 			
 				<div id="d" class="btn-group" data-toggle="buttons">
 					<label class="btn btn-label">
-						D
+						d
 					</label>	
 					<div class="btn-group" role="group">
 						<div class="btn btn-default active dropdown-toggle" data-toggle="dropdown">
@@ -61,7 +61,7 @@
 			
 				<div id="f" class="btn-group top" data-toggle="buttons">
 					<label class="btn btn-label">
-						F
+						f
 					</label>
 					<div class="btn-group" role="group">
 						<div class="btn btn-default active dropdown-toggle" data-toggle="dropdown">

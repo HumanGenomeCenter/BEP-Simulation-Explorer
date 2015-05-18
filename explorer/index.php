@@ -37,7 +37,7 @@ include("../header.php");
 			
 			<div id="abs" class="btn-group" data-toggle="buttons" style="float:right">
 				<div class="btn btn-label">
-					<span>Values</span>
+					<span>Scale</span>
 				</div>
 				<div class="btn btn-default">
 					<input type="radio" name="options" value="abs">
@@ -47,10 +47,10 @@ include("../header.php");
 					<input type="radio" name="options" value="rel">
 					<span>Relative</span>
 				</div>
-				<div class="btn btn-default">
+				<!-- <div class="btn btn-default">
 					<input type="radio" name="options" value="missing">
 					<span>Missing</span>
-				</div>
+				</div>-->
 			</div>
 
 			

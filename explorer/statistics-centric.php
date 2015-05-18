@@ -4,27 +4,27 @@
 				<div class="btn-group" data-toggle="buttons">
 					<div class="btn btn-default populationEntropy active" data-value="ε">
 						<input type="radio" name="options">
-						<span>ε Population Entropy</span>
+						<span>ε: Population Entropy</span>
 					</div>
 					<div class="btn btn-default founderMutationCount" data-value="μ">
 						<input type="radio" name="options">
-						<span>μ Founder Mutation Count</span>
+						<span>μ: Founder Mutation Count</span>
 					</div>
 					<div class="btn btn-default averageMutationCount" data-value="ρ">
 						<input type="radio" name="options">
-						<span>ρ Average Mutation Count</span>
+						<span>ρ: Average Mutation Count</span>
 					</div>
 					<div class="btn btn-default populationFitness" data-value="λ">
 						<input type="radio" name="options">
-						<span>λ Population Fitness</span>
+						<span>λ: Population Fitness</span>
 					</div>
 					<div class="btn btn-default growthTime" data-value="τ">
 						<input type="radio" name="options">
-						<span>τ Growth Time</span>
+						<span>τ: Growth Time</span>
 					</div>
 					<div class="btn btn-default selfSimilarity" data-value="θ">
 						<input type="radio" name="options">
-						<span>θ Selfsimilarity</span>
+						<span>θ: Selfsimilarity</span>
 					</div>
 				</div>
 			</div>
