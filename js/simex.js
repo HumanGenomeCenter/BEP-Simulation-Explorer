@@ -516,7 +516,8 @@ var initViolinPlots = function(d, matrix, parameter) {
 	// boxplot
 	var chart = d3.box()
 		.whiskers(iqr(1.5))
-		.width(width/6)
+		//.width(width/6)
+		.width(width/8)
 		.height(height)
 		.domain(dataRange)
 		.tickFormat(" ");
@@ -531,7 +532,8 @@ var initViolinPlots = function(d, matrix, parameter) {
 		.attr("class", "box")
 		.attr("width", width)
 		.attr("height", height)
-		.attr("transform", "translate("+(width/2-width/6/2)+",0)")		// center
+		//.attr("transform", "translate("+(width/2-width/6/2)+",0)")
+		.attr("transform", "translate("+(width/2-width/8/2)+",0)")		// center
 		.call(chart);
 
 	var xA = violin.append("g")
@@ -587,7 +589,8 @@ var updateViolinPlots = function(d, matrix, parameter) {
 	
 	var chart = d3.box()
 		.whiskers(iqr(1.5))
-		.width(width/6)
+		//.width(width/6)
+		.width(width/8)
 		.height(height)
 		.domain(dataRange)
 		.tickFormat(" ");	// hack, " " instead of d3.format
