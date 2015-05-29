@@ -11,7 +11,7 @@ print_r($uri);
 $last = array_pop($uri);
 print_r($last);
 
-$pages = array('intro', 'explorer', 'about', 'help', 'code');
+$pages = array('intro', 'explorer', 'download');
 foreach($pages as $p) {
 	$a[$p] = "";
 }
@@ -54,9 +54,7 @@ echo "-->";
 				<ul class="nav navbar-nav">
 					<li<?php echo $a['intro']; ?>><a href="<?php echo $path; ?>">Introduction</a></li>
 					<li<?php echo $a['explorer']; ?>><a href="<?php echo $path; ?>explorer/">Simulation Explorer</a></li>
-					<li<?php echo $a['help']; ?>><a href="<?php echo $path; ?>help/">Help</a></li>
-					
-					<li<?php echo $a['code']; ?>><a href="<?php echo $path; ?>code/">Code</a></li>
+					<li<?php echo $a['download']; ?>><a href="<?php echo $path; ?>download/">Download</a></li>
 					
 				</ul>
 			</div><!--/.nav-collapse -->

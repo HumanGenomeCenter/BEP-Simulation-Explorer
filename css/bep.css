@@ -39,13 +39,17 @@ a, a:hover, a:active, a:selected {
 .content1 {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 1.3em;
-	color: #999;
+	font-weight: 100;
+	color: #555;
+	text-align: justify; text-justify: distribute-all-lines; 
 }
 
 .content2 {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 1em;
-	color: #999;
+	font-weight: 100;
+	color: #555;
+	text-align: justify; text-justify: distribute-all-lines; 
 }
 
 .populationEntropy > span {
