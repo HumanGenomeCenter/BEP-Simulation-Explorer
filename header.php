@@ -43,8 +43,8 @@ echo "-->";
 <div class="container">
 	
 	<div class="page-header">
-		<h1>Branching Evolutionary Processes</h1>
-		<h2>How Cancer evolution simulation identifies possible principles 
+		<h1>Branching Evolutionary Processes Simulation</h1>
+		<h2>Cancer evolution simulation identifies possible principles 
 			underlying intratumor heterogeneity</h2>
 	</div>
 	

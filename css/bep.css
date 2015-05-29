@@ -24,19 +24,29 @@ a, a:hover, a:active, a:selected {
 .page-header h1, .page-header h2 {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
-	font-size: 4em;
+	font-size: 3.5em;
 	color: #999;
 }
 
 .page-header h2 {
 	font-weight: 100;
-	font-size: 2em;
+	font-size: 1.7em;
 }
 .container {
 	width: 1050px; /* -> 1020 after margins */
 }
 
+.content1 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.3em;
+	color: #999;
+}
 
+.content2 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1em;
+	color: #999;
+}
 
 .populationEntropy > span {
 	border-bottom: 2px solid #FF0000;
@@ -335,5 +345,9 @@ text.whisker {
 .boxes rect {
 	stroke: #ffffff;
 	stroke-width: 0px;
+}
+
+.abstract{
+	font-size: 1em;
 }
 
