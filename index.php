@@ -5,7 +5,7 @@
 	<div class="col-xs-12">
 			<p class="content1">  
 		    This page is a  supplementary  web site for our  paper  titled  "Cancer evolution simulation identifies possible principles underlying intratumor heterogeneity".
-		    You can intaractively explore simulation results and downlod our data and code. 
+		    You can <a href="./explorer/">intaractively explore simulation results</a> and <a href="./download/">downlod our data and code</a>. 
 		    </p>
 		    <p class="content1">
 		    Here is an abstract of our paper: 
