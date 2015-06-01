@@ -17,7 +17,8 @@
 		    Our manuscript is avairable from here.
 		    </p>
 		    <p class="content1">
-		    Contact: aniida at ims.u-tokyo.ac.jp	
+		    The simulation study was performed by <a href="http://www.hgc.jp/~niiyan/profile/index.php">Atsushi Niida</a> (aniida at ims.u-tokyo.ac.jp), using <a href="http://www.aics.riken.jp/en/k-computer/about/">K computer</a>. <br>
+		    This web site was made by Georg Tremmel (tremmel at hgc.jp).
 		    </p>
 	</div>
 	
