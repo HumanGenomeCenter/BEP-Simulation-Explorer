@@ -222,16 +222,23 @@ $(document).ready(function() {
 	});
 	
 	$(".results a").mouseout(function(e) {
-		if ($(this).data('selected')) {
-			$(this).next().css('background-color', '#999');
-		} else {
-			$(this).next().css('background-color', '#fff');
-		}
+		$(this).next().css('background-color', '#fff');
 	});
 	
 	$(".results a").click(function(e) {
 		e.preventDefault();
 		var id = $(this).data('id'); 
+		var d = details[id];
+		
+		var features = "height=600,width=600,left=200,top=100,menubar=no,status=no";
+		var gettext = "s="+bep.values.s+"&r="+bep.values.r+"&d="+bep.values.d+"&f="+bep.values.f;
+		gettext = gettext + "&id="+id+"&e="+d.ε+"&o="+d.θ+"&l="+d.λ+"&m="+d.μ+"&rho="+d.ρ+"&t="+d.τ;
+				
+		
+		var newWindow = window.open("details.php?"+gettext, "", features);
+	
+		
+		/*
 		if ($(this).data('selected')) {
 			$(this).data('selected', false);
 			bep.selected[id] = false;			// deselect
@@ -272,7 +279,12 @@ $(document).ready(function() {
 		});
 			
 		addColumns(selectedDetails, clss);
+		
+		
+		*/
+		
 	});
+	
 	
 	
 	
