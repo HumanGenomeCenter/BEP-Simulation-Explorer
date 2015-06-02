@@ -25,7 +25,10 @@ $("#r .btn.btn-default, #s .btn.btn-default").on('click', function(e) {
 	var id = $(this).parent().attr('id')
 	var value = parseFloat( $(this).find("span").html() );
 	bep.values[id] = value;
-	updateParameterView();	
+	updateLabels();
+	updateParameterView();
+	updateImages();
+		
 });
 
 // f,d dropdown
@@ -108,6 +111,9 @@ var allValesAreNull = function(d) {
 // Grid Interactions
 var gridMouseDown = function(d,x,y) {
 
+	d3.select(this).classed("hover", true);
+	
+	console.log(d,x,y);
 	bep.allValuesAreNull = allValesAreNull(d) ? true : false;
 	
 	bep.mouseDown = true;
@@ -126,6 +132,7 @@ var gridMouseDown = function(d,x,y) {
 }
 
 var gridMouseUp = function(d,x,y) {
+	d3.select(this).classed("hover", false);
 	updateImages();
 }
 

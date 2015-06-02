@@ -74,6 +74,10 @@ include("../header.php");
 	</div>
 	
 	<div class="row results">
+		<div class="col-xs-12">
+			Experiment Results: <em>(click for more details)</em>
+			<br/><br/>
+		</div>
 		<div class="col-xs-2">
 			<a href="#" data-id="0">
 				<img class="tumor" src="../results/s0.01_r0.0001/d5_f0.8_0.tumor.png">
@@ -114,7 +118,7 @@ include("../header.php");
 	<div class="row results-placeholder" style="display:none">
 		<div class="col-xs-12">
 			<p class="text-center">
-				Sorry, the experiment with value span>d=2, sf</span> did not yield any results.
+				Sorry, the experiment did not yield any results.
 			</p>
 		</div>
 	</div>
