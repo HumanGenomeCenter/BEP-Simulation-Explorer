@@ -27,18 +27,28 @@ $path = "s".$s."_r".$r."/d".$d."_f".$f."_".$id."";
 </head>
 
 <body>
+<div class="popup">
 	<div class="page-header">
-		<h1 style="text-align:center">B.E.P</h1>
+		<h1>B.E.P</h1>
+		<h2>How Cancer evolution simulation identifies possible principles 
+			underlying intratumor heterogeneity</h2>
 	</div>	
 
 	<div class="row values">
-		s: <?php echo $s; ?><br />
-		r: <?php echo $r; ?><br />
-		d: <?php echo $d; ?><br />
-		f: <?php echo $f; ?><br />
-		
-		
-		
+		<table class="table table-striped table-bordered">
+			<tr><td>s:</td><td><?php echo $s; ?></td></tr>
+			<tr><td>r:</td><td><?php echo $r; ?></td></tr>
+			<tr><td>d:</td><td><?php echo $d; ?></td></tr>
+			<tr><td>f:</td><td><?php echo $f; ?></td></tr>
+			<tr><td>id:</td><td><?php echo $id; ?></td></tr>
+			<tr><td></td><td></td></tr>
+			<tr><td>Population Entropy (ε):</td><td><?php echo $e; ?></td></tr>
+			<tr><td>Founder Mutation Count (μ):</td><td><?php echo $m; ?></td></tr>
+			<tr><td>Average Mutation Count (ρ):</td><td><?php echo $rho; ?></td></tr>
+			<tr><td>Population Fitness (λ):</td><td><?php echo $l; ?></td></tr>
+			<tr><td>Growth Time (τ):</td><td><?php echo $t; ?></td></tr>
+			<tr><td>Self-similarity (θ):</td><td><?php echo $o; ?></td></tr>
+		</table>
 	</div>
 	
 	<div class="row mutprof">
