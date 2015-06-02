@@ -230,10 +230,10 @@ $(document).ready(function() {
 		var id = $(this).data('id'); 
 		var d = details[id];
 		
-		var features = "height=600,width=600,left=200,top=100,menubar=no,status=no";
+		var features = "height=600,width=600,left=200,top=100,menubar=no,status=no,location=no";
 		var gettext = "s="+bep.values.s+"&r="+bep.values.r+"&d="+bep.values.d+"&f="+bep.values.f;
 		gettext = gettext + "&id="+id+"&e="+d.ε+"&o="+d.θ+"&l="+d.λ+"&m="+d.μ+"&rho="+d.ρ+"&t="+d.τ;
-				
+		console.log(details);
 		
 		var newWindow = window.open("details.php?"+gettext, "", features);
 	
