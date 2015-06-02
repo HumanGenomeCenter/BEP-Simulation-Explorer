@@ -34,7 +34,7 @@ echo "-->";
 	<link rel="stylesheet" href="<?php echo $path; ?>css/bootstrap.min.css" charset="utf-8">
 	<link rel="stylesheet" href="<?php echo $path; ?>css/bootstrap-theme.min.css" charset="utf-8">
 	<link rel="stylesheet" href="<?php echo $path; ?>css/font-awesome.min.css" type='text/css'>
-	<link rel="stylesheet" href="<?php echo $path; ?>css/bep.css" type='text/css'>
+	<link rel="stylesheet" href="<?php echo $path; ?>css/bep.css?dsfs" type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800' rel='stylesheet' type='text/css'>
 </head>
 
