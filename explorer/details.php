@@ -13,7 +13,7 @@ $m = $_GET['m'];
 $rho = $_GET['rho'];
 $t = $_GET['t'];
 
-$path = "s".$s."_r".$r."/d".$d."_f".$f."_".$id."";
+$path = "s".$s."_r".$r."/d".$d."_f".$f."_".$id;
 
 ?>
 <head>
@@ -40,7 +40,19 @@ $path = "s".$s."_r".$r."/d".$d."_f".$f."_".$id."";
 			<tr><td>r:</td><td><?php echo $r; ?></td></tr>
 			<tr><td>d:</td><td><?php echo $d; ?></td></tr>
 			<tr><td>f:</td><td><?php echo $f; ?></td></tr>
-			<tr><td>id:</td><td><?php echo $id; ?></td></tr>
+			<tr><td>Variations:</td><td><?php
+				$arr = array(0,1,2,3,4);
+				foreach($arr as $a) {
+					if ($a == $id) {
+						echo $a;
+					} else {
+						$link = "../explorer/details.php?s=$s&r=$r&d=$d&f=$f&id=$a&e=$e&o=$o&l=$l&m=$m&rho=$rho&t=$t";
+						echo " <a href='".$link."'>$a</a>\n";
+					}
+				}
+				
+				
+			?></td></tr>
 			<tr><td></td><td></td></tr>
 			<tr><td>Population Entropy (ε):</td><td><?php echo $e; ?></td></tr>
 			<tr><td>Founder Mutation Count (μ):</td><td><?php echo $m; ?></td></tr>
