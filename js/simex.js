@@ -435,16 +435,17 @@ var updateViolinPlots = function(d, matrix, parameter) {
 	var violin = bep[d].violin;
 	
 	var values = matrix
-		.reduce(function(a, b) { return a.concat(b) }) 		// flatten array
-		.map(function(a) { return a[parameter] || 0 });	 	// isolate value, replace null with 0, boxplot can't handle null
+		.reduce(function(a, b) { return a.concat(b) })	// flatten array
+		.map(function(a) { return a[parameter] })	 	// isolate value
+		.filter(function(a) { return a!==null });		// filter out null values
 	
 	var dataRange;	
 	if (bep.settings.valuesView==='rel') {	// relative
-		dataRange = d3.extent(values);	// d3.extent return [min, max]	
+		dataRange = d3.extent(values);		// get min, max values
 	} else if (bep.settings.valuesView==='abs') {
-		dataRange = bep[d].range;	// absolute
+		dataRange = bep[d].range;			// absolute min, max values from cache
 	}
-
+	
 	var x = d3.scale.linear()
 		.domain(dataRange)
 		.range([height,0]);	// 0 at bottom
@@ -474,11 +475,7 @@ var updateViolinPlots = function(d, matrix, parameter) {
 		.domain(dataRange)
 		.tickFormat(" ");	// hack, " " instead of d3.format
 		
-	// update boxplot & chart domain
-	if (d === "τ") {
-		console.log(d, d3.extent(values), dataRange, height);		
-	}
-	
+	// update boxplot & chart domain	
 	boxplot
 		.datum(values)
 		.call(chart.domain(dataRange).duration(duration).height(height));		// don't forget to 
