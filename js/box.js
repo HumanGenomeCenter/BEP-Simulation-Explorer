@@ -32,7 +32,7 @@ d3.box = function() {
       var outlierIndices = whiskerIndices
           ? d3.range(0, whiskerIndices[0]).concat(d3.range(whiskerIndices[1] + 1, n))
           : d3.range(n);
-
+		  
       // Compute the new x-scale.
       var x1 = d3.scale.linear()
           .domain(domain && domain.call(this, d, i) || [min, max])
@@ -150,14 +150,15 @@ d3.box = function() {
           .attr("y2", x1)
           .style("opacity", 1e-6)
           .remove();
-
+/*
+	// Outliers clash with null values and null-filtered values... GT
+		  
       // Update outliers.
       var outlier = g.selectAll("circle.outlier")
           .data(outlierIndices, Number);
 
       outlier.enter().insert("circle", "text")
           .attr("class", "outlier")
-          //.attr("r", 5)
           .attr("r", 2)
           .attr("cx", width / 2)
           .attr("cy", function(i) { return x0(d[i]); })
@@ -174,10 +175,10 @@ d3.box = function() {
 
       outlier.exit().transition()
           .duration(duration)
-          .attr("cy", function(i) { return x1(d[i]); })
+    //      .attr("cy", function(i) { return x1(d[i]); })
           .style("opacity", 1e-6)
           .remove();
-
+*/
       // Compute the tick format.
       var format = tickFormat || x1.tickFormat(8);
 
