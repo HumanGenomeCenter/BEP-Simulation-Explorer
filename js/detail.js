@@ -14,16 +14,11 @@ var initDetails = function() {
 		var y = (i<3) ? 0 : 180;
 		y=y+30;	// additional padding to accomodate legend
 		
-		// Horizontal Lables
-		var labelData = ["ε: Population Entropy", "μ: Founder Mutation Count", "ρ: Average Mutation Count",
-						"λ: Population Fitness", "τ: Growth Time", "θ: Selfsimilarity"]
-
 		svg.append('text')
 			.attr("class", "legend")
-			.text(labelData[i])
+			.text(bep.labelData[d])
 			.attr('text-anchor', 'middle')
 			.attr('transform', 'translate('+(x+90)+','+(y-10)+')');
-
 		
 		bep[d].g = svg.append('g')
 				.attr('class', d)

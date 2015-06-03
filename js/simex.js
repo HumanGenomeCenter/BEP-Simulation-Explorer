@@ -16,17 +16,15 @@ bep.r = [0.0001, 0.001, 0.01];
 bep.fields = {};
 bep.fields.parameter = ['ε','μ','τ','ρ','λ','θ'];
 bep.fields.statistics = ['a','b','c','d','e','f','g','h','i'];
-/*
-bep.fields.st = function() {
-	var fields = []
-	bep.s.forEach(function(s, i) {
-		bep.r.forEach(function(r, j) {
-			fields.push("s"+s+"_r"+r);
-		});
-	});
-	return fields;
-}();
-*/
+
+bep.labelData = {	'ε': 'ε: Population Entropy', 
+					'μ': 'μ: Founder Mutation Count',
+					'τ': 'τ: Growth Time',
+					'ρ': 'ρ: Average Mutation Count',
+					'λ': 'λ: Population Fitness',
+					'θ': 'θ: Selfsimilarity'};
+					
+
 bep.fields.all = bep.fields.parameter.concat(bep.fields.statistics);
 bep.fields.all.forEach(function(d) {bep[d] = {};});		// init with empty objects
 
@@ -100,14 +98,13 @@ $(document).ready(function() {
 	});
 });
 
-
+// Color maps
 bep.ε.colorMap = d3.scale.linear().range(["#FFFFFF", "#FF0000"]).clamp(true);
 bep.μ.colorMap = d3.scale.linear().range(["#FFFFFF", "#0000FF"]).clamp(true);
 bep.τ.colorMap = d3.scale.linear().range(["#FFFFFF", "#A020F0"]).clamp(true);
 bep.ρ.colorMap = d3.scale.linear().range(["#FFFFFF", "#00CD00"]).clamp(true);
 bep.λ.colorMap = d3.scale.linear().range(["#FFFFFF", "#EEEE00"]).clamp(true);
 bep.θ.colorMap = d3.scale.linear().range(["#FFFFFF", "#FFA500"]).clamp(true);
-
 
 // init ranges & colorMaps for overview fields
 bep.fields.statistics.forEach(function(d) {
@@ -251,7 +248,7 @@ $(document).ready(function() {
 		$(".cellsim img").attr("src", path+"cellsim.png");
 		$(".alfrq img").attr("src", path+"alfrq.png");
 		
-		// call modal
+		// show modal
 		$('#detailsModal').modal();
 	});
 	
@@ -401,12 +398,11 @@ var initViolinPlots = function(d, matrix, parameter) {
 	// boxplot
 	var chart = d3.box()
 		.whiskers(iqr(1.5))
-		//.width(width/6)
 		.width(width/8)
 		.height(height)
 		.domain(dataRange)
 		.tickFormat(" ");
-		
+			
 	// Helper function for boxplot
 	// Returns a function to compute the interquartile range.
 	// move to box.js?
@@ -417,7 +413,6 @@ var initViolinPlots = function(d, matrix, parameter) {
 		.attr("class", "box")
 		.attr("width", width)
 		.attr("height", height)
-		//.attr("transform", "translate("+(width/2-width/6/2)+",0)")
 		.attr("transform", "translate("+(width/2-width/8/2)+",0)")		// center
 		.call(chart);
 
@@ -445,7 +440,7 @@ var updateViolinPlots = function(d, matrix, parameter) {
 	
 	var dataRange;	
 	if (bep.settings.valuesView==='rel') {	// relative
-		dataRange = [d3.min(values), d3.max(values)];
+		dataRange = d3.extent(values);	// d3.extent return [min, max]	
 	} else if (bep.settings.valuesView==='abs') {
 		dataRange = bep[d].range;	// absolute
 	}
@@ -474,21 +469,26 @@ var updateViolinPlots = function(d, matrix, parameter) {
 	
 	var chart = d3.box()
 		.whiskers(iqr(1.5))
-		//.width(width/6)
 		.width(width/8)
 		.height(height)
 		.domain(dataRange)
 		.tickFormat(" ");	// hack, " " instead of d3.format
 		
+	// update boxplot & chart domain
+	if (d === "τ") {
+		console.log(d, d3.extent(values), dataRange, height);		
+	}
+	
 	boxplot
 		.datum(values)
-		.call(chart.domain(dataRange).duration(duration).height(height));		// don't forget to update chart domain
+		.call(chart.domain(dataRange).duration(duration).height(height));		// don't forget to 
 		
 	// update axis
 	var xA = violin.select(".y.axis");
 	xA.transition().duration(duration)
 		.call(d3.svg.axis().scale(x).orient("left"));  
 
+	// update kdf
 	var kdf = violin.select(".kdf");
 	kdf.selectAll(".area path")
 			.datum(data)
