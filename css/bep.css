@@ -283,8 +283,10 @@ text.legend {
 .box line,
 .box rect,
 .box circle {
-	fill: #fff;
-	stroke: #000;
+/*	fill: #fff; */
+	fill: none;
+	stroke: #666;
+	stroke-opacity: 0.5;
 	stroke-width: 1px;
 }
 

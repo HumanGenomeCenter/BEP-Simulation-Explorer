@@ -141,7 +141,8 @@ var updateImages = function() {
 			.data([0,1,2,3,4])
 			.attr('src', function(d) {
 				return baseurl + "_" + d + ".tumor.png";
-			});
+			})
+			.attr("style", "display:inline");
 		
 		d3.selectAll("img.mutprof")
 			.data([0,1,2,3,4])
@@ -160,7 +161,8 @@ var updateImages = function() {
 				});
 			
 				return baseurl + "_" + d + ".mutprof.png";
-			});
+			})
+			.attr("style", "display:inline");
 	}
 
 }
@@ -663,11 +665,13 @@ var getRanges = function(s, r) {
 
 // replace missing image, jQuery way
 $('img.tumor').error(function() {
-	$(this).attr('src', '../img/missing.tumor.png');
+	$(this).hide();
+//	$(this).attr('src', '../img/missing.tumor.png');
 });
 
 $('img.mutprof').error(function() {
-	$(this).attr('src', '../img/missing.mutprof.png');
+	$(this).hide();
+//	$(this).attr('src', '../img/missing.mutprof.png');
 });
 
 
