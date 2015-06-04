@@ -13,22 +13,22 @@ include("../header.php");
 			The simulation results are  available as tsv files.
 			<ul class="content2">
 				<li>
-					<a href="../results/tsv/populationEntropy.tsv">ε: Population Entropy</a>
+					<a href="../data/tsv/populationEntropy.tsv">ε: Population Entropy</a>
 				</li>
 				<li>
-					<a href="../results/tsv/founderMutationCount.tsv">μ: Founder Mutation Count</a>
+					<a href="../data/tsv/founderMutationCount.tsv">μ: Founder Mutation Count</a>
 				</li>
 				<li>
-					<a href="../results/tsv/averageMutationCount.tsv">ρ: Average Mutation Count</a>
+					<a href="../data/tsv/averageMutationCount.tsv">ρ: Average Mutation Count</a>
 				</li>
 				<li>
-					<a href="../results/tsv/populationFitness.tsv">λ: Population Fitness</a>
+					<a href="../data/tsv/populationFitness.tsv">λ: Population Fitness</a>
 				</li>
 				<li>
-					<a href="../results/tsv/growthTime.tsv">τ: Growth Time</a>
+					<a href="../data/tsv/growthTime.tsv">τ: Growth Time</a>
 				</li>
 				<li>
-					<a href="../results/tsv/selfSimilality.tsv">θ: Selfsimilarity</a>
+					<a href="../data/tsv/selfSimilality.tsv">θ: Selfsimilarity</a>
 				</li>
 			</ul>
 		</p>
