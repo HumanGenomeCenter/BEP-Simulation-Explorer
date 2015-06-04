@@ -134,6 +134,7 @@ var updateImages = function() {
 		
 		$(".results-placeholder").hide();
 		$(".results").show();
+		$(".results .col-xs-2").show();  // show all
 		details = [];
 		var baseurl = "../results/s" + bep.values.s + "_r" + bep.values.r + "/d" + bep.values.d + "_f"+ bep.values.f;
 	
@@ -665,13 +666,13 @@ var getRanges = function(s, r) {
 
 // replace missing image, jQuery way
 $('img.tumor').error(function() {
-	$(this).hide();
-//	$(this).attr('src', '../img/missing.tumor.png');
+//	$(this).hide();
+	$(this).parent().parent().hide();
 });
 
 $('img.mutprof').error(function() {
-	$(this).hide();
-//	$(this).attr('src', '../img/missing.mutprof.png');
+//	$(this).hide();
+	$(this).parent().parent().hide();
 });
 
 
