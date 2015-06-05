@@ -5,9 +5,8 @@ var initDetails = function() {
 	var svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
-			
-	svg.append("defs");		// for gradients
-	
+				
+	var defs = svg.append("defs");		// create definition for gradients
 
 	bep.fields.parameter.forEach(function(d, i) {
 		var x = 85 + (i%3)*320;			// padding
@@ -19,6 +18,8 @@ var initDetails = function() {
 			.text(bep.labelData[d])
 			.attr('text-anchor', 'middle')
 			.attr('transform', 'translate('+(x+90)+','+(y-10)+')');
+			
+		initGradients(defs, d);		// one gradient for each parameter
 		
 		bep[d].g = svg.append('g')
 				.attr('class', d)

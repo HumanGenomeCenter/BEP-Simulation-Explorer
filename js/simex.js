@@ -366,7 +366,7 @@ var initViolinPlots = function(d, matrix, parameter) {
 		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
 		.range([0, width]);
 
-	// definition for gradient
+	// update gradients on for overviews only
 	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height], 0, parameter);
 
 	// area generator
@@ -459,7 +459,7 @@ var updateViolinPlots = function(d, matrix, parameter) {
 		.domain([0, d3.max(data, function(d) { return d.y; })])		// get highest bin
 		.range([0, width]);
 		
-	// definition for gradient
+	// update gradients on for overviews only
 	updateGradient(d, [x(d3.max(values))/height, x(d3.min(values))/height], duration, parameter);
 
 	// area generator
@@ -505,14 +505,19 @@ var updateViolinPlots = function(d, matrix, parameter) {
 // update/create gradient
 var updateGradient = function(d, range, duration, parameter) {
 	
-	var defs = d3.selectAll("svg defs");		// both SVG containers
+//	if (bep.settings.view==="statistics") {
+	if (bep.fields.statistics.indexOf(d) < 0) {		// check if we are NOT on statistics page (if d = "a","b"..)
+		return;
+	} 
+	
+	var defs = d3.select("#statistic svg defs");	// statistics SVG only, parameter SVG defs remain fixed
 	var id = "grad_"+d;
 
 	var endColor = bep[parameter].colorMap.range()[1];
 	
 	var data = [
-		{offset: (range[0]*100)+"%", color: "white"},
-		{offset: (range[1]*100)+"%", color: endColor}
+		{offset: "0%", color: "white"},
+		{offset: "100%", color: endColor}
 	];
 
 	// generates or updates Gradient
@@ -537,8 +542,8 @@ var updateGradient = function(d, range, duration, parameter) {
 	.enter()
 		.append("stop")
 		.call(up);					// enter
-	
 }
+
 
 var iqr = function(k) {
 	return function(d, i) {
@@ -676,4 +681,19 @@ $('img.mutprof').error(function() {
 });
 
 
+var initGradients = function(defs, d) {
+	
+	var gradientStop = defs.append("linearGradient")
+		.attr("id", "grad_"+d)
+		.attr("x1", 1).attr("y1", 0)
+		.attr("x2", 0).attr("y2", 0);
+
+	gradientStop.append("stop")
+		.attr("offset", "0%")			// enter
+		.attr("stop-color", bep[d].colorMap.range()[0]);
+	gradientStop.append("stop")
+		.attr("offset", "100%")			// enter
+		.attr("stop-color", bep[d].colorMap.range()[1]);
+	
+}
 

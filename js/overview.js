@@ -5,8 +5,15 @@ var initOverview = function() {
 	var svg = div.append('svg')
 			.attr('width', width)
 			.attr('height', height);
-
-	svg.append("defs");		// needed for gradients
+	
+	var defs = svg.append("defs");		// needed for gradients
+	
+	/*
+	bep.fields.parameter.forEach(function(d, i) {		// create gradients
+		initGradients(defs, d);
+	});
+	*/
+	
 
 	// Preparing data
 	bep.r.forEach(function(vr,i) {
@@ -75,11 +82,7 @@ var initOverview = function() {
 }
 
 var updateStatisticsView = function(value) {
-	
-	if (bep.settings.view!=="statistics") {
 		
-	}
-	
 	
 	if (value===undefined) value = bep.overviewValue;
 

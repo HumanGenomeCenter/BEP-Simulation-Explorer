@@ -138,6 +138,7 @@ var gridMouseUp = function(d,x,y) {
 
 var gridMouseMove = function(d,x,y) {
 	if (bep.mouseDown) {
+		d3.select(this).classed("hover", true);
 		bep.values.f = map.f.i(x);
 		bep.values.d = map.d.i(y);
 		updateIndicators(d);
