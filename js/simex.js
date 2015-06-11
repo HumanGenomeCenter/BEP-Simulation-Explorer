@@ -137,11 +137,13 @@ var updateImages = function() {
 		$(".results .col-xs-2").show();  // show all
 		details = [];
 		var baseurl = "../results/s" + bep.values.s + "_r" + bep.values.r + "/d" + bep.values.d + "_f"+ bep.values.f;
+		var jpgBaseurl = "../results/s" + bep.values.s + "_r" + bep.values.r + "/jpg/d" + bep.values.d + "_f"+ bep.values.f;
 	
 		d3.selectAll("img.tumor")
 			.data([0,1,2,3,4])
 			.attr('src', function(d) {
-				return baseurl + "_" + d + ".tumor.png";
+				// return baseurl + "_" + d + ".tumor.png";  			// full-size png
+				return jpgBaseurl + "_" + d + ".tumor.jpg";  			// smaller jpg versions
 			})
 			.attr("style", "display:inline");
 		
