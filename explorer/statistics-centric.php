@@ -24,7 +24,7 @@
 					</div>
 					<div class="btn btn-default selfSimilarity" data-value="θ">
 						<input type="radio" name="options">
-						<span>θ: Selfsimilarity</span>
+						<span>θ: Self-Similarity</span>
 					</div>
 				</div>
 			</div>
