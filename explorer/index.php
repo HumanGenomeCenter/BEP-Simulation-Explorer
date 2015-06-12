@@ -70,12 +70,6 @@ include("../header.php");
 <?php include("statistics-centric.php"); ?>
 	</div>
 	
-	<!--
-	<div role="tabpanel" class="tab-pane" id="help">
-<?php include("help.php"); ?>
-	</div>
-		-->
-	
 	<div class="row results">
 		<div class="col-xs-12">
 			Simulation Instances: <em>(click for more details)</em>
