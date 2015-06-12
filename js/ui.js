@@ -82,9 +82,6 @@ $("#abs .btn.btn-default").on('click', function(e) {
 });
 
 // Settings Show/Hide
-
-
-
 $("#settings .btn").on('click', function(e) {
 	e.preventDefault();	
 	var p = $("#panel-settings");
@@ -102,6 +99,15 @@ $("#animation .btn.btn-default").on('click', function(e) {
 	bep.settings.animation = (v==="on") ? true : false;
 	bep.settings.duration = bep.settings.animation ? bep.settings.durationNormal : 0;
 });
+
+
+// Help Modal
+$('a#tab_help').on('click', function(e) {
+	e.preventDefault();
+	$('#helpModal').modal();
+});
+
+
 
 
 var allValesAreNull = function(d) {

@@ -52,7 +52,7 @@ include("../header.php");
 			<ul class="nav nav-tabs center" role="tablist">
 				<li role="presentation" class="active"><a href="#parameter" id="tab_parameter" aria-controls="home" role="tab" data-toggle="tab">Parameter-centered View</a></li>
 				<li role="presentation"><a href="#statistic" id="tab_statistic" aria-controls="profile" role="tab" data-toggle="tab">Statistic-centered View</a></li>
-				<li role="presentation"><a href="#help" id="tab_statistic" aria-controls="profile" role="tab" data-toggle="tab">Help</a></li>
+				<li><a href="#help" id="tab_help">Help</a></li>
 			</ul>
 		</div>
 	</div>
@@ -69,17 +69,12 @@ include("../header.php");
 	<div role="tabpanel" class="tab-pane" id="statistic">
 <?php include("statistics-centric.php"); ?>
 	</div>
-
+	
+	<!--
 	<div role="tabpanel" class="tab-pane" id="help">
-		<p class="content2">
-		   Here, simulation results are interactively explored.  simulations were performed for different combinations of 4 parameter values: <i>s</i> (stem cell hierarchy), <i>r</i> (mutation rate), <i>d</i> (number of driver genes) and <i>f</i> (strength of driver mutations).
-		   From 20 independent simulation instances, averaged 6 statistics were obtained: ε (population entropy), μ (founder mutation count),  ρ (average mutation count), λ (population fitness), τ (growth time)  and  θ (self-similarity).
-		   In <a href="#parameter" id="tab_parameter" aria-controls="home" role="tab" data-toggle="tab">Parameter-centered View</a>, <i>d-f</i> heatmaps of the 6 statistics are displayed  in one page for selected <i>s</i> and <i>r</i> values. 
-		   In <a href="#statistic" id="tab_statistic" aria-controls="profile" role="tab" data-toggle="tab">Statistic-centered View</a>, <i>d-f</i> heatmaps of each statistics for all examined combinations of <i>s</i> and <i>r</i> values are displayed in one page. 
-		   Colors of violin plots at the right of each d-f heat map indicates scales of the heatmap. If you use absolute scale, the scales  of <i>d-f</i> heatmaps of each statistic are common among all examined combinations of <i>s</i> and <i>r</i> values. If you use relative scale, the scale is adjusted for each  <i>d-f</i> heatmap.
-	       If you click a cell in <i>d-f</i> heatmaps, images of 5 simulation instances from the corresponding parameter setting will appear below <i>d-f</i> heatmaps. By clicking each image, you can get details of the simulation instance.
-	 	</p>
+<?php include("help.php"); ?>
 	</div>
+		-->
 	
 	<div class="row results">
 		<div class="col-xs-12">
@@ -135,12 +130,12 @@ include("../header.php");
 
 
 <!-- Modal -->
-<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Details</h4>
+				<h4 class="modal-title" id="modalLabel">Details</h4>
 			</div>
 			<div class="modal-body">
 				<?php include("modal.php"); ?>
@@ -151,6 +146,26 @@ include("../header.php");
 		</div>
 	</div>
 </div>
+
+<!-- Help Modal -->
+<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="modalHelpLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="modalHelpLabel">Help</h4>
+			</div>
+			<div class="modal-body">
+				<?php include("help.php"); ?>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 
 <?php 
 
