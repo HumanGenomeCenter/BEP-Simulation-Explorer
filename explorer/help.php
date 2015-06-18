@@ -1,5 +1,5 @@
 		<p class="content1">
-		   Here, simulation results are interactively explored.  simulations were performed for different combinations of 4 parameter values: <i>s</i> (stem cell hierarchy), <i>r</i> (mutation rate), <i>d</i> (number of driver genes) and <i>f</i> (strength of driver mutations).
+		   Here, simulation results are interactively explored. Simulations were performed for different combinations of 4 parameter values: <i>s</i> (stem cell hierarchy), <i>r</i> (mutation rate), <i>d</i> (number of driver genes) and <i>f</i> (strength of driver mutations).
 		   From 20 independent simulation instances, averaged 6 statistics were obtained: ε (population entropy), μ (founder mutation count),  ρ (average mutation count), λ (population fitness), τ (growth time)  and  θ (self-similarity).
 		   In <a href="#parameter" id="tab_parameter" aria-controls="home" role="tab" data-toggle="tab">Parameter-centered View</a>, <i>d-f</i> heatmaps of the 6 statistics are displayed  in one page for selected <i>s</i> and <i>r</i> values. 
 		   In <a href="#statistic" id="tab_statistic" aria-controls="profile" role="tab" data-toggle="tab">Statistic-centered View</a>, <i>d-f</i> heatmaps of each statistics for all examined combinations of <i>s</i> and <i>r</i> values are displayed in one page. 
